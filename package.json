@@ -1,0 +1,26 @@
+{
+  "name": "elastic-data-tool",
+  "version": "1.0.0",
+  "description": "Convert data to formats to easily ingest into Elasticsearch",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/purplebugs/elastic-data-tool.git"
+  },
+  "keywords": [
+    "Elasticsearch",
+    "data",
+    "JSON",
+    "ingest"
+  ],
+  "author": "Anita Lipsky",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/purplebugs/elastic-data-tool/issues"
+  },
+  "homepage": "https://github.com/purplebugs/elastic-data-tool#readme",
+  "type": "module"
+}
