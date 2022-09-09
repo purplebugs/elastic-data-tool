@@ -2,18 +2,17 @@
 
 Convert data to formats to easily ingest into Elasticsearch
 
-
 ## Purpose 💖
 
 Personal learning project which should result in a greater understanding of how to manipulate data from formats such as
 
 - SQL
-- JSON 
+- JSON
 
-into formats that Elasticsearch likes such as 
+into formats that Elasticsearch likes such as
 
-- NDJSON 
-- API commands with JSON body such as 
+- NDJSON
+- API commands with JSON body such as
 
 ```
 POST grocery-store/_bulk
@@ -29,7 +28,7 @@ POST grocery-store/_bulk
 1. Clone repo and navigate to new repo
 2. Run `npm install`
 
-## Use the app
+## Use the JSON -> NDJSON Elastic compatible app
 
 Pre-requisites
 
@@ -39,9 +38,13 @@ Pre-requisites
 Steps
 
 1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
-2. Run `node main`
+2. Run `node index`
 3. Look for the generated file in the directory
-4. Use the contents of this file to import into Elasticsearch - currently it the POST body of an API _bulk query to copy into Kibana DevTools
+4. Use the contents of this file to import into Elasticsearch - currently it the POST body of an API \_bulk query to copy into Kibana DevTools
+
+## Use the JSON -> Latitude, Longitude enhancer app
+
+1. Run `node node geo-decode` - currently hardcoded to output geo coordinates for a hardcoded address string - this will be improved to use data from the JSON file
 
 ## License 📝
 
