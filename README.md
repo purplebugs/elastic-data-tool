@@ -31,7 +31,12 @@ POST grocery-store/_bulk
 
 ## Use the app
 
-Pre-requisite: JSON file is created from SQL query or otherwise and stored in [./data](./data)
+Pre-requisites
+
+1. Create folder at root level named [data](data) - used for locally storing JSON files that will not be committed to the repo
+2. JSON file is created from SQL query or otherwise and stored in [./data](./data)
+
+Steps
 
 1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
 2. Run `node main`
