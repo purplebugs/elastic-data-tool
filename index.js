@@ -3,10 +3,10 @@ const myOutput = [];
 const now = Date.now().toString();
 
 // Read file from disk
-const myFile = readFileSync('./alpacas-original.json');
+const myFile = readFileSync('./data/alpacas-keeper.json');
 
 // Parse file
-const myParsedFile = JSON.parse(myFile)
+const myParsedFile = JSON.parse(myFile);
 
 // Loop over all items
 
@@ -26,7 +26,7 @@ myParsedFile.forEach((item, count) => {
 // joining all items in the array with new lines to form NDJSON
 const myOutputFileContents = myOutput.join('\n')
 
-writeFileSync(`./alpacas-api-format-cleaned-${now}.ndjson`, myOutputFileContents);
+writeFileSync(`./data/alpacas-api-format-cleaned-${now}.ndjson`, myOutputFileContents);
 
 // Print file
 //console.log(myParsedFile);
