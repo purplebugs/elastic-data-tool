@@ -1,6 +1,20 @@
 import fetch from "node-fetch";
 
-const addressToConvertToLatLong = "Risåsvegen 71, 2436, Våler i Solør";
+// {"Zip":"1667","City":"Rolvsøy","Name":"Alpakka Enghaugen","Gender":"SEX_FEMALE","Keeper":16,"Street":"Ringstadhavna 7","color1":"COLOR_WHITE","Country":"NO","Webpage":"http://www.alpakkaenghaugen.no/","alpacaId":271,"DateOfBirth":"2004-05-13","DateOfDeath":null,"alpacaShortName":"ANDAMOOKA CONSTANTINE"}
+// {"Zip":"1667","City":"Rolvsøy","Street":"Ringstadhavna 7"}
+
+const addressJSON = {
+  Zip: "2436",
+  City: "Våler i Solør",
+  Street: "Risåsvegen 71",
+}; // Previously "Risåsvegen 71, 2436, Våler i Solør";
+
+const addressJSONtoString = (address) => {
+  // { Zip: "2436", City: "Våler i Solør", Street: "Risåsvegen 71"} ->  "Risåsvegen 71, 2436, Våler i Solør"
+  return `${addressJSON["Street"]}, ${addressJSON["Zip"]}, ${addressJSON["City"]}`;
+};
+
+// console.log(addressJSONtoString(addressJSON));
 
 const getLatLongFromGeoNorge = async (address) => {
   // https://ws.geonorge.no/stedsnavn/v1/#/default/get_sted
@@ -17,7 +31,7 @@ const getLatLongFromGeoNorge = async (address) => {
   return data;
 };
 
-getLatLongFromGeoNorge(addressToConvertToLatLong).then((data) =>
+getLatLongFromGeoNorge(addressJSONtoString(addressJSON)).then((data) =>
   // Example response: { 'øst': 11.77152, nord: 60.68571, koordsys: 4258 }
 
   console.log(data?.navn[0]?.representasjonspunkt)
