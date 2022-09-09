@@ -42,10 +42,6 @@ Steps
 3. Look for the generated file in the directory
 4. Use the contents of this file to import into Elasticsearch - currently it the POST body of an API \_bulk query to copy into Kibana DevTools
 
-## Use the JSON -> Latitude, Longitude enhancer app
-
-1. Run `node node geo-decode` - currently hardcoded to output geo coordinates for a hardcoded address string - this will be improved to use data from the JSON file
-
 ## License 📝
 
 The work is under exclusive copyright by default.
