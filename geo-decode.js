@@ -1,8 +1,5 @@
 import fetch from "node-fetch";
 
-// {"Zip":"0167","City":"Oslo","Name":"My alpacca test farm","Gender":"SEX_FEMALE","Keeper":123,"Street":"Wergelandsveien 15","color1":"COLOR_WHITE","Country":"NO","Webpage":"http://www.myalpacatestfarm.com/","alpacaId":456,"DateOfBirth":"2008-05-13","DateOfDeath":null,"alpacaShortName":"ANITA"}
-// {"Zip":"0167","City":"Oslo","Street":"Wergelandsveien 15"}
-
 const addressJSON = {
   Zip: "0167",
   City: "Oslo",
@@ -11,10 +8,8 @@ const addressJSON = {
 
 const addressJSONtoString = (address) => {
   // { Zip: "0167", City: "Oslo", Street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
-  return `${addressJSON["Street"]}, ${addressJSON["Zip"]}, ${addressJSON["City"]}`;
+  return `${address["Street"]}, ${address["Zip"]}, ${address["City"]}`;
 };
-
-// console.log(addressJSONtoString(addressJSON));
 
 const getLatLongFromGeoNorge = async (address) => {
   console.log(address);
