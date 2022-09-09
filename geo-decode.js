@@ -17,15 +17,12 @@ const addressJSONtoString = (address) => {
 // console.log(addressJSONtoString(addressJSON));
 
 const getLatLongFromGeoNorge = async (address) => {
-  // https://ws.geonorge.no/stedsnavn/v1/#/default/get_sted
-
   console.log(address);
 
-  // sokeStreng: "sok=Wergelandsveien%2015%2C%200167%2C%20Oslo&fuzzy=true&utkoordsys=4258&treffPerSide=10&side=1"
-  // TODO - investigate using kommunenavn= for when more than one result:  "sokeStreng": "sok=Hagegata%2028%2C%200653&fuzzy=true&kommunenavn=Oslo&utkoordsys=4258&treffPerSide=10&side=1"
+  // Ref: https://kartkatalog.geonorge.no/metadata/adresse-rest-api/44eeffdc-6069-4000-a49b-2d6bfc59ac61
 
   const response = await fetch(
-    `https://ws.geonorge.no/stedsnavn/v1/sted?sok=${address}&fuzzy=true&utkoordsys=4258&treffPerSide=10&side=1`
+    `https://ws.geonorge.no/adresser/v1/sok?sok=${address}&fuzzy=false&utkoordsys=4258&treffPerSide=10&side=0&asciiKompatibel=true`
   );
   const data = await response.json();
 
@@ -33,7 +30,7 @@ const getLatLongFromGeoNorge = async (address) => {
 };
 
 getLatLongFromGeoNorge(addressJSONtoString(addressJSON)).then((data) =>
-  // Example response: { 'øst': 7.72357, nord: 63.11076, koordsys: 4258 }
+  // { epsg: 'EPSG:4258', lat: 59.919244748168225, lon: 10.731070562579866 }
 
-  console.log(data?.navn[0]?.representasjonspunkt)
+  console.log(data?.adresser[0]?.representasjonspunkt)
 );
