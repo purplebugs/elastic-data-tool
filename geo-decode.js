@@ -1,18 +1,23 @@
 import fetch from "node-fetch";
 
-const getLatLongFromGeoNorge = async (address) => {
+const getLatLongFromGeoNorge = async (alpacaObject) => {
   // example address: { zip: "0167", city: "Oslo", street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
-  console.log(address);
+  console.log(alpacaObject);
 
-  if (!address || !address.street || !address.zip || !address.city) {
-    return;
+  if (
+    !alpacaObject ||
+    !alpacaObject.street ||
+    !alpacaObject.zip ||
+    !alpacaObject.city
+  ) {
+    return {};
   }
 
   const searchParams = new URLSearchParams();
   searchParams.set("fuzzy", "false");
-  searchParams.set("adressetekst", address.street);
-  searchParams.set("postnummer", address.zip.toString());
-  searchParams.set("poststed", address.city);
+  searchParams.set("adressetekst", alpacaObject.street);
+  searchParams.set("postnummer", alpacaObject.zip.toString());
+  searchParams.set("poststed", alpacaObject.city);
   searchParams.set("utkoordsys", "4258");
   searchParams.set("treffPerSide", "10");
   searchParams.set("side", "0");
@@ -25,13 +30,10 @@ const getLatLongFromGeoNorge = async (address) => {
   );
   const data = await response.json();
 
-  return data;
+  // { epsg: 'EPSG:4258', lat: 59.919244748168225, lon: 10.731070562579866 }
+  return data?.adresser[0]?.representasjonspunkt || {};
 };
 
-export const printAddressToConsole = (address) => {
-  getLatLongFromGeoNorge(address).then((data) =>
-    // { epsg: 'EPSG:4258', lat: 59.919244748168225, lon: 10.731070562579866 }
-
-    console.log(data?.adresser[0]?.representasjonspunkt)
-  );
+export const printAddressToConsole = (alpacaObject) => {
+  getLatLongFromGeoNorge(alpacaObject).then((data) => console.log(data));
 };
