@@ -1,6 +1,6 @@
 import fetch from "node-fetch";
 
-const getLatLongFromGeoNorge = async (alpacaObject) => {
+export const getLatLongFromGeoNorge = async (alpacaObject) => {
   // example address: { zip: "0167", city: "Oslo", street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
   console.log(alpacaObject);
 
@@ -31,9 +31,9 @@ const getLatLongFromGeoNorge = async (alpacaObject) => {
   const data = await response.json();
 
   // { epsg: 'EPSG:4258', lat: 59.919244748168225, lon: 10.731070562579866 }
-  return data?.adresser[0]?.representasjonspunkt || {};
-};
-
-export const printAddressToConsole = (alpacaObject) => {
-  getLatLongFromGeoNorge(alpacaObject).then((data) => console.log(data));
+  const latitude = data?.adresser[0]?.representasjonspunkt.lat || {};
+  const longitude = data?.adresser[0]?.representasjonspunkt.lon || {};
+  const obj = { latitude, longitude };
+  console.log(obj);
+  return obj;
 };
