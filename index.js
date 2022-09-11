@@ -28,7 +28,7 @@ const myParsedFile = JSON.parse(myFile);
 
 let count = 1;
 
-for (const item of myParsedFile) {
+for await (const item of myParsedFile) {
   const geoObj = await getLatLongFromGeoNorge(item);
   const obj = Object.assign({}, item, geoObj);
 
