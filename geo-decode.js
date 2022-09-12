@@ -31,9 +31,16 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   const data = await response.json();
 
   // { epsg: 'EPSG:4258', lat: 59.919244748168225, lon: 10.731070562579866 }
-  const latitude = data?.adresser[0]?.representasjonspunkt.lat || {};
-  const longitude = data?.adresser[0]?.representasjonspunkt.lon || {};
-  const obj = { latitude, longitude };
+  const latitude = data?.adresser[0]?.representasjonspunkt.lat || null; // {};
+  const longitude = data?.adresser[0]?.representasjonspunkt.lon || null; // {};
+
+  // https://www.elastic.co/guide/en/elasticsearch/reference/8.4/geo-point.html
+  // Geopoint expressed as an object, in GeoJSON format, with type and coordinates keys.
+
+  const obj = {
+    location: { type: "Point", coordinates: [longitude, latitude] },
+  };
+
   console.log(obj);
   return obj;
 };
