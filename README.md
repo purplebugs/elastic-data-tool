@@ -4,15 +4,12 @@ Convert data to formats to easily ingest into Elasticsearch
 
 ## Purpose 💖
 
-Personal learning project which should result in a greater understanding of how to manipulate data from formats such as
+Personal learning project which should result in a greater understanding of how to manipulate data formats, eg
 
-- SQL
-- JSON
-
-into formats that Elasticsearch likes such as
-
-- NDJSON
-- API commands with JSON body
+- SQL --> JSON
+- JSON -> NDJSON
+- enriching JSON data with location by adding latitude, longitude from address fields using external API
+- JSON -> Elasticsearch API commands with NDJSON body such as
 
 ```
 POST grocery-store/_bulk
@@ -23,20 +20,16 @@ POST grocery-store/_bulk
 {"index":{"_id":3}}
 ```
 
-and
-
-- enriching data with location by adding latitude, longitude from address fields using external API
-
 ## Install app 🐣
 
 1. Clone repo and navigate to new repo
 2. Run `npm install`
 
-## Use the JSON -> NDJSON Elastic compatible app
+## Use the app 🎷
 
 Pre-requisites
 
-1. Create folder at root level named [data](data) - used for locally storing JSON files that will not be committed to the repo
+1. Create folder at root level named [./data](./data) - used for locally storing JSON files that will not be committed to the repo
 2. JSON file is created from SQL query or otherwise and stored in [./data](./data)
 
 Steps
@@ -46,7 +39,7 @@ Steps
 3. Look for the generated file in the directory
 4. Use the contents of this file to import into Elasticsearch - currently it the POST body of an API \_bulk query to copy into Kibana DevTools
 
-Create data in Elasticsearch from scratch
+## Create data in Elasticsearch from scratch 🎸
 
 - [Data setup in Elasticsearch](elasticsearch-data-setup.md)
 
