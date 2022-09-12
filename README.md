@@ -12,7 +12,7 @@ Personal learning project which should result in a greater understanding of how 
 into formats that Elasticsearch likes such as
 
 - NDJSON
-- API commands with JSON body such as
+- API commands with JSON body
 
 ```
 POST grocery-store/_bulk
@@ -22,6 +22,10 @@ POST grocery-store/_bulk
 {"title": "Grans Taffel Eple", "category": "Vann og mineralvann", "subCategory": "Vann med kullsyre"}
 {"index":{"_id":3}}
 ```
+
+and
+
+- enriching data with location by adding latitude, longitude from address fields using external API
 
 ## Install app 🐣
 
