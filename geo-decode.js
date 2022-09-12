@@ -1,17 +1,25 @@
 import fetch from "node-fetch";
 
-export const getLatLongFromGeoNorge = async (alpacaObject) => {
-  // example address: { zip: "0167", city: "Oslo", street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
-  console.log(alpacaObject);
+const cache = new Map();
 
+export const getLatLongFromGeoNorge = async (alpacaObject) => {
   if (
     !alpacaObject ||
+    !alpacaObject.keeper ||
     !alpacaObject.street ||
     !alpacaObject.zip ||
     !alpacaObject.city
   ) {
     return {};
   }
+
+  if (cache.has(alpacaObject.keeper)) {
+    console.log(`[LOG] Using ${alpacaObject.keeper} from cache`);
+    return cache.get(alpacaObject.keeper);
+  }
+
+  // example address: { zip: "0167", city: "Oslo", street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
+  console.log(alpacaObject);
 
   const searchParams = new URLSearchParams();
   searchParams.set("fuzzy", "false");
@@ -24,6 +32,8 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   searchParams.set("asciiKompatibel", "true");
 
   // Ref: https://kartkatalog.geonorge.no/metadata/adresse-rest-api/44eeffdc-6069-4000-a49b-2d6bfc59ac61
+
+  console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
   const response = await fetch(
     `https://ws.geonorge.no/adresser/v1/sok?${searchParams}`
@@ -42,5 +52,9 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   };
 
   console.log(obj);
+
+  cache.set(alpacaObject.keeper, obj);
+  console.log(`[LOG] Location ${alpacaObject.keeper} added to cache`);
+
   return obj;
 };
