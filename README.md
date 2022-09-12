@@ -42,6 +42,10 @@ Steps
 3. Look for the generated file in the directory
 4. Use the contents of this file to import into Elasticsearch - currently it the POST body of an API \_bulk query to copy into Kibana DevTools
 
+Create data in Elasticsearch from scratch
+
+- [Data setup in Elasticsearch](elasticsearch-data-setup.md)
+
 ## License 📝
 
 The work is under exclusive copyright by default.
