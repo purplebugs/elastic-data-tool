@@ -31,14 +31,18 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   searchParams.set("side", "0");
   searchParams.set("asciiKompatibel", "true");
 
-  // Ref: https://kartkatalog.geonorge.no/metadata/adresse-rest-api/44eeffdc-6069-4000-a49b-2d6bfc59ac61
-
   console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
+
+  // Ref: https://kartkatalog.geonorge.no/metadata/adresse-rest-api/44eeffdc-6069-4000-a49b-2d6bfc59ac61
+  // https://ws.geonorge.no/adresser/v1/
 
   const response = await fetch(
     `https://ws.geonorge.no/adresser/v1/sok?${searchParams}`
   );
   const data = await response.json();
+
+  // TODO - if address not found use fuzzy search format below and grab first result since this solves at least one of the missing address cases
+  // https://ws.geonorge.no/adresser/v1/sok?sok=myStreet 123, My town name, fuzzy=true&postnummer=7200&utkoordsys=4258&treffPerSide=10&side=0&asciiKompatibel=true
 
   // { epsg: 'EPSG:4258', lat: 59.919244748168225, lon: 10.731070562579866 }
   const latitude = data?.adresser[0]?.representasjonspunkt.lat || null;
