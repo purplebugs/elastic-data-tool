@@ -24,6 +24,7 @@
   "homepage": "https://github.com/purplebugs/elastic-data-tool#readme",
   "type": "module",
   "dependencies": {
-    "node-fetch": "^3.2.10"
+    "node-fetch": "^3.2.10",
+    "sqlite3": "^5.0.11"
   }
 }
