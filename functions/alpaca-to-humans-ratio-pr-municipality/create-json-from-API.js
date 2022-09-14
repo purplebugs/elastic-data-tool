@@ -1,7 +1,9 @@
-import { readFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 
 export const getPopulationByMunicipalityFromGeoNorge = async () => {
+  const now = Date.now().toString();
+
   // kommuner = municipalities
   // Static dump of query response from 2022-09-14 in download-07459_20220914-092711.json
 
@@ -28,33 +30,34 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
   });
 
   const data = await response.json();
-  let count = 1;
 
-  // console.log(
-  //   "[LOG municipalities]: data.dimension.Region.category.label",
-  //   data.dimension.Region.category.label
-  // );
+  const municipalities = data.dimension.Region.category.index; // Eg: { 'K-3001': 0, 'K-3002': 1 }
+  const labels = data.dimension.Region.category.label; // Eg: { 'K-3001': 'Halden', 'K-3002': 'Moss'}
+  const values = data.value; // Eg: [31444, 50290]
 
-  // Object to array, eg: {'K-3001': 'Halden', 'K-3002': 'Moss'} -> [ K-3001: Halden, K-3002: Moss ]
-  const arrayOfMunicipalities = Object.entries(
-    data.dimension.Region.category.label
-  );
+  // Eg: {'municipalityNumber': 'K-3001', 'municipalityName':'Halden', 'population': 31444 },{'municipalityNumber': 'K-3002', 'municipalityName':'Moss', 'K-3002': 'Moss', 'population': 50290}
+  const populationByMunicipalityArray = [];
 
-  // console.log("[LOG array of municipalities]:", arrayOfMunicipalities);
+  for (const key in municipalities) {
+    const index = municipalities[key];
+    console.log(`${key}: ${index} : ${labels[key]} : ${values[index]}`);
 
-  // array to JSON items, eg: [ K-3001: Halden, K-3002: Moss ] -> {'K-3001': 'Halden'},{'K-3002': 'Moss'}
+    populationByMunicipalityArray.push(
+      JSON.stringify({
+        municipalityNumber: key,
+        municipalityName: labels[key],
+        population: values[index],
+      })
+    );
+  }
+
   // joining all items in the array with new lines to form NDJSON
-  const objectOfMunicipalities = arrayOfMunicipalities.join("\n");
-  console.log("[LOG] objectOfMunicipalities", objectOfMunicipalities);
+  const myOutputFileContents = populationByMunicipalityArray.join("\n");
 
-  // TODO: labelled JSON items, eg: {'K-3001', 'Halden'},{'K-3002': 'Moss'} -> {'municipalityNumber': 'K-3001', 'municipalityName':'Halden'}, {'municipalityNumber': 'K-3002', 'municipalityName':'Moss'}
-
-  // TODO: extend JSON to have population using Object.assign(), eg: {'municipalityNumber': 'K-3001', 'municipalityName':'Halden', 'population': 31444 },{'municipalityNumber': 'K-3002', 'municipalityName':'Moss', 'K-3002': 'Moss', 'population': 50290}
-
-  data.value.forEach((item) => {
-    console.log(`[LOG population] ${count}: ${item}`);
-    count++;
-  });
+  writeFileSync(
+    `functions/alpaca-to-humans-ratio-pr-municipality/population-by-municipality-${now}.ndjson`,
+    myOutputFileContents
+  );
 };
 
 getPopulationByMunicipalityFromGeoNorge();
