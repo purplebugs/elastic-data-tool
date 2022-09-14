@@ -1,5 +1,5 @@
 import { readFileSync, writeFileSync } from "fs";
-import { getLatLongFromGeoNorge } from "./geo-decode.js";
+import { getLatLongFromGeoNorge } from "./functions/geo-decode.js";
 
 const myOutput = [];
 const now = Date.now().toString();
