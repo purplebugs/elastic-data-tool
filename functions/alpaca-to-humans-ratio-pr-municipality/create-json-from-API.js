@@ -43,7 +43,7 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
 
   // Read file from disk
   const myQueryObjectBodyFile = readFileSync(
-    "functions/alpaca-to-humans-ratio-pr-municipality/population-by-municipality-query-body.json"
+    "functions/alpaca-to-humans-ratio-pr-municipality/query-body-population-by-municipality.json"
   );
 
   // Parse file
@@ -59,6 +59,8 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
 
   const data = await response.json();
   console.log(data);
+  // console.log(data.dimension.Region.category);
+  // console.log(data.dimension.Region.category.label);
 };
 
 getPopulationByMunicipalityFromGeoNorge();
