@@ -12,35 +12,6 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
   // In this example "kommunenummer": "3004" is "kommunenavn": "FREDRIKSTAD"
   // See file: geo-decode.js that uses https://ws.geonorge.no/adresser/v1/#/default/get_sok
 
-  /*   const body = {
-    query: [
-      {
-        code: "Region",
-        selection: {
-          filter: "vs:Landet",
-          values: [],
-        },
-      },
-      {
-        code: "Alder",
-        selection: {
-          filter: "vs:AlleAldre00B",
-          values: [],
-        },
-      },
-      {
-        code: "Tid",
-        selection: {
-          filter: "item",
-          values: ["2022"],
-        },
-      },
-    ],
-    response: {
-      format: "json-stat2",
-    },
-  }; */
-
   // Read file from disk
   const myQueryObjectBodyFile = readFileSync(
     "functions/alpaca-to-humans-ratio-pr-municipality/query-body-population-by-municipality.json"
@@ -60,14 +31,28 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
   let count = 1;
 
   console.log(
-    "[LOG]: data.dimension.Region.category.label",
+    "[LOG municipalities]: data.dimension.Region.category.label",
     data.dimension.Region.category.label
   );
 
-  console.log("[LOG] data.value items");
+  // Object to array, eg: {'K-3001': 'Halden', 'K-3002': 'Moss'} -> [ K-3001: Halden, K-3002: Moss ]
+  const arrayOfMunicipalities = Object.entries(
+    data.dimension.Region.category.label
+  );
+
+  console.log("[LOG array of municipalities]:", arrayOfMunicipalities);
+
+  // const labelObj = data.dimension.Region.category.label;
+  // for (const [key, value] of Object.entries(labelObj)) {
+  //   console.log(`${key}: ${value}`);
+  // }
+
+  // TODO: array to JSON items, eg: [ K-3001: Halden, K-3002: Moss ] -> {'K-3001': 'Halden'},{'K-3002': 'Moss'}
+  // TODO: labelled JSON items, eg: {'K-3001', 'Halden'},{'K-3002': 'Moss'} -> {'municipalityNumber': 'K-3001', 'municipalityName':'Halden'}, {'municipalityNumber': 'K-3002', 'municipalityName':'Moss'}
+  // TODO: extend JSON to have population using Object.assign(), eg: {'municipalityNumber': 'K-3001', 'municipalityName':'Halden', 'population': 31444 },{'municipalityNumber': 'K-3002', 'municipalityName':'Moss', 'K-3002': 'Moss', 'population': 50290}
 
   data.value.forEach((item) => {
-    console.log(`[LOG] ${count}: ${item}`);
+    console.log(`[LOG population] ${count}: ${item}`);
     count++;
   });
 };
