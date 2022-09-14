@@ -1,4 +1,9 @@
-// TODO make actual SQL to JSON as per my local script
+// TODO make actual SQL to JSON from existing MySQL dump file
+
+// Step 1: import MySQL file and split up line by line to extract SQL statements, Ref: https://www.sqlitetutorial.net/sqlite-nodejs/
+// Step 2: Run statements in memory to create and populate database
+// Step 3: Create and run SQL statements to select data and convert to JSON
+// Step 4: Final statement should be written to file, ie SELECT JSON_PRETTY(@json_alpacas_keeper);
 
 const sqlite3 = require("sqlite3").verbose();
 const db = new sqlite3.Database(":memory:");
