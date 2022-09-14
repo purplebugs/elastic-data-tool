@@ -49,7 +49,6 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
   // Parse file
   const myParsedQueryObjectBody = JSON.parse(myQueryObjectBodyFile);
   const myQueryBody = myParsedQueryObjectBody.queryObj;
-  console.log(myQueryBody);
 
   const response = await fetch("https://data.ssb.no/api/v0/no/table/07459/", {
     method: "post",
