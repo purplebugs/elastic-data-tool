@@ -58,9 +58,19 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
   });
 
   const data = await response.json();
-  console.log(data);
-  // console.log(data.dimension.Region.category);
-  // console.log(data.dimension.Region.category.label);
+  let count = 1;
+
+  console.log(
+    "[LOG]: data.dimension.Region.category.label",
+    data.dimension.Region.category.label
+  );
+
+  console.log("[LOG] data.value items");
+
+  data.value.forEach((item) => {
+    console.log(`[LOG] ${count}: ${item}`);
+    count++;
+  });
 };
 
 getPopulationByMunicipalityFromGeoNorge();
