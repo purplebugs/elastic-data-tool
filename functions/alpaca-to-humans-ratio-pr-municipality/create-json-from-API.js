@@ -1,19 +1,18 @@
-// Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
-
-// TODO correlate Region eg K-3004 with "kommunenummer": "3004" from geonorge
-// In this example "kommunenummer": "3004" is "kommunenavn": "FREDRIKSTAD"
-// See file: geo-decode.js that uses https://ws.geonorge.no/adresser/v1/#/default/get_sok
-
-// TODO formulate API request for this instead of downloaded file, using
-// POST request to URL: https://data.ssb.no/api/v0/no/table/07459/
-// POST body in file: functions/alpaca-to-humans-ratio-pr-municipality/query-body.json
-
+import { readFileSync } from "fs";
 import fetch from "node-fetch";
 
 export const getPopulationByMunicipalityFromGeoNorge = async () => {
   // kommuner = municipalities
+  // Static dump of query response from 2022-09-14 in download-07459_20220914-092711.json
 
-  const body = {
+  // Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
+  // POST body in file: functions/alpaca-to-humans-ratio-pr-municipality/query-body.json
+
+  // TODO correlate Region eg K-3004 with "kommunenummer": "3004" from geonorge
+  // In this example "kommunenummer": "3004" is "kommunenavn": "FREDRIKSTAD"
+  // See file: geo-decode.js that uses https://ws.geonorge.no/adresser/v1/#/default/get_sok
+
+  /*   const body = {
     query: [
       {
         code: "Region",
@@ -40,11 +39,21 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
     response: {
       format: "json-stat2",
     },
-  };
+  }; */
+
+  // Read file from disk
+  const myQueryObjectBodyFile = readFileSync(
+    "functions/alpaca-to-humans-ratio-pr-municipality/population-by-municipality-query-body.json"
+  );
+
+  // Parse file
+  const myParsedQueryObjectBody = JSON.parse(myQueryObjectBodyFile);
+  const myQueryBody = myParsedQueryObjectBody.queryObj;
+  console.log(myQueryBody);
 
   const response = await fetch("https://data.ssb.no/api/v0/no/table/07459/", {
     method: "post",
-    body: JSON.stringify(body),
+    body: JSON.stringify(myQueryBody),
     headers: { "Content-Type": "application/json" },
   });
 
