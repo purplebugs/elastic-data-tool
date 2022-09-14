@@ -30,25 +30,25 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
   const data = await response.json();
   let count = 1;
 
-  console.log(
-    "[LOG municipalities]: data.dimension.Region.category.label",
-    data.dimension.Region.category.label
-  );
+  // console.log(
+  //   "[LOG municipalities]: data.dimension.Region.category.label",
+  //   data.dimension.Region.category.label
+  // );
 
   // Object to array, eg: {'K-3001': 'Halden', 'K-3002': 'Moss'} -> [ K-3001: Halden, K-3002: Moss ]
   const arrayOfMunicipalities = Object.entries(
     data.dimension.Region.category.label
   );
 
-  console.log("[LOG array of municipalities]:", arrayOfMunicipalities);
+  // console.log("[LOG array of municipalities]:", arrayOfMunicipalities);
 
-  // const labelObj = data.dimension.Region.category.label;
-  // for (const [key, value] of Object.entries(labelObj)) {
-  //   console.log(`${key}: ${value}`);
-  // }
+  // array to JSON items, eg: [ K-3001: Halden, K-3002: Moss ] -> {'K-3001': 'Halden'},{'K-3002': 'Moss'}
+  // joining all items in the array with new lines to form NDJSON
+  const objectOfMunicipalities = arrayOfMunicipalities.join("\n");
+  console.log("[LOG] objectOfMunicipalities", objectOfMunicipalities);
 
-  // TODO: array to JSON items, eg: [ K-3001: Halden, K-3002: Moss ] -> {'K-3001': 'Halden'},{'K-3002': 'Moss'}
   // TODO: labelled JSON items, eg: {'K-3001', 'Halden'},{'K-3002': 'Moss'} -> {'municipalityNumber': 'K-3001', 'municipalityName':'Halden'}, {'municipalityNumber': 'K-3002', 'municipalityName':'Moss'}
+
   // TODO: extend JSON to have population using Object.assign(), eg: {'municipalityNumber': 'K-3001', 'municipalityName':'Halden', 'population': 31444 },{'municipalityNumber': 'K-3002', 'municipalityName':'Moss', 'K-3002': 'Moss', 'population': 50290}
 
   data.value.forEach((item) => {
