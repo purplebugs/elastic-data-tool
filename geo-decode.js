@@ -44,15 +44,25 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   // TODO - if address not found use fuzzy search format below and grab first result since this solves at least one of the missing address cases
   // https://ws.geonorge.no/adresser/v1/sok?sok=myStreet 123, My town name, fuzzy=true&postnummer=7200&utkoordsys=4258&treffPerSide=10&side=0&asciiKompatibel=true
 
-  // { epsg: 'EPSG:4258', lat: 59.919244748168225, lon: 10.731070562579866 }
+  // "representasjonspunkt": { "epsg": "EPSG:4258", "lat": 59.295708720373376, "lon": 10.97662911768462 }
   const latitude = data?.adresser[0]?.representasjonspunkt.lat || null;
   const longitude = data?.adresser[0]?.representasjonspunkt.lon || null;
+
+  // "kommunenummer": "3004",
+  // "kommunenavn": "FREDRIKSTAD",
+  const kommunenummer = data?.adresser[0]?.kommunenummer || null;
+  const kommunenavn = data?.adresser[0]?.kommunenavn || null;
 
   // https://www.elastic.co/guide/en/elasticsearch/reference/8.4/geo-point.html
   // Geopoint expressed as an object, in GeoJSON format, with type and coordinates keys.
 
   const obj = {
-    location: { type: "Point", coordinates: [longitude, latitude] },
+    location: {
+      type: "Point",
+      coordinates: [longitude, latitude],
+      kommunenummer: kommunenummer,
+      kommunenavn: kommunenavn,
+    },
   };
 
   console.log(obj);
