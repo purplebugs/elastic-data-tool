@@ -50,7 +50,15 @@ Option two: To generate a POST body of an API \_bulk query: 🤖
 
 Geo enrich: current status
 
-1. Run `node functions/geo-enrich/get-population-by-municipality.js` to generate a standalone array of JSON file and standalone NDJSON file in [./data](./data) containing population by municipality
+1. Run `node functions/geo-enrich/get-population-by-municipality.js` to generate a standalone JSON file and a standalone NDJSON file in [./data](./data) containing population by municipality, eg
+
+.json
+
+```
+[{"municipalityNumberFromSSB":"K-3001","municipalityNumber":"3001","municipalityName":"Halden","population":31444},{"municipalityNumberFromSSB":"K-3002","municipalityNumber":"3002","municipalityName":"Moss","population":50290}]
+```
+
+.ndjson
 
 ```
 {"municipalityNumber":"K-3001","municipalityName":"Halden","population":31444}
