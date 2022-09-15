@@ -5,7 +5,7 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   const now = Date.now().toString();
 
   // kommuner = municipalities
-  // Static dump of query response from 2022-09-14 in download-07459_20220914-092711.json
+  // Static dump of query response from 2022-09-14 in population-by-municipality-download-07459_20220914-092711.json
 
   // Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
   // POST body in file: functions/geo-enrich/query-body.json
@@ -15,8 +15,9 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   // See file: geo-decode.js that uses https://ws.geonorge.no/adresser/v1/#/default/get_sok
 
   // Read file from disk
+  // TODO update so query is no longer hardcoded for year 2022
   const myQueryObjectBodyFile = readFileSync(
-    "functions/geo-enrich/query-body-population-by-municipality.json"
+    "functions/geo-enrich/population-by-municipality-query-body.json"
   );
 
   // Parse file
