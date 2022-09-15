@@ -1,8 +1,10 @@
 import { readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 
-// Location of static dump of NDJSON from running getPopulationByMunicipalityFromSSB()
-const backupPopulationByMunicipalityFile =
+// Locations of static dump of files from running getPopulationByMunicipalityFromSSB()
+const backupPopulationByMunicipalityFileJSON =
+  "./functions/geo-enrich/population-by-municipality-1663243071159.json";
+const backupPopulationByMunicipalityFileNDJSON =
   "./functions/geo-enrich/population-by-municipality-1663230933633.ndjson";
 
 export const getPopulationByMunicipalityFromSSB = async () => {
@@ -41,7 +43,8 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   const values = data.value; // Eg: [31444, 50290]
 
   // Eg: {'municipalityNumber': 'K-3001', 'municipalityName':'Halden', 'population': 31444 },{'municipalityNumber': 'K-3002', 'municipalityName':'Moss', 'K-3002': 'Moss', 'population': 50290}
-  const populationByMunicipalityArray = [];
+  const populationByMunicipalityArrayForJSON = [];
+  const populationByMunicipalityArrayForNDJSON = [];
 
   for (const key in municipalities) {
     const index = municipalities[key];
@@ -50,7 +53,14 @@ export const getPopulationByMunicipalityFromSSB = async () => {
       `[LOG] Retrieving from API: ${key}: ${zip}: ${index}: ${labels[key]}: ${values[index]}`
     );
 
-    populationByMunicipalityArray.push(
+    populationByMunicipalityArrayForJSON.push({
+      municipalityNumberFromSSB: key,
+      municipalityNumber: zip,
+      municipalityName: labels[key],
+      population: values[index],
+    });
+
+    populationByMunicipalityArrayForNDJSON.push(
       JSON.stringify({
         municipalityNumberFromSSB: key,
         municipalityNumber: zip,
@@ -60,12 +70,19 @@ export const getPopulationByMunicipalityFromSSB = async () => {
     );
   }
 
-  // joining all items in the array with new lines to form NDJSON
-  const myOutputFileContents = populationByMunicipalityArray.join("\n");
+  // JSON file to use this array as dictionary lookup, eg. for enriching another data source with contents of this array
+  writeFileSync(
+    `data/population-by-municipality-${now}.json`,
+    JSON.stringify(populationByMunicipalityArrayForJSON)
+  );
+
+  // joining all items in the array with new lines to form NDJSON, eg. to import to Elasticsearch as own index
+  const myOutputFileContentsForNDJSON =
+    populationByMunicipalityArrayForNDJSON.join("\n");
 
   writeFileSync(
     `data/population-by-municipality-${now}.ndjson`,
-    myOutputFileContents
+    myOutputFileContentsForNDJSON
   );
 };
 
