@@ -1,5 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import { getLatLongFromGeoNorge } from "./functions/geo-decode.js";
+import { correlatePopulationByMunicipality } from "./functions/geo-enrich/population-by-municipality.js";
 
 const now = Date.now().toString();
 const myOutput = [];
@@ -23,7 +24,8 @@ for await (const item of myParsedFile) {
   // {"name":"Cutest alpaca place","street":"another street","alpacaShortName":"Chanel","webpage":null,"alpacaId":345,"idOwners":4,"idCompany":6, zip: "0167", city: "Oslo", street: "Wergelandsveien 15"}
 
   const geoObj = await getLatLongFromGeoNorge(item);
-  const obj = Object.assign({}, item, geoObj);
+  const geoEnrichObj = await correlatePopulationByMunicipality(item);
+  const obj = Object.assign({}, item, geoObj, geoEnrichObj);
 
   // Uncomment for Elasticsearch POST /_bulk body format
   // myOutput.push(JSON.stringify({ index: { _id: count } }));

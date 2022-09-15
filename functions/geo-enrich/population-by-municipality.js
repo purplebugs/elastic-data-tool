@@ -1,12 +1,15 @@
 import { readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 
+// Location of static dump of NDJSON from running getPopulationByMunicipalityFromSSB()
+const backupPopulationByMunicipalityFile =
+  "./functions/geo-enrich/population-by-municipality-1663230933633.ndjson";
+
 export const getPopulationByMunicipalityFromSSB = async () => {
   const now = Date.now().toString();
 
   // kommuner = municipalities
   // Static dump of API query response from 2022-09-14 in population-by-municipality-download-07459_20220914-092711.json
-  // Static dump of NDJSON from running this file in population-by-municipality-1663230933633.ndjson
 
   // Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
   // POST body in file: functions/geo-enrich/query-body.json
@@ -66,4 +69,8 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   );
 };
 
-getPopulationByMunicipalityFromSSB();
+export const correlatePopulationByMunicipality = async (alpacaObject) => {
+  const populationByMunicipalityJSON = backupPopulationByMunicipalityFile;
+
+  return { anita: "I love alpacas!" };
+};
