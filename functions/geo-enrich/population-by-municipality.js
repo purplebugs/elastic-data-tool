@@ -86,8 +86,25 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   );
 };
 
-export const correlatePopulationByMunicipality = async (alpacaObject) => {
-  const populationByMunicipalityJSON = backupPopulationByMunicipalityFile;
+export const populationByMunicipalityLookup = async () => {
+  // Read file from disk
+  // TODO cache
+  const myFile = readFileSync(backupPopulationByMunicipalityFileJSON);
 
+  // Parse file
+  const myParsedFile = JSON.parse(myFile);
+
+  let count = 1;
+  for await (const item of myParsedFile) {
+    console.log(
+      `[LOG] count: ${count} item: ${item} item.municipalityNumber:  ${item.municipalityNumber}: item.population: ${item.population}:`
+    );
+    count++;
+  }
+};
+
+populationByMunicipalityLookup();
+
+export const correlatePopulationByMunicipality = async (alpacaObject) => {
   return { anita: "I love alpacas!" };
 };
