@@ -1,6 +1,6 @@
 import { readFileSync, writeFileSync } from "fs";
 import { getLatLongFromGeoNorge } from "./functions/geo-decode.js";
-import { correlatePopulationByMunicipality } from "./functions/geo-enrich/population-by-municipality.js";
+import { populationByMunicipalityLookup } from "./functions/geo-enrich/population-by-municipality.js";
 
 const now = Date.now().toString();
 const myOutput = [];
@@ -23,15 +23,17 @@ for await (const item of myParsedFile) {
   // {"name":"Happiest alpaca farm","street":"the street","alpacaShortName":"Fluffy","webpage":null,"alpacaId":123,"idOwners":2,"idCompany":3, zip: "0167", city: "Oslo", street: "Another Steet 132"}
   // {"name":"Cutest alpaca place","street":"another street","alpacaShortName":"Chanel","webpage":null,"alpacaId":345,"idOwners":4,"idCompany":6, zip: "0167", city: "Oslo", street: "Wergelandsveien 15"}
 
-  const geoObj = await getLatLongFromGeoNorge(item);
-  const geoEnrichObj = await correlatePopulationByMunicipality(item);
-  const obj = Object.assign({}, item, geoObj, geoEnrichObj);
+  const geoDecodeObj = await getLatLongFromGeoNorge(item);
+  const geoDecodedObj = Object.assign({}, item, geoDecodeObj);
+
+  const geoEnrichObj = populationByMunicipalityLookup(geoDecodedObj);
+  const geoEnrichedObj = Object.assign(geoDecodedObj, geoEnrichObj);
 
   // Uncomment for Elasticsearch POST /_bulk body format
   // myOutput.push(JSON.stringify({ index: { _id: count } }));
 
   // conveniently stringify also removes spaces
-  myOutput.push(JSON.stringify(obj));
+  myOutput.push(JSON.stringify(geoEnrichedObj));
 
   count++;
 }

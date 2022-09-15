@@ -16,10 +16,6 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   // Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
   // POST body in file: functions/geo-enrich/query-body.json
 
-  // TODO correlate Region eg K-3004 with "kommunenummer": "3004" from geonorge
-  // In this example "kommunenummer": "3004" is "kommunenavn": "FREDRIKSTAD"
-  // See file: geo-decode.js that uses https://ws.geonorge.no/adresser/v1/#/default/get_sok
-
   // Read file from disk
   // TODO update so query is no longer hardcoded for year 2022
   const myQueryObjectBodyFile = readFileSync(
@@ -71,6 +67,9 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   }
 
   // JSON file to use this array as dictionary lookup, eg. for enriching another data source with contents of this array
+  // eg:
+  // [{"municipalityNumberFromSSB":"K-3001","municipalityNumber":"3001","municipalityName":"Halden","population":31444},{"municipalityNumberFromSSB":"K-3002","municipalityNumber":"3002","municipalityName":"Moss","population":50290}]
+
   writeFileSync(
     `data/population-by-municipality-${now}.json`,
     JSON.stringify(populationByMunicipalityArrayForJSON)
@@ -86,25 +85,27 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   );
 };
 
-export const populationByMunicipalityLookup = async () => {
+export const populationByMunicipalityLookup = (alpacaObject) => {
   // Read file from disk
   // TODO cache
   const myFile = readFileSync(backupPopulationByMunicipalityFileJSON);
 
-  // Parse file
-  const myParsedFile = JSON.parse(myFile);
+  // Parse file, eg:
+  const populationByMunicipalityArray = JSON.parse(myFile);
 
-  let count = 1;
-  for await (const item of myParsedFile) {
-    console.log(
-      `[LOG] count: ${count} item: ${item} item.municipalityNumber:  ${item.municipalityNumber}: item.population: ${item.population}:`
-    );
-    count++;
+  console.log(
+    `[LOG] alpacaObject?.location?.kommunenummer:  ${alpacaObject?.location?.kommunenummer}`
+  );
+
+  const found = populationByMunicipalityArray.find(
+    (item) => item?.municipalityNumber == alpacaObject?.location?.kommunenummer
+  );
+
+  if (found) {
+    return {
+      found,
+    };
+  } else {
+    return { populationByMunicipality: "not found" };
   }
-};
-
-populationByMunicipalityLookup();
-
-export const correlatePopulationByMunicipality = async (alpacaObject) => {
-  return { anita: "I love alpacas!" };
 };

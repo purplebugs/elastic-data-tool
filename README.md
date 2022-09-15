@@ -35,20 +35,24 @@ Pre-requisites
 
 Steps 🪜
 
-Option one: Generate NDJSON file to import to Elasticsearch 💾
+### Option one: Generate NDJSON file to import to Elasticsearch 💾
 
 1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
 2. Run `node index`
 3. Look for the generated file in the directory
 4. Import this file to Elasticsearch
 
-Option two: To generate a POST body of an API \_bulk query: 🤖
+### Option two: To generate a POST body of an API \_bulk query: 🤖
 
 1. Before running the script, uncomment the line that references `POST /_bulk` then at the final step use the contents of the generated file as the POST body
 2. Run Steps 1-3 above
 3. Use the contents of generated file as the POST body of an `POST /_bulk` to copy into Kibana DevTools
 
-Geo enrich: current status
+### Option: Regenerate latest population data
+
+Run the following, then update the file referenced by the app to use this latest file
+
+Note: the app by default geo enriches using a static file
 
 1. Run `node functions/geo-enrich/get-population-by-municipality.js` to generate a standalone JSON file and a standalone NDJSON file in [./data](./data) containing population by municipality, eg
 
