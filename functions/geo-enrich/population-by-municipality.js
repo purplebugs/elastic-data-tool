@@ -42,7 +42,9 @@ export const getPopulationByMunicipalityFromSSB = async () => {
 
   for (const key in municipalities) {
     const index = municipalities[key];
-    console.log(`${key}: ${index} : ${labels[key]} : ${values[index]}`);
+    console.log(
+      `[LOG] Retrieving from API: ${key}: ${index} : ${labels[key]} : ${values[index]}`
+    );
 
     populationByMunicipalityArray.push(
       JSON.stringify({
@@ -57,7 +59,7 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   const myOutputFileContents = populationByMunicipalityArray.join("\n");
 
   writeFileSync(
-    `functions/geo-enrich/population-by-municipality-${now}.ndjson`,
+    `data/population-by-municipality-${now}.ndjson`,
     myOutputFileContents
   );
 };
