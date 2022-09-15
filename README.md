@@ -9,7 +9,7 @@ Personal learning project which should result in a greater understanding of how 
 - SQL -> JSON (Status: TO DO)
 - JSON -> NDJSON -> import file to Elasticsearch
 - geo decoding JSON data containing location by adding latitude, longitude from address fields using external API
-- geo enriching JSON data containing location by adding population statistics using external API (Status: in progress)
+- geo enriching JSON data containing location by adding population statistics using external API
 - JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command, eg
 
 ```
@@ -47,6 +47,15 @@ Option two: To generate a POST body of an API \_bulk query: 🤖
 1. Before running the script, uncomment the line that references `POST /_bulk` then at the final step use the contents of the generated file as the POST body
 2. Run Steps 1-3 above
 3. Use the contents of generated file as the POST body of an `POST /_bulk` to copy into Kibana DevTools
+
+Geo enrich: current status
+
+1. Run `node functions/geo-enrich/population-by-municipality.js` to generate a standalone NDJSON file in [./functions/geo-enrich](./functions/geo-enrich) containing population by min
+
+```
+{"municipalityNumber":"K-3001","municipalityName":"Halden","population":31444}
+{"municipalityNumber":"K-3002","municipalityName":"Moss","population":50290}
+```
 
 ## Create data in Elasticsearch from scratch 🎸
 

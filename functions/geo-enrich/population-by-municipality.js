@@ -1,14 +1,14 @@
 import { readFileSync, writeFileSync } from "fs";
 import fetch from "node-fetch";
 
-export const getPopulationByMunicipalityFromGeoNorge = async () => {
+export const getPopulationByMunicipalityFromSSB = async () => {
   const now = Date.now().toString();
 
   // kommuner = municipalities
   // Static dump of query response from 2022-09-14 in download-07459_20220914-092711.json
 
   // Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
-  // POST body in file: functions/alpaca-to-humans-ratio-pr-municipality/query-body.json
+  // POST body in file: functions/geo-enrich/query-body.json
 
   // TODO correlate Region eg K-3004 with "kommunenummer": "3004" from geonorge
   // In this example "kommunenummer": "3004" is "kommunenavn": "FREDRIKSTAD"
@@ -16,7 +16,7 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
 
   // Read file from disk
   const myQueryObjectBodyFile = readFileSync(
-    "functions/alpaca-to-humans-ratio-pr-municipality/query-body-population-by-municipality.json"
+    "functions/geo-enrich/query-body-population-by-municipality.json"
   );
 
   // Parse file
@@ -55,9 +55,9 @@ export const getPopulationByMunicipalityFromGeoNorge = async () => {
   const myOutputFileContents = populationByMunicipalityArray.join("\n");
 
   writeFileSync(
-    `functions/alpaca-to-humans-ratio-pr-municipality/population-by-municipality-${now}.ndjson`,
+    `functions/geo-enrich/population-by-municipality-${now}.ndjson`,
     myOutputFileContents
   );
 };
 
-getPopulationByMunicipalityFromGeoNorge();
+getPopulationByMunicipalityFromSSB();
