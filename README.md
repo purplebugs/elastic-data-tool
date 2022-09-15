@@ -8,8 +8,8 @@ Personal learning project which should result in a greater understanding of how 
 
 - SQL -> JSON (Status: TO DO)
 - JSON -> NDJSON -> import file to Elasticsearch
-- enriching JSON data with location by adding latitude, longitude from address fields using external API
-- enriching JSON data with population statistics using external API (Status: in progress)
+- geo decoding JSON data containing location by adding latitude, longitude from address fields using external API
+- geo enriching JSON data containing location by adding population statistics using external API (Status: in progress)
 - JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command, eg
 
 ```
