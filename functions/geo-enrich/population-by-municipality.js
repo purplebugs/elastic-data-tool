@@ -5,8 +5,8 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   const now = Date.now().toString();
 
   // kommuner = municipalities
-  // Static dump of query response from 2022-09-14 in population-by-municipality-download-07459_20220914-092711.json
-  // Static dump of NDJSON from running this file in population-by-municipality-1663181354141.ndjson
+  // Static dump of API query response from 2022-09-14 in population-by-municipality-download-07459_20220914-092711.json
+  // Static dump of NDJSON from running this file in population-by-municipality-1663230933633.ndjson
 
   // Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
   // POST body in file: functions/geo-enrich/query-body.json
@@ -42,13 +42,15 @@ export const getPopulationByMunicipalityFromSSB = async () => {
 
   for (const key in municipalities) {
     const index = municipalities[key];
+    const zip = key.slice(2); // 'K-3001' -> '3001'
     console.log(
-      `[LOG] Retrieving from API: ${key}: ${index} : ${labels[key]} : ${values[index]}`
+      `[LOG] Retrieving from API: ${key}: ${zip}: ${index}: ${labels[key]}: ${values[index]}`
     );
 
     populationByMunicipalityArray.push(
       JSON.stringify({
-        municipalityNumber: key,
+        municipalityNumberFromSSB: key,
+        municipalityNumber: zip,
         municipalityName: labels[key],
         population: values[index],
       })
