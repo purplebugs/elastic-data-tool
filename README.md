@@ -6,18 +6,17 @@ Convert data to formats to easily ingest into Elasticsearch
 
 Personal learning project which should result in a greater understanding of how to manipulate data formats, eg
 
-- SQL --> JSON
-- JSON -> NDJSON
+- SQL -> JSON
+- JSON -> NDJSON -> import file to Elasticsearch
 - enriching JSON data with location by adding latitude, longitude from address fields using external API
-- JSON -> Elasticsearch API commands with NDJSON body such as
+- JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command, eg
 
 ```
 POST grocery-store/_bulk
 {"index":{"_id":1}}
 {"title": "Eple og Ingefærjuice", "category": "Juice og fruktdrikker", "subCategory": "Frukt- og bærjuice"}
 {"index":{"_id":2}}
-{"title": "Grans Taffel Eple", "category": "Vann og mineralvann", "subCategory": "Vann med kullsyre"}
-{"index":{"_id":3}}
+{"title": "Grans Taffel Eple", "category": "Vann og mineralvann", "subCategory": "Vann med kullsyre"}Op
 ```
 
 ## Install app 🐣
@@ -33,12 +32,20 @@ Pre-requisites
 2. JSON file is created from SQL query or otherwise and stored in [./data](./data)
 3. Note: SQL to JSON tool is in progress. To try proof of concept Run `node SQL-to-JSON.cjs`
 
-Steps
+Steps 🪜
+
+Option one: Generate NDJSON file to import to Elasticsearch 💾
 
 1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
 2. Run `node index`
 3. Look for the generated file in the directory
-4. Use the contents of this file to import into Elasticsearch - currently it the POST body of an API \_bulk query to copy into Kibana DevTools
+4. Import this file to Elasticsearch
+
+Option two: To generate a POST body of an API \_bulk query: 🤖
+
+1. Before running the script, uncomment the line that references `POST /_bulk` then at the final step use the contents of the generated file as the POST body
+2. Run Steps 1-3 above
+3. Use the contents of generated file as the POST body of an `POST /_bulk` to copy into Kibana DevTools
 
 ## Create data in Elasticsearch from scratch 🎸
 
