@@ -6,6 +6,7 @@ export const getPopulationByMunicipalityFromSSB = async () => {
 
   // kommuner = municipalities
   // Static dump of query response from 2022-09-14 in population-by-municipality-download-07459_20220914-092711.json
+  // Static dump of NDJSON from running this file in population-by-municipality-1663181354141.ndjson
 
   // Ref: https://www.ssb.no/statbank/table/07459/tableViewLayout1/
   // POST body in file: functions/geo-enrich/query-body.json
