@@ -179,8 +179,62 @@ POST alpaca-anita-geopoint/_update/1
 
 ## 3. Experiment
 
-- Create transform and calculate human to alpaca ratio 🦙 🧮
-- NB: to do, filter out alpacas that are dead 🦙 😢
+### Create transform and calculate human to alpaca ratio 🦙 🧮
+
+- TODO filter out alpacas that are dead 🦙 😢
+- TODO Order by highest percent, show top 10 only
+
+#### No transform with script field
+
+```
+GET alpaca-anita-population-by-municipality/_search
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "should": [
+        {
+          "exists": {
+            "field": "found.population"
+          }
+        }
+      ],
+      "minimum_should_match": 1
+    }
+  },
+  "aggs": {
+    "municipality_buckets": {
+      "terms": {
+        "field": "found.municipalityName.keyword",
+        "size": 80
+      },
+      "aggs": {
+        "alpacas_per_municipality": {
+          "cardinality": {
+            "field": "alpacaId"
+          }
+        },
+        "humans_per_municipality": {
+          "max": {
+            "field": "found.population"
+          }
+        },
+        "alpaca_to_population_percentage": {
+          "bucket_script": {
+            "buckets_path": {
+              "alpacas_per_muni": "alpacas_per_municipality",
+              "humans_per_muni": "humans_per_municipality"
+            },
+            "script": "(params.alpacas_per_muni / params.humans_per_muni) * 100"
+          }
+        }
+      }
+    }
+  }
+}
+```
+
+#### Transformed index with script field
 
 ```
 PUT _transform/alpaca-anita-population-transform-and-percent
