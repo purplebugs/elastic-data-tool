@@ -22,8 +22,8 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   console.log(alpacaObject);
 
   const searchParams = new URLSearchParams();
-  searchParams.set("fuzzy", "false");
-  searchParams.set("adressetekst", alpacaObject.street);
+  searchParams.set("fuzzy", "true");
+  searchParams.set("sok", alpacaObject.street);
   searchParams.set("postnummer", alpacaObject.zip.toString());
   searchParams.set("poststed", alpacaObject.city);
   searchParams.set("utkoordsys", "4258");
