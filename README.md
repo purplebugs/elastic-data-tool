@@ -73,6 +73,11 @@ Note: the app by default geo enriches using a static file
 
 - [Data setup in Elasticsearch](elasticsearch-data-setup.md)
 
+## Credits 👏
+
+- Location data from [Geo Norge](https://www.geonorge.no/)
+- Population data from [SSB - Statistisk sentralbyrå - Statistics Norway](https://www.ssb.no/)
+
 ## License 📝
 
 The work is under exclusive copyright by default.
