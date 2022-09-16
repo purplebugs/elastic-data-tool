@@ -179,7 +179,7 @@ POST alpaca-anita-geopoint/_update/1
 
 ## 3. Experiment
 
-### Create transform and calculate human to alpaca ratio 🦙 🧮
+### Calculate human to alpaca ratio 🦙 🧮
 
 - TODO filter out alpacas that are dead 🦙 😢
 
