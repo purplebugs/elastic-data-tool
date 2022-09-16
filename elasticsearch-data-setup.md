@@ -1,4 +1,4 @@
-## 1. Create index with mappings 📝
+## 1. Create index with mappings 🦙 📝
 
 - Clean start
 
@@ -139,7 +139,7 @@ GET alpaca-anita-geopoint/_mapping
 
 ```
 
-## 1. Update documents 📄
+## 2. Update documents 🦙 📄
 
 - Update location coordinates of part of document 1
 
@@ -173,6 +173,68 @@ POST alpaca-anita-geopoint/_update/1
         null
       ]
     }
+  }
+}
+```
+
+## 3. Experiment
+
+- Create transform and calculate human to alpaca ratio 🦙 🧮
+- NB: to do, filter out alpacas that are not dead 🦙 😢
+
+```
+PUT _transform/alpaca-anita-population-transform-and-percent
+{
+  "source": {
+    "index": [
+      "alpaca-anita-population-by-municipality"
+    ],
+    "query": {
+      "bool": {
+        "should": [
+          {
+            "exists": {
+              "field": "found.population"
+            }
+          }
+        ],
+        "minimum_should_match": 1
+      }
+    }
+  },
+  "pivot": {
+    "group_by": {
+      "found.municipalityName": {
+        "terms": {
+          "field": "found.municipalityName.keyword"
+        }
+      }
+    },
+    "aggregations": {
+      "alpacaId.cardinality": {
+        "cardinality": {
+          "field": "alpacaId"
+        }
+      },
+      "found.population.max": {
+        "max": {
+          "field": "found.population"
+        }
+      },
+      "alpaca_to_population_percentage": {
+        "bucket_script": {
+          "buckets_path": {
+            "alpacas_per_municipality": "alpacaId.cardinality.value",
+            "humans_per_municipality": "found.population.max.value"
+          },
+          "script": "(params.alpacas_per_municipality / params.humans_per_municipality) * 100"
+        }
+      }
+    }
+  },
+  "description": "alpaca-anita-population-transform-and-percent Transform Group by MunicipalityName calculate percent",
+  "dest": {
+    "index": "alpaca-anita-population-transform-and-percent"
   }
 }
 ```
