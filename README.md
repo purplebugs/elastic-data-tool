@@ -7,9 +7,9 @@ Convert data to formats to easily ingest into Elasticsearch
 Personal learning project which should result in a greater understanding of how to manipulate data formats, eg
 
 - SQL -> JSON (Status: In progress)
-- JSON -> NDJSON -> import file to Elasticsearch
 - geo decoding JSON data containing location by adding latitude, longitude from address fields using external API
 - geo enriching JSON data containing location by adding population statistics using external API
+- JSON -> NDJSON -> import file to Elasticsearch
 - JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command, eg
 
 ```
