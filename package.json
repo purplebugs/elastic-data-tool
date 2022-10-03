@@ -24,6 +24,7 @@
   "homepage": "https://github.com/purplebugs/elastic-data-tool#readme",
   "type": "module",
   "dependencies": {
+    "mysql2": "^2.3.3",
     "node-fetch": "^3.2.10"
   }
 }
