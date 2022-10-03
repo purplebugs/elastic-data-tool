@@ -31,7 +31,6 @@ Pre-requisites
 
 1. Create folder at root level named [./data](./data) - used for locally storing JSON files that will not be committed to the repo
 2. JSON file is created from SQL query or otherwise and stored in [./data](./data)
-3. Note: SQL to JSON tool is in progress. To try proof of concept Run `node SQL-to-JSON.cjs`
 
 Steps 🪜
 
