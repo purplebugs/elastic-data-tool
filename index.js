@@ -2,6 +2,8 @@ import { readFileSync, writeFileSync } from "fs";
 import { getLatLongFromGeoNorge } from "./functions/geo-decode.js";
 import { populationByMunicipalityLookup } from "./functions/geo-enrich/population-by-municipality.js";
 
+/******** JSON to NDJSON and geodecode, enrich ********/
+
 const now = Date.now().toString();
 const myOutput = [];
 
