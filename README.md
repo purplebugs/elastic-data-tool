@@ -25,6 +25,16 @@ POST grocery-store/_bulk
 1. Clone repo and navigate to new repo
 2. Run `npm install`
 
+## First time users only 🪴
+
+For the work in progress MySQL to JSON converter:
+
+- Create a .env file in the root of your project containing the MySql password
+
+```
+MYSQL_PASSWORD="YOURPASSWORDGOESHERE"
+```
+
 ## Use the app 🎷
 
 Pre-requisites

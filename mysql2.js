@@ -1,10 +1,12 @@
+import dotenv from "dotenv";
+const config = dotenv.config();
 import mysql from "mysql2";
 
 // create the connection to database
 const connection = mysql.createConnection({
   host: "localhost",
   user: "root",
-  password: "poodle",
+  password: process.env.MYSQL_PASSWORD,
   database: "anita_database",
 });
 
