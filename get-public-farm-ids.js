@@ -1,7 +1,7 @@
 import {
   connectToDb,
   getCompanyIdsOfPublicFarms,
-} from "./functions/getCompanyIdOfPublicFarms.js";
+} from "./functions/sql-queries/getCompanyIdOfPublicFarms.js";
 
 import { writeFileSync } from "fs";
 
