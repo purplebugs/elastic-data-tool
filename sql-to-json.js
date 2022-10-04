@@ -3,7 +3,7 @@ import {
   getAlpacaRegistries,
   getAlpacaIdsFromNorwegianRegistry,
   getAlpacaDetails,
-} from "./functions/sql-queries.js";
+} from "./functions/sql-queries/getAlpacas.js";
 
 import { writeFileSync } from "fs";
 

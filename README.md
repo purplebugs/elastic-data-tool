@@ -78,6 +78,13 @@ Note: the app by default geo enriches using a static file
 {"municipalityNumber":"K-3002","municipalityName":"Moss","population":50290}
 ```
 
+### Get public farm ids
+
+Rough helper
+
+1. Pre-condition: search for getCompanyIdsOfPublicFarms query and replace farm list with actual
+1. Run `node get-public-farm-ids.js` and look at console log and for file in [./data](./data)
+
 ## Create data in Elasticsearch from scratch 🎸
 
 - [Data setup in Elasticsearch](elasticsearch-data-setup.md)
