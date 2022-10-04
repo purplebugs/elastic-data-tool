@@ -33,11 +33,11 @@ export const getAlpacaIdsFromNorwegianRegistry = async (connection) => {
 
 export const getAlpacaDetails = async (connection) => {
   const query =
-    "select a.idAlpaca as AlpacaId, a.ShortName AS AlpacaShortName, " +
-    "s.Name AS Gender, " +
-    "color1.Name AS AlpacaColor1, " +
+    "select a.idAlpaca as alpacaId, a.ShortName AS alpacaShortName, " +
+    "s.Name AS gender, " +
+    "color1.Name AS alpacaColor1, " +
     "CONVERT(DOB, DATE) AS DOB, CONVERT(DOD, DATE) AS DOD, " +
-    "a.Keeper, c.idCompany AS CompanyId, c.Name AS KeeperName, c.Street, c.Zip, c.City, c.Country, c.Webpage FROM `alp_Alpaca` a " +
+    "a.Keeper AS keeper, c.idCompany AS companyId, c.Name AS keeperName, c.Street AS street, c.Zip AS zip, c.City AS city, c.Country as country, c.Webpage FROM `alp_Alpaca` a " +
     "INNER JOIN alp_Sex s ON a.Sex = s.idSex " +
     "INNER JOIN alp_Color color1 ON a.Color1 = color1.idColor " +
     "INNER JOIN alp_Company c on a.Keeper = c.idCompany WHERE a.idAlpaca IN " +

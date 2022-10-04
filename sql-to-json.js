@@ -5,7 +5,12 @@ import {
   getAlpacaDetails,
 } from "./functions/sql-queries.js";
 
-/******** SQL to JSON - in progress ********/
+import { writeFileSync } from "fs";
+
+const now = Date.now().toString();
+const myOutput = [];
+
+/******** SQL to JSON ********/
 
 const connection = await connectToDb();
 const [alpacaRegistries] = await getAlpacaRegistries(connection);
@@ -15,7 +20,11 @@ const [alpacaIdsFromNorwegianRegistry] =
   await getAlpacaIdsFromNorwegianRegistry(connection);
 console.log("alpacaIdsFromNorwegianRegistry", alpacaIdsFromNorwegianRegistry);
 
-const [alpacaDetails] = await getAlpacaDetails(connection);
-console.log("alpacaDetails", alpacaDetails);
+const [alpacaDetailsArray] = await getAlpacaDetails(connection);
+console.log("alpacaDetailsArray", alpacaDetailsArray);
 
-// TODO convert SQL query result to JSON and store in file
+const alpacaJSON = JSON.stringify(alpacaDetailsArray);
+// Write to file which will write as one long line
+writeFileSync(`./data/alpacas-from-sql-${now}.json`, alpacaJSON);
+
+// For readability could JSON.parse and write to file with line breaks
