@@ -78,12 +78,19 @@ Note: the app by default geo enriches using a static file
 {"municipalityNumber":"K-3002","municipalityName":"Moss","population":50290}
 ```
 
-### Get public farm ids
+### Get public farms
 
-Rough helper
+This is an independent helper tool to create NDJSON file for Elasticsearch API `POST /_bulk` command, eg
 
-1. Pre-condition: search for getCompanyIdsOfPublicFarms query and replace farm list with actual
-1. Run `node get-public-farm-ids.js` and look at console log and for file in [./data](./data)
+```
+{"index":{"_id":1}}
+{"keeper":32,"name":"Farm name 1","public":true}
+{"index":{"_id":2}}
+{"keeper":16,"name":"Farm name 2","public":true}
+```
+
+1. Pre-condition: search for getPublicFarms query and replace farm list with actual
+1. Run `node get-public-farms.js` and look at console log and for file in [./data](./data)
 
 ## Create data in Elasticsearch from scratch 🎸
 
