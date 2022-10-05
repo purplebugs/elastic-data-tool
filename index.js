@@ -8,7 +8,7 @@ const now = Date.now().toString();
 const myOutput = [];
 
 // Edit this file name as needed
-const jsonFileToConvertToNDJSON = "alpacas-address-camelCase.json";
+const jsonFileToConvertToNDJSON = "alpacas-address-camelCase-several-only.json";
 
 // Read file from disk
 const myFile = readFileSync(`./data/${jsonFileToConvertToNDJSON}`);
@@ -27,9 +27,7 @@ for await (const item of myParsedFile) {
 
   // Label all farms as private for import into Elasticsearch
   // because public facing farm index will be created in Elasticsearch based on query and pipeline
-  const publicFieldAdded = Object.assign({}, item, {
-    farmType: { public: false },
-  });
+  const publicFieldAdded = Object.assign({}, item, { public: false });
 
   const geoDecodeObj = await getLatLongFromGeoNorge(item);
   const geoDecodedObj = Object.assign(publicFieldAdded, geoDecodeObj);

@@ -31,9 +31,7 @@ for await (const item of publicFarms) {
   myOutput.push(JSON.stringify({ index: { _id: count } }));
 
   // Label all farms as public
-  const publicFieldAdded = Object.assign({}, item, {
-    farmType: { public: true },
-  });
+  const publicFieldAdded = Object.assign({}, item, { public: true });
 
   // conveniently stringify also removes spaces
   myOutput.push(JSON.stringify(publicFieldAdded));
@@ -46,9 +44,9 @@ const myOutputFileContents = myOutput.join("\n");
 /* Example file output
 
 {"index":{"_id":1}}
-{"keeper":32,"name":"Farm name 1","farmType":{"public":true}}
+{"keeper":32,"name":"Farm name 1","public":true}
 {"index":{"_id":2}}
-{"keeper":16,"name":"Farm name 2","farmType":{"public":true}}
+{"keeper":16,"name":"Farm name 2","public":true}
 
 */
 

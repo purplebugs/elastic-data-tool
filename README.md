@@ -84,9 +84,9 @@ This is an independent helper tool to create NDJSON file for Elasticsearch API `
 
 ```
 {"index":{"_id":1}}
-{"keeper":32,"name":"Farm name 1","farmType":{"public":true}}
+{"keeper":32,"name":"Farm name 1","public":true}
 {"index":{"_id":2}}
-{"keeper":16,"name":"Farm name 2","farmType":{"public":true}}
+{"keeper":16,"name":"Farm name 2","public":true}
 ```
 
 1. Pre-condition: search for getPublicFarms query and replace farm list with actual
