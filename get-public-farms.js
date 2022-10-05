@@ -20,6 +20,8 @@ const resultJSON = JSON.stringify(publicFarms);
 // Write to file which will write as one long line
 writeFileSync(`./data/public-farms-from-sql-${now}.json`, resultJSON);
 
+/******** to NDJSON file ********/
+
 // For creation of public farms index in Elasticsearch to be used as enrich pipeline
 
 let count = 1;
