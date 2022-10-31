@@ -9,7 +9,7 @@ export const connectToDb = async () => {
     host: "localhost",
     user: "root",
     password: process.env.MYSQL_PASSWORD,
-    database: "anita_database",
+    database: process.env.MYSQL_DATABASE,
   });
 
   return connection;

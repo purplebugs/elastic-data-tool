@@ -32,7 +32,8 @@ For the work in progress MySQL to JSON converter:
 - Create a .env file in the root of your project containing the MySql password
 
 ```
-MYSQL_PASSWORD="YOURPASSWORDGOESHERE"
+MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
+MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
 ```
 
 ## Use the app 🎷
