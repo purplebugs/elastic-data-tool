@@ -8,7 +8,6 @@ import {
 import { writeFileSync } from "fs";
 
 const now = Date.now().toString();
-const myOutput = [];
 
 /******** SQL to JSON ********/
 
