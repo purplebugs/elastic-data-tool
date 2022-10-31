@@ -37,10 +37,12 @@ MYSQL_PASSWORD="YOURPASSWORDGOESHERE"
 
 ## Use the app 🎷
 
-Pre-requisites
+### Pre-requisites
 
-1. Create folder at root level named [./data](./data) - used for locally storing JSON files that will not be committed to the repo
-2. JSON file is created from SQL query and stored in [./data](./data). Run `node sql-to-json.js` and look for generated file in [./data](./data)
+SQL -> JSON
+
+1. JSON file is created from .sql file dump and stored in [./data](./data)
+2. If this is not the case, follow the steps at [README-PREREQUISITES.md](README-PREREQUISITES.md)
 
 Steps 🪜
 
