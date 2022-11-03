@@ -29,7 +29,7 @@ POST grocery-store/_bulk
 
 For the work in progress MySQL to JSON converter:
 
-- Create a .env file in the root of your project containing the MySql password
+- Create a .env file in the root of your project containing MySQL config info
 
 ```
 MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
