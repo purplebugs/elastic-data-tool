@@ -43,7 +43,7 @@ MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
 SQL -> JSON
 
 1. JSON file is created from .sql file dump and stored in [./data](./data)
-2. If this is not the case, follow the steps at [pre-requisistes..md](pre-requisistes..md)
+2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes..md)
 
 Steps 🪜
 
