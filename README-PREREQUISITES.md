@@ -11,14 +11,14 @@
 
 ## .sql file dump -> Populate database
 
-6. Create folder at root level named [./data](./data)
-7. Add to `.gitignore` - For .sql, JSON files that will NOT be committed to the repo
-8. Store MySQL dump file there, eg `alpaca.sql`
-9. Change directory to folder `cd data`
-10. Populate database from MySQL dump `mysql -u root -p alpaca_database < alpaca.sql`
-11. Connect to MySQL `mysql -u root -p` and verify created `USE alpaca_database` and `SHOW TABLES`
+1. Create folder at root level named [./data](./data)
+2. Add to `.gitignore` - For .sql, JSON files that will NOT be committed to the repo
+3. Store MySQL dump file there, eg `alpaca.sql`
+4. Change directory to folder `cd data`
+5. Populate database from MySQL dump `mysql -u root -p alpaca_database < alpaca.sql`
+6. Connect to MySQL `mysql -u root -p` and verify created `USE alpaca_database` and `SHOW TABLES`
 
 ## SQL -> JSON
 
 1. Go to root directory of app
-1. Run `node sql-to-json.js` and look for generated file in [./data](./data)
+2. Run `node sql-to-json.js` and look for generated file in [./data](./data)
