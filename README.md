@@ -38,23 +38,23 @@ MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
 
 ## 2. Use the app 🎷
 
-### SQL -> JSON
+### SQL -> JSON 👾
 
 1. JSON file is created from .sql file dump and stored in [./data](./data)
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
 
-### JSON -> NDJSON -> import file to Elasticsearch
+### JSON -> NDJSON -> import file to Elasticsearch 💾
 
-Generate NDJSON file to import to Elasticsearch 💾
+Generate NDJSON file to import to Elasticsearch
 
 1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
 2. Run `node index`
 3. Look for the generated file in the directory
 4. Import this file to Elasticsearch
 
-### JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command
+### JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command 🤖
 
-Generate a POST body of an API \_bulk query 🤖
+Generate a POST body of an API \_bulk query
 
 1. Before running the script, uncomment the line that references `POST /_bulk` then at the final step use the contents of the generated file as the POST body
 2. Run Steps 1-3 above
@@ -62,7 +62,7 @@ Generate a POST body of an API \_bulk query 🤖
 
 ## 3. Use the app helpers 🐕‍🦺
 
-### Regenerate latest population data
+### Regenerate latest population data 👶
 
 Run the following, then update the file referenced by the app to use this latest file
 
@@ -83,7 +83,7 @@ Note: the app by default geo enriches using a static file
 {"municipalityNumber":"K-3002","municipalityName":"Moss","population":50290}
 ```
 
-### Get public farms
+### Get public farms 🦙
 
 - This is an independent helper tool to create NDJSON file for Elasticsearch API `POST /_bulk` command, eg
 
