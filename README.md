@@ -25,7 +25,7 @@ POST grocery-store/_bulk
 1. Clone repo and navigate to new repo
 2. Run `npm install`
 
-## First time users only 🪴
+### First time users only 🪴
 
 For the work in progress MySQL to JSON converter:
 
