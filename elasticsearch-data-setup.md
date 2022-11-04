@@ -265,7 +265,157 @@ GET alpacas-enriched-with-public-farm-flag/_search
 }
 ```
 
-## 4. Experiment
+## 4. Use alias to keep index up to date in an automated way 🦙 🤖
+
+Steps 🪜
+
+1. Create index template containing mappings used by indices starting with name eg. `alpacas-*`
+2. Alias eg. `alpacas` created used to point to latest index, eg `alpacas-2022-11-05_13-59`. Old index will be removed from the alias, new index added to the alias.
+
+Note
+
+- If the alias doesn’t exist, the request creates it. Ref [aliases.html#add-alias](https://www.elastic.co/guide/en/elasticsearch/reference/current/aliases.html#add-alias)
+- During this swap the alias will have no downtime. Ref [aliases.html#multiple-actions](https://www.elastic.co/guide/en/elasticsearch/reference/current/aliases.html#multiple-actions)
+
+```
+# Create index template
+
+PUT _index_template/alpacas_template
+{
+  "index_patterns": "alpacas-*",
+  "template": {
+    "mappings": {
+      "properties": {
+        "alpacaId": {
+          "type": "long"
+        },
+        "alpacaShortName": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "city": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "color1": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "country": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "dateOfBirth": {
+          "type": "date"
+        },
+        "dateOfDeath": {
+          "type": "date"
+        },
+        "gender": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "keeper": {
+          "type": "long"
+        },
+        "location": {
+          "properties": {
+            "coordinates": {
+              "type": "geo_point"
+            }
+          }
+        },
+        "name": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "street": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "webpage": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        },
+        "zip": {
+          "type": "text",
+          "fields": {
+            "keyword": {
+              "type": "keyword",
+              "ignore_above": 256
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+```
+
+```
+# Alias points to latest index
+
+POST _aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "alpacas-2022-09-01_11-20",
+        "alias": "alpacas"
+      }
+    },
+    {
+      "add": {
+        "index": "alpacas-2022-11-05_13-59",
+        "alias": "alpacas"
+      }
+    }
+  ]
+}
+```
+
+## 5. Experiment
 
 ### Calculate human to alpaca ratio 🦙 🧮
 

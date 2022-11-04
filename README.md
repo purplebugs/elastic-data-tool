@@ -27,7 +27,7 @@ POST grocery-store/_bulk
 
 ### First time users only 🪴
 
-For the work in progress MySQL to JSON converter:
+MySQL to JSON converter:
 
 - Create a .env file in the root of your project containing MySQL config info
 
@@ -59,6 +59,8 @@ Generate a POST body of an API \_bulk query
 1. Before running the script, uncomment the line that references `POST /_bulk` then at the final step use the contents of the generated file as the POST body
 2. Run Steps 1-3 above
 3. Use the contents of generated file as the POST body of an `POST /_bulk` to copy into Kibana DevTools
+
+- In progress: doing this in an automated way using the Elasticsearch client and aliases
 
 ## 3. Use the app helpers 🐕‍🦺
 
