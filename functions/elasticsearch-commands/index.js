@@ -132,7 +132,7 @@ const template = {
   },
 };
 
-const alpacaDocument = {
+const alpacaDocument_1 = {
   zip: "0577",
   country: "NO",
   alpacaId: 9876543210,
@@ -143,6 +143,34 @@ const alpacaDocument = {
   keeper: 30,
   dateOfBirth: null,
   color1: "COLOR_LIGHT_FAWN",
+  public: false,
+  farmType: {
+    public: true,
+    keeper: 30,
+  },
+  street: "Alpaca street",
+  name: "Anita's Alpacas",
+  populationByMunicipality: "not found",
+  location: {
+    kommunenavn: null,
+    coordinates: [null, null],
+    kommunenummer: null,
+    type: "Point",
+  },
+  webpage: "http://www.AnitaLovesAlpacas.com/",
+};
+
+const alpacaDocument_2 = {
+  zip: "0577",
+  country: "NO",
+  alpacaId: 9999943210,
+  gender: "SEX_MALE",
+  alpacaShortName: "THOR IS COOL",
+  city: "Tøyen",
+  dateOfDeath: null,
+  keeper: 30,
+  dateOfBirth: null,
+  color1: "COLOR_BLACK",
   public: false,
   farmType: {
     public: true,
@@ -180,16 +208,15 @@ async function setupIndices() {
     );
   }
 
+  // TODO create the index using the NDJSON generated from SQL database instead
   const resultCreateIndexTemplate = await client.bulk({
     index: "alpacas",
-    body: [{ create: {} }, alpacaDocument],
+    body: [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
   });
 
   console.log(
     `[LOG] Result of create index: ${JSON.stringify(resultCreateIndexTemplate)}`
   );
-
-  // TODO create the index using the NDJSON generated from SQL database
 }
 
 setupIndices().catch(console.log);
