@@ -13,7 +13,9 @@ const client = new Client({
   },
 });
 
-const indexTemplateName = "alpacas_template";
+const indexName = "alpacas";
+const indexTemplateName = `${indexName}_template`;
+const indexPatterns = `${indexName}-*`;
 
 // TODO do I want to create alias as part of the template?
 // TODO Instead POST _aliases actions remove "alpacas-*" add "alpacas-newly-created"
@@ -188,7 +190,7 @@ const alpacaDocument_2 = {
   webpage: "http://www.AnitaLovesAlpacas.com/",
 };
 
-async function setupIndices() {
+async function createIndexWithDocuments(index) {
   const indexTemplateExists = await client.indices.existsIndexTemplate({
     name: indexTemplateName,
   });
@@ -210,7 +212,7 @@ async function setupIndices() {
 
   // TODO create the index using the NDJSON generated from SQL database instead
   const resultCreateIndexTemplate = await client.bulk({
-    index: "alpacas",
+    index: indexName,
     body: [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
   });
 
@@ -219,4 +221,4 @@ async function setupIndices() {
   );
 }
 
-setupIndices().catch(console.log);
+createIndexWithDocuments(indexName).catch(console.log);
