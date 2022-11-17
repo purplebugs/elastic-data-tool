@@ -13,7 +13,11 @@ const client = new Client({
   },
 });
 
-const template = JSON.stringify({
+const indexTemplateName = "alpacas_template";
+
+const template = {
+  name: indexTemplateName,
+  create: true,
   index_patterns: "alpacas-*",
   template: {
     mappings: {
@@ -121,19 +125,29 @@ const template = JSON.stringify({
       },
     },
   },
-});
+};
 
 async function setupIndices() {
-  // TODO create the index template
-  // const result = await client.indices.putTemplate("alpacas_template", template);
-
-  // TODO create the index
-
-  const result = await client.indices.existsIndexTemplate({
-    name: "alpacas_template",
+  const indexTemplateExists = await client.indices.existsIndexTemplate({
+    name: indexTemplateName,
   });
 
-  console.log(result);
+  console.log(`[LOG] Index template exists: ${indexTemplateExists}`);
+
+  if (!indexTemplateExists) {
+    console.log("[LOG] Index template does not exit, create");
+    const resultCreateIndexTemplate = await client.indices.putIndexTemplate(
+      template
+    );
+
+    console.log(
+      `[LOG] Result of create index template: ${JSON.stringify(
+        resultCreateIndexTemplate
+      )}`
+    );
+  }
+
+  // TODO create the index
 }
 
 setupIndices().catch(console.log);
