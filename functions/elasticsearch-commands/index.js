@@ -15,6 +15,8 @@ const client = new Client({
 
 const indexTemplateName = "alpacas_template";
 
+// TODO do I want to create alias as part of the template?
+// TODO Instead POST _aliases actions remove "alpacas-*" add "alpacas-newly-created"
 const template = {
   name: indexTemplateName,
   create: true,
@@ -124,7 +126,39 @@ const template = {
         },
       },
     },
+    aliases: {
+      alpacas: {},
+    },
   },
+};
+
+const alpacaIndexId = { index: { _index: "alpacas", _id: "1" } };
+const alpacaDocument = {
+  zip: "0577",
+  country: "NO",
+  alpacaId: 9876543210,
+  gender: "SEX_FEMALE",
+  alpacaShortName: "ANITA IS COOL",
+  city: "Tøyen",
+  dateOfDeath: null,
+  keeper: 30,
+  dateOfBirth: null,
+  color1: "COLOR_LIGHT_FAWN",
+  public: false,
+  farmType: {
+    public: true,
+    keeper: 30,
+  },
+  street: "Alpaca street",
+  name: "Anita's Alpacas",
+  populationByMunicipality: "not found",
+  location: {
+    kommunenavn: null,
+    coordinates: [null, null],
+    kommunenummer: null,
+    type: "Point",
+  },
+  webpage: "http://www.AnitaLovesAlpacas.com/",
 };
 
 async function setupIndices() {
@@ -147,7 +181,15 @@ async function setupIndices() {
     );
   }
 
-  // TODO create the index
+  const resultCreateIndexTemplate = await client.bulk({
+    body: [alpacaIndexId, alpacaDocument],
+  });
+
+  console.log(
+    `[LOG] Result of create index: ${JSON.stringify(resultCreateIndexTemplate)}`
+  );
+
+  // TODO create the index using the NDJSON generated from SQL database
 }
 
 setupIndices().catch(console.log);
