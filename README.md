@@ -29,11 +29,21 @@ POST grocery-store/_bulk
 
 MySQL to JSON converter:
 
-- Create a .env file in the root of your project containing MySQL config info
+- An .env file in the root of your project should contain the keys
 
 ```
 MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
 MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
+```
+
+NDJSON file to Elasticsearch index:
+
+- An .env file in the root of your project should contain the keys
+
+```
+ELASTIC_CLOUD_ID="UPDATE-ME"
+ELASTIC_USERNAME="UPDATE-ME"
+ELASTIC_PASSWORD="UPDATE-ME"
 ```
 
 ## 2. Use the app 🎷
@@ -60,7 +70,7 @@ Generate a POST body of an API \_bulk query
 2. Run Steps 1-3 above
 3. Use the contents of generated file as the POST body of an `POST /_bulk` to copy into Kibana DevTools
 
-- In progress: automate with Elasticsearch client and aliases
+- In progress: automate with Elasticsearch client and aliases `node functions/elasticsearch-commands/index.js`
 
 ## 3. Use the app helpers 🐕‍🦺
 
