@@ -132,7 +132,6 @@ const template = {
   },
 };
 
-const alpacaIndexId = { index: { _index: "alpacas", _id: "1" } };
 const alpacaDocument = {
   zip: "0577",
   country: "NO",
@@ -182,7 +181,8 @@ async function setupIndices() {
   }
 
   const resultCreateIndexTemplate = await client.bulk({
-    body: [alpacaIndexId, alpacaDocument],
+    index: "alpacas",
+    body: [{ create: {} }, alpacaDocument],
   });
 
   console.log(
