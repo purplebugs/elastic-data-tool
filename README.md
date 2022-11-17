@@ -13,11 +13,11 @@ Personal learning project which should result in a greater understanding of how 
 - JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command, eg
 
 ```
-POST grocery-store/_bulk
+POST alpacas/_bulk
 {"index":{"_id":1}}
-{"title": "Eple og Ingefærjuice", "category": "Juice og fruktdrikker", "subCategory": "Frukt- og bærjuice"}
+{"country": "NO","alpacaId":9876543210,"keeper":0123456789,"gender":"SEX_FEMALE","alpacaShortName":"ANITA IS COOL","name":"Anita's Alpacas"}
 {"index":{"_id":2}}
-{"title": "Grans Taffel Eple", "category": "Vann og mineralvann", "subCategory": "Vann med kullsyre"}Op
+{"country": "NO","alpacaId":9999543210,"keeper":0123456789,"gender":"SEX_MALE","alpacaShortName":"THOR IS COOL","name":"Anita's Alpacas"}
 ```
 
 ## 1. Install app 🐣
