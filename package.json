@@ -24,9 +24,9 @@
   "homepage": "https://github.com/purplebugs/elastic-data-tool#readme",
   "type": "module",
   "dependencies": {
-    "@elastic/elasticsearch": "^8.5.0",
+    "@elastic/elasticsearch": "^8.6.0",
     "dotenv": "^16.0.3",
-    "mysql2": "^2.3.3",
+    "mysql2": "^3.0.1",
     "node-fetch": "^3.3.0"
   }
 }
