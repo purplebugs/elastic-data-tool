@@ -22,7 +22,7 @@ const indexPatterns = `${indexName}-*`;
 const template = {
   name: indexTemplateName,
   create: true,
-  index_patterns: "alpacas-*",
+  index_patterns: indexPatterns,
   template: {
     mappings: {
       properties: {
@@ -190,15 +190,19 @@ const alpacaDocument_2 = {
   webpage: "http://www.AnitaLovesAlpacas.com/",
 };
 
-async function createIndexWithDocuments(index) {
+async function createIndexWithDocuments(indexName) {
   const indexTemplateExists = await client.indices.existsIndexTemplate({
     name: indexTemplateName,
   });
 
-  console.log(`[LOG] Index template exists: ${indexTemplateExists}`);
+  console.log(
+    `[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`
+  );
 
   if (!indexTemplateExists) {
-    console.log("[LOG] Index template does not exit, create");
+    console.log(
+      `[LOG] Index template: ${indexTemplateName} does not exist, create`
+    );
     const resultCreateIndexTemplate = await client.indices.putIndexTemplate(
       template
     );
