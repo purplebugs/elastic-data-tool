@@ -71,7 +71,7 @@ Generate a POST body of an API \_bulk query
 2. Run Steps 1-3 above
 3. Use the contents of generated file as the POST body of an `POST /_bulk` to copy into Kibana DevTools
 
-- In progress: automate with Elasticsearch client and aliases `node functions/elasticsearch-commands/index.js`
+- In progress: automate with Elasticsearch client `node functions/elasticsearch-commands/index.js`
 
 ## 3. Use the app helpers 🐕‍🦺
 
