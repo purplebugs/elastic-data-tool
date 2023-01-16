@@ -52,6 +52,7 @@ ELASTIC_PASSWORD="UPDATE-ME"
 
 1. JSON file is created from .sql file dump and stored in [./data](./data)
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
+3. Run `node sql-to-json.js`
 
 ### JSON -> NDJSON -> import file to Elasticsearch 💾
 
