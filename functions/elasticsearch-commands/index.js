@@ -13,12 +13,10 @@ const client = new Client({
   },
 });
 
-const indexName = "alpacas";
-const indexTemplateName = `${indexName}_template`;
-const indexPatterns = `${indexName}-*`;
+const indexName = `alpacas`;
+const indexTemplateName = `alpacas_template`;
+const indexPatterns = `alpacas-*`;
 
-// TODO do I want to create alias as part of the template?
-// TODO Instead POST _aliases actions remove "alpacas-*" add "alpacas-newly-created"
 const template = {
   name: indexTemplateName,
   create: true,
@@ -190,6 +188,17 @@ const alpacaDocument_2 = {
   webpage: "http://www.AnitaLovesAlpacas.com/",
 };
 
+const CreateIndexName = (indexName) => {
+  const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
+
+  const date = new Date();
+  const month = addLeadingZero(date.getMonth() + 1);
+  const day = addLeadingZero(date.getDate());
+  const hours = addLeadingZero(date.getHours());
+  const minutes = addLeadingZero(date.getMinutes());
+  return `${indexName}-${date.getFullYear()}-${month}-${day}_${hours}-${minutes}`;
+};
+
 async function createIndexWithDocuments(indexName) {
   const indexTemplateExists = await client.indices.existsIndexTemplate({
     name: indexTemplateName,
@@ -223,6 +232,30 @@ async function createIndexWithDocuments(indexName) {
   console.log(
     `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
   );
+
+  // TODO update alias
+
+  /*
+
+  POST _aliases
+{
+  "actions": [
+    {
+      "remove": {
+        "index": "alpacas-*",
+        "alias": "alpacas"
+      }
+    },
+    {
+      "add": {
+        "index": "alpacas-the-new-date",
+        "alias": "alpacas"
+      }
+    }
+  ]
 }
 
-createIndexWithDocuments(indexName).catch(console.log);
+  */
+}
+
+createIndexWithDocuments(CreateIndexName(indexName)).catch(console.log);
