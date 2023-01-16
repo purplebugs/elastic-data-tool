@@ -199,6 +199,41 @@ const CreateIndexName = (indexName) => {
   return `${indexName}-${date.getFullYear()}-${month}-${day}_${hours}-${minutes}`;
 };
 
+const SwitchAlias = async (newIndexName, aliasName) => {
+  let actions = [
+    {
+      add: {
+        index: newIndexName,
+        alias: indexName,
+      },
+    },
+  ];
+
+  // TODO can check to remove old alias only if exists, meanwhile simply remove all that match
+  actions.unshift({
+    remove: {
+      index: `alpacas-*`,
+      alias: indexName,
+    },
+  });
+
+  console.log("[LOG] Alias actions: ", actions);
+
+  try {
+    await client.indices.updateAliases({
+      body: {
+        actions: actions,
+      },
+    });
+    return true;
+  } catch (error) {
+    console.error(JSON.stringify(error));
+    return false;
+  }
+};
+
+const indexNameWithTimestamp = CreateIndexName(indexName);
+
 async function createIndexWithDocuments(indexName) {
   const indexTemplateExists = await client.indices.existsIndexTemplate({
     name: indexTemplateName,
@@ -233,29 +268,16 @@ async function createIndexWithDocuments(indexName) {
     `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
   );
 
-  // TODO update alias
+  const resultSwitchAlias = await SwitchAlias(
+    indexNameWithTimestamp,
+    indexName
+  );
 
-  /*
+  console.log(
+    `[LOG] Result of switch alias: ${JSON.stringify(resultSwitchAlias)}`
+  );
 
-  POST _aliases
-{
-  "actions": [
-    {
-      "remove": {
-        "index": "alpacas-*",
-        "alias": "alpacas"
-      }
-    },
-    {
-      "add": {
-        "index": "alpacas-the-new-date",
-        "alias": "alpacas"
-      }
-    }
-  ]
+  // TODO remove old indices
 }
 
-  */
-}
-
-createIndexWithDocuments(CreateIndexName(indexName)).catch(console.log);
+createIndexWithDocuments(indexNameWithTimestamp).catch(console.log);
