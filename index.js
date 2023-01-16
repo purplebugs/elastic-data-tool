@@ -1,4 +1,5 @@
-import { readFileSync, writeFileSync } from "fs";
+import { writeFileSync } from "fs";
+import fileReader from "./functions/fileReader.js";
 import { getLatLongFromGeoNorge } from "./functions/geo-decode.js";
 import { populationByMunicipalityLookup } from "./functions/geo-enrich/population-by-municipality.js";
 
@@ -10,11 +11,7 @@ const myOutput = [];
 // Edit this file name as needed
 const jsonFileToConvertToNDJSON = "alpacas-address-camelCase-several-only.json";
 
-// Read file from disk
-const myFile = readFileSync(`./data/${jsonFileToConvertToNDJSON}`);
-
-// Parse file
-const myParsedFile = JSON.parse(myFile);
+const myParsedFile = fileReader(jsonFileToConvertToNDJSON);
 
 // Loop over all items
 
