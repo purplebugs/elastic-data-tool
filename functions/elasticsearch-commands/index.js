@@ -215,13 +215,13 @@ async function createIndexWithDocuments(indexName) {
   }
 
   // TODO create the index using the NDJSON generated from SQL database instead
-  const resultCreateIndexTemplate = await client.bulk({
+  const resultCreateIndex = await client.bulk({
     index: indexName,
     body: [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
   });
 
   console.log(
-    `[LOG] Result of create index: ${JSON.stringify(resultCreateIndexTemplate)}`
+    `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
   );
 }
 
