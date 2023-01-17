@@ -265,7 +265,6 @@ export default async function createIndexWithDocuments(alpacaArray) {
     );
   }
 
-  console.log("------- indexNameWithTimestamp---", indexNameWithTimestamp);
   const resultCreateIndex = await client.bulk({
     index: indexNameWithTimestamp,
     body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2], // alpacaArray,
