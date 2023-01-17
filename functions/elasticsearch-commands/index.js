@@ -188,6 +188,13 @@ const alpacaDocument_2 = {
   webpage: "http://www.AnitaLovesAlpacas.com/",
 };
 
+// const alpacaArray = [
+//   { create: {} },
+//   alpacaDocument_1,
+//   { create: {} },
+//   alpacaDocument_2,
+// ];
+
 const CreateIndexName = (indexName) => {
   const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
 
@@ -232,9 +239,9 @@ const SwitchAlias = async (newIndexName, aliasName) => {
   }
 };
 
-const indexNameWithTimestamp = CreateIndexName(indexName);
+export default async function createIndexWithDocuments(alpacaArray) {
+  const indexNameWithTimestamp = CreateIndexName(indexName);
 
-async function createIndexWithDocuments(indexName) {
   const indexTemplateExists = await client.indices.existsIndexTemplate({
     name: indexTemplateName,
   });
@@ -258,10 +265,10 @@ async function createIndexWithDocuments(indexName) {
     );
   }
 
-  // TODO create the index using the NDJSON generated from SQL database instead
+  console.log("------- indexNameWithTimestamp---", indexNameWithTimestamp);
   const resultCreateIndex = await client.bulk({
-    index: indexName,
-    body: [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
+    index: indexNameWithTimestamp,
+    body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2], // alpacaArray,
   });
 
   console.log(
@@ -280,4 +287,4 @@ async function createIndexWithDocuments(indexName) {
   // TODO remove old indices
 }
 
-createIndexWithDocuments(indexNameWithTimestamp).catch(console.log);
+// await createIndexWithDocuments(alpacaArray); //.catch(console.log);

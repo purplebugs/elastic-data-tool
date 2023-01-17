@@ -1,7 +1,7 @@
 import { getLatLongFromGeoNorge } from "./geo-decode.js";
 import { populationByMunicipalityLookup } from "./geo-enrich/population-by-municipality.js";
 
-export default async function fileTransformer(file) {
+export default async function fileTransformer(file, bulkSyntax) {
   // Loop over all items
 
   const myOutput = [];
@@ -22,11 +22,17 @@ export default async function fileTransformer(file) {
     const geoEnrichObj = populationByMunicipalityLookup(geoDecodedObj);
     const geoEnrichedObj = Object.assign(geoDecodedObj, geoEnrichObj);
 
-    // Uncomment for Elasticsearch POST /_bulk body format
-    // myOutput.push(JSON.stringify({ index: { _id: count } }));
+    if (bulkSyntax) {
+      // For Elasticsearch POST /_bulk body format
+      //[{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
 
-    // conveniently stringify also removes spaces
-    myOutput.push(JSON.stringify(geoEnrichedObj));
+      myOutput.push({ create: {} });
+      myOutput.push(geoEnrichedObj);
+    } else {
+      // conveniently stringify also removes spaces
+      myOutput.push(JSON.stringify(geoEnrichedObj));
+    }
+    //console.log(myOutput);
 
     count++;
   }

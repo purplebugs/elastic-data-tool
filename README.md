@@ -54,24 +54,21 @@ ELASTIC_PASSWORD="UPDATE-ME"
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
 3. Run `node sql-to-json.js`
 
+### JSON -> Elasticsearch client -> auto create index 🤖
+
+Automate with Elasticsearch client
+
+1. Created index in Elasticsearch from existing JSON file: `node elastic-bulk.js`
+2. Verify the index was created in Elasticsearch Dev Tools: `GET alpacas/_search` - note it uses an alias that is updated `GET _alias/alpacas`
+
 ### JSON -> NDJSON -> import file to Elasticsearch 💾
 
-Generate NDJSON file to import to Elasticsearch
+Generate NDJSON file to import manually to Elasticsearch
 
 1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
 2. Run `node index`
 3. Look for the generated file in the directory
 4. Import this file to Elasticsearch
-
-### JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command 🤖
-
-Generate a POST body of an API \_bulk query
-
-1. Before running the script, uncomment the line that references `POST /_bulk` then at the final step use the contents of the generated file as the POST body
-2. Run Steps 1-3 above
-3. Use the contents of generated file as the POST body of an `POST /_bulk` to copy into Kibana DevTools
-
-- In progress: automate with Elasticsearch client `node functions/elasticsearch-commands/index.js`
 
 ## 3. Use the app helpers 🐕‍🦺
 
