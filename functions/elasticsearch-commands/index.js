@@ -285,5 +285,3 @@ export default async function createIndexWithDocuments(alpacaArray) {
 
   // TODO remove old indices
 }
-
-// await createIndexWithDocuments(alpacaArray); //.catch(console.log);
