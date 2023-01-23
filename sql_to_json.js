@@ -1,5 +1,6 @@
+import { connectToDb } from "./functions/sql-queries/connect_to_db.js";
+
 import {
-  connectToDb,
   getAlpacaRegistries,
   getAlpacaIdsFromNorwegianRegistry,
   getAlpacaDetails,
