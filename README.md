@@ -106,7 +106,7 @@ Note: the app by default geo enriches using a static file
 ```
 
 1. Pre-condition: search for getPublicFarms query and replace farm list with actual
-1. Run `node get-public-farms.js` and look at console log and for file in [./data](./data)
+1. Run `node get_public_farms.js` and look at console log and for file in [./data](./data)
 
 ## Create data in Elasticsearch from scratch 🎸
 
