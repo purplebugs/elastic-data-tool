@@ -1,9 +1,10 @@
+import { connectToDb } from "./functions/sql_queries/connect_to_db.js";
+
 import {
-  connectToDb,
   getAlpacaRegistries,
   getAlpacaIdsFromNorwegianRegistry,
   getAlpacaDetails,
-} from "./functions/sql-queries/getAlpacas.js";
+} from "./functions/sql_queries/get_alpacas.js";
 
 import { writeFileSync } from "fs";
 

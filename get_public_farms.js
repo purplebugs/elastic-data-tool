@@ -1,7 +1,6 @@
-import {
-  connectToDb,
-  getPublicFarms,
-} from "./functions/sql-queries/getPublicFarms.js";
+import { connectToDb } from "./functions/sql_queries/connect_to_db.js";
+
+import { getPublicFarms } from "./functions/sql_queries/get_public_farms.js";
 
 import { writeFileSync } from "fs";
 

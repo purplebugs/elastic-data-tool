@@ -52,7 +52,8 @@ ELASTIC_PASSWORD="UPDATE-ME"
 
 1. JSON file is created from .sql file dump and stored in [./data](./data)
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
-3. Run `node sql-to-json.js`
+3. Start MySQL server `mysql.server start`
+4. Run `node sql_to_json.js`
 
 ### JSON -> Elasticsearch client -> auto create index 🤖
 
@@ -105,7 +106,7 @@ Note: the app by default geo enriches using a static file
 ```
 
 1. Pre-condition: search for getPublicFarms query and replace farm list with actual
-1. Run `node get-public-farms.js` and look at console log and for file in [./data](./data)
+1. Run `node get_public_farms.js` and look at console log and for file in [./data](./data)
 
 ## Create data in Elasticsearch from scratch 🎸
 

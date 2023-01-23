@@ -21,4 +21,4 @@
 ## 3. SQL -> JSON
 
 1. Go to root directory of app
-2. Run `node sql-to-json.js` and look for generated file in [./data](./data)
+2. Run `node sql_to_json.js` and look for generated file in [./data](./data)
