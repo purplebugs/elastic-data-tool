@@ -4,7 +4,7 @@ import {
   getAlpacaRegistries,
   getAlpacaIdsFromNorwegianRegistry,
   getAlpacaDetails,
-} from "./functions/sql_queries/getAlpacas.js";
+} from "./functions/sql_queries/get_alpacas.js";
 
 import { writeFileSync } from "fs";
 
