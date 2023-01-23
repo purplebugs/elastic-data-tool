@@ -31,9 +31,19 @@ MySQL to JSON converter:
 
 - An .env file in the root of your project should contain the keys
 
+MySQL running locally
+
 ```
 MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
 MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
+```
+
+Work in progress: Azure portal MySQL for running `node functions/sql_queries/azure_mysql_createtable.js`
+
+```
+MYSQL_AZURE_USER="adminanita"
+MYSQL_AZURE_PASSWORD="animals w0w! go"
+MYSQL_AZURE_DATABASE="test_database"
 ```
 
 NDJSON file to Elasticsearch index:
