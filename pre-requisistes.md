@@ -1,5 +1,15 @@
 # Pre-requisites 🦙 💾
 
+MySQL on Azure portal
+
+## 1. .sql file dump -> Populate database on Azure
+
+1. Create database in Azure account named eg `alpaca_database`
+2. Go to the directory containing the .sql database file to import
+3. Run `mysql -h {my azure db server name}.mysql.database.azure.com -u {my azure server admin login name} -p alpaca_database < {my_database_file.sql}`
+
+MySQL running locally
+
 ## 1. Create empty database
 
 1. MySQL is installed locally
