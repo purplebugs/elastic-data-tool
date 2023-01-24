@@ -3,8 +3,10 @@ const configuration = dotenv.config();
 import mysql2 from "mysql2";
 import { readFileSync } from "fs";
 
-// Ref: https://learn.microsoft.com/en-us/azure/mysql/single-server/connect-nodejs
-// TODO Solve Error: self signed certificate in certificate chain
+// Ref: https://learn.microsoft.com/en-us/azure/mysql/single-server/connect-nodejs - though do not get certificate from here
+
+// Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and store in ./data folder
+
 var config = {
   host: process.env.MYSQL_AZURE_HOST,
   user: process.env.MYSQL_AZURE_USER,
@@ -12,8 +14,7 @@ var config = {
   database: process.env.MYSQL_AZURE_DATABASE,
   port: 3306,
   ssl: {
-    ca: readFileSync("./data/D-TRUST_Root_Class_3_CA_2_2009.crt"),
-    //ca: readFileSync("./data/BaltimoreCyberTrustRoot.crt.pem"),
+    ca: readFileSync("./data/DigiCertGlobalRootCA.crt.pem"),
   },
 };
 

@@ -38,7 +38,10 @@ MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
 MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
 ```
 
-Work in progress: Azure portal MySQL for running `node functions/sql_queries/azure_mysql_createtable.js`
+Work in progress:
+
+- Azure portal MySQL for running `node functions/sql_queries/azure_mysql_createtable.js`
+- Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and store in ./data folder
 
 ```
 MYSQL_AZURE_USER="adminanita"
