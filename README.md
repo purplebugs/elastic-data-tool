@@ -67,7 +67,7 @@ ELASTIC_PASSWORD="UPDATE-ME"
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
 3. Start MySQL server `mysql.server start`
 4. Run `node sql_to_json.js`
-5. MySQL on Azure portal - Work in progress: Manually update
+5. MySQL on Azure portal - Work in progress: Manually update command in [sql_to_json.js](sql_to_json.js)
 
 ### JSON -> Elasticsearch client -> auto create index 🤖
 
