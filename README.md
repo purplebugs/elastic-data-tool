@@ -44,7 +44,7 @@ Work in progress:
 - Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and store in ./data folder
 
 ```
-MYSQL_AZURE_USER="adminanita"
+MYSQL_AZURE_USER="some user"
 MYSQL_AZURE_PASSWORD=enter password"
 MYSQL_AZURE_DATABASE="test_database"
 ```
