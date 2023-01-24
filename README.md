@@ -45,7 +45,7 @@ Work in progress:
 
 ```
 MYSQL_AZURE_USER="adminanita"
-MYSQL_AZURE_PASSWORD="animals w0w! go"
+MYSQL_AZURE_PASSWORD=enter password"
 MYSQL_AZURE_DATABASE="test_database"
 ```
 
