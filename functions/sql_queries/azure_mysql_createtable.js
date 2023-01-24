@@ -14,7 +14,7 @@ var config = {
   database: process.env.MYSQL_AZURE_DATABASE,
   port: 3306,
   ssl: {
-    ca: readFileSync("./data/DigiCertGlobalRootCA.crt.pem"),
+    ca: readFileSync(`./data/${process.env.MYSQL_AZURE_CERTIFICATE}`),
   },
 };
 
@@ -61,6 +61,7 @@ function queryDatabase() {
       console.log("Inserted " + results.affectedRows + " row(s).");
     }
   );
+
   conn.query(
     "INSERT INTO inventory (name, quantity) VALUES (?, ?);",
     ["apple", 100],

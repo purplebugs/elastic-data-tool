@@ -38,20 +38,19 @@ MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
 MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
 ```
 
-Work in progress:
+Azure portal MySQL - Work in progress
 
-- Azure portal MySQL for running `node functions/sql_queries/azure_mysql_createtable.js`
-- Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and store in ./data folder
+- Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and put in the [./data](./data) folder
+- Run test command with `node functions/sql_queries/azure_mysql_createtable.js`
 
 ```
 MYSQL_AZURE_USER="some user"
 MYSQL_AZURE_PASSWORD=enter password"
 MYSQL_AZURE_DATABASE="test_database"
+MYSQL_AZURE_CERTIFICATE="enter certificate file name"
 ```
 
-NDJSON file to Elasticsearch index:
-
-- An .env file in the root of your project should contain the keys
+NDJSON file to Elasticsearch index
 
 ```
 ELASTIC_CLOUD_ID="UPDATE-ME"
