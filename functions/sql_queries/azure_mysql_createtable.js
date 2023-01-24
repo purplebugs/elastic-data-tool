@@ -7,11 +7,11 @@ import { readFileSync } from "fs";
 
 // Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and store in ./data folder
 
-var config = {
+let config = {
   host: process.env.MYSQL_AZURE_HOST,
   user: process.env.MYSQL_AZURE_USER,
   password: process.env.MYSQL_AZURE_PASSWORD,
-  database: process.env.MYSQL_AZURE_DATABASE,
+  database: process.env.MYSQL_AZURE_TEST_DATABASE,
   port: 3306,
   ssl: {
     ca: readFileSync(`./data/${process.env.MYSQL_AZURE_CERTIFICATE}`),

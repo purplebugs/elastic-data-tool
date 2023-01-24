@@ -13,6 +13,8 @@ const now = Date.now().toString();
 /******** SQL to JSON ********/
 
 const connection = await connectToDb();
+// TODO use cloud = true somewhere in app based on command line flag for MySQL Azure db, eg
+// const connection = await connectToDb(true);
 const [alpacaRegistries] = await getAlpacaRegistries(connection);
 console.log("alpacaRegistries", alpacaRegistries);
 

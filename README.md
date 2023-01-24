@@ -46,7 +46,8 @@ MySQL on Azure portal - Work in progress
 ```
 MYSQL_AZURE_USER="some user"
 MYSQL_AZURE_PASSWORD=enter password"
-MYSQL_AZURE_DATABASE="test_database"
+MYSQL_AZURE_DATABASE="actual database for the app"
+MYSQL_AZURE_TEST_DATABASE="database to test command"
 MYSQL_AZURE_CERTIFICATE="enter certificate file name"
 ```
 
@@ -66,6 +67,7 @@ ELASTIC_PASSWORD="UPDATE-ME"
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
 3. Start MySQL server `mysql.server start`
 4. Run `node sql_to_json.js`
+5. MySQL on Azure portal - Work in progress: Manually update
 
 ### JSON -> Elasticsearch client -> auto create index 🤖
 
