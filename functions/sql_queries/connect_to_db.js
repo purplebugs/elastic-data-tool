@@ -1,7 +1,6 @@
-// import dotenv from "dotenv";
-// const config = dotenv.config();
-import { config } from "../../config.js";
+import config from "../../config/config.js";
 import pkg from "mysql2/promise";
+
 // import { readFileSync } from "fs";
 
 const configLocal = {
@@ -22,7 +21,7 @@ const configAzure = {
   ssl: {
     ca: readFileSync(`./data/${process.env.MYSQL_AZURE_CERTIFICATE}`),
   },
-};
+}
 */
 
 export const connectToDb = async () => {

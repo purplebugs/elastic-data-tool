@@ -1,21 +1,19 @@
-import pkg from "convict";
-const { addFormat } = pkg;
+import dotenv from "dotenv";
+dotenv.config();
+import convict from "convict";
 
-addFormat(require("convict-format-with-validator").ipaddress);
+import * as url from "url";
+
+//addFormat(require("convict-format-with-validator").ipaddress);
 
 // Define a schema
 const config = convict({
   env: {
-    doc: "The application environment.",
-    format: ["production", "development", "test"],
-    default: "development",
+    doc: "Environments",
+    format: ["local", "test", "production"],
+    default: "local",
     env: "NODE_ENV",
-  },
-  ip: {
-    doc: "The IP address to bind.",
-    format: "ipaddress",
-    default: "127.0.0.1",
-    env: "IP_ADDRESS",
+    arg: "env",
   },
   port: {
     doc: "The port to bind.",
@@ -33,29 +31,30 @@ const config = convict({
     name: {
       doc: "Database name",
       format: String,
+      default: "my database",
       env: "MYSQL_DATABASE",
     },
     user: {
       doc: "User with write access",
       format: String,
+      default: "my user",
       env: "MYSQL_USER",
     },
     password: {
+      default: "my password",
       env: "MYSQL_PASSWORD",
     },
-  },
-  admin: {
-    doc: "User with write access",
-    format: String,
-    default: "root",
   },
 });
 
 // Load environment dependent configuration
 const env = config.get("env");
-config.loadFile("./config/" + env + ".json");
+config.loadFile(
+  url.fileURLToPath(new URL(`./config.${env}.json`, import.meta.url))
+);
 
 // Perform validation
-config.validate({ allowed: "strict" });
+config.validate();
+//config.validate({ allowed: "strict" });
 
-module.exports = config;
+export default config;
