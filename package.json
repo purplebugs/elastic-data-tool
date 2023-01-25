@@ -25,6 +25,7 @@
   "type": "module",
   "dependencies": {
     "@elastic/elasticsearch": "^8.6.0",
+    "convict": "^6.2.4",
     "dotenv": "^16.0.3",
     "mysql2": "^3.0.1",
     "node-fetch": "^3.3.0"
