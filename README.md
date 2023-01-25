@@ -43,6 +43,10 @@ MySQL on Azure portal - Work in progress
 - Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and put in the [./data](./data) folder
 - Run test command with `node functions/sql_queries/azure_mysql_createtable.js`
 
+- TODO ANITA CLEANUP README! AND SWITCH .env AUTOMATED WAY
+- Run in test mode: Switch .env manually for now and run `npm run sql_to_json_test`
+- Run in local mode: Switch .env manually for now and run `npm run sql_to_json`
+
 ```
 MYSQL_AZURE_USER="some user"
 MYSQL_AZURE_PASSWORD=enter password"

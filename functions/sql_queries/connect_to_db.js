@@ -1,7 +1,7 @@
 import config from "../../config/config.js";
 import pkg from "mysql2/promise";
 
-// import { readFileSync } from "fs";
+import { readFileSync } from "fs";
 
 const dbOptions = {
   host: config.get("db.host"),
@@ -9,24 +9,10 @@ const dbOptions = {
   user: config.get("db.user"),
   password: config.get("db.password"),
   port: config.get("db.port"),
-  // ssl: {
-  //   ca: readFileSync(`./data/${process.env.MYSQL_AZURE_CERTIFICATE}`),
-  // },
+  ssl: config.get("db.ssl")
+    ? { ca: readFileSync(config.get("db.ssl_ca")) }
+    : false,
 };
-
-/* TODO use config to handle host the app runs from 
-
-const configAzure = {
-  host: process.env.MYSQL_AZURE_HOST,
-  user: process.env.MYSQL_AZURE_USER,
-  password: process.env.MYSQL_AZURE_PASSWORD,
-  database: process.env.MYSQL_AZURE_DATABASE,
-  port: 3306,
-  ssl: {
-    ca: readFileSync(`./data/${process.env.MYSQL_AZURE_CERTIFICATE}`),
-  },
-}
-*/
 
 export const connectToDb = async () => {
   let connection = null;

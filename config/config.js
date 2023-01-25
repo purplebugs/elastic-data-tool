@@ -50,6 +50,16 @@ const config = convict({
       default: 3306,
       env: "PORT",
     },
+    ssl: {
+      doc: "If true then use certificate file",
+      format: Boolean,
+      default: false,
+    },
+    ssl_ca: {
+      doc: "The certificate file path. The file must be added to .gitignore",
+      format: String,
+      default: "./data/DigiCertGlobalRootCA.crt.pem",
+    },
   },
 });
 

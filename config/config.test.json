@@ -1,6 +1,7 @@
 {
     "db": {
         "host": "alpaca-server.mysql.database.azure.com",
-        "user": "adminanita"
+        "user": "adminanita",
+        "ssl": true
     }
 }

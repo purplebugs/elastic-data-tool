@@ -4,6 +4,8 @@
   "description": "Convert data to formats to easily ingest into Elasticsearch",
   "main": "index.js",
   "scripts": {
+    "sql_to_json": "node sql_to_json.js",
+    "sql_to_json_test": "NODE_ENV=test node sql_to_json.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
