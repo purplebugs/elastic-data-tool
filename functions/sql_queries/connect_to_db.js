@@ -3,11 +3,15 @@ import pkg from "mysql2/promise";
 
 // import { readFileSync } from "fs";
 
-const configLocal = {
+const dbOptions = {
   host: config.get("db.host"),
   database: config.get("db.name"),
   user: config.get("db.user"),
   password: config.get("db.password"),
+  port: config.get("db.port"),
+  // ssl: {
+  //   ca: readFileSync(`./data/${process.env.MYSQL_AZURE_CERTIFICATE}`),
+  // },
 };
 
 /* TODO use config to handle host the app runs from 
@@ -29,7 +33,7 @@ export const connectToDb = async () => {
   const mysqlPromise = pkg; // get the client
 
   // create the connection
-  connection = await mysqlPromise.createConnection(configLocal);
+  connection = await mysqlPromise.createConnection(dbOptions);
 
   return connection;
 };

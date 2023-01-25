@@ -31,18 +31,24 @@ const config = convict({
     name: {
       doc: "Database name",
       format: String,
-      default: "my database",
+      default: "alpaca_database",
       env: "MYSQL_DATABASE",
     },
     user: {
       doc: "User with write access",
       format: String,
-      default: "my user",
+      default: "root",
       env: "MYSQL_USER",
     },
     password: {
       default: "my password",
       env: "MYSQL_PASSWORD",
+    },
+    port: {
+      doc: "The port to bind.",
+      format: "port",
+      default: 3306,
+      env: "PORT",
     },
   },
 });
