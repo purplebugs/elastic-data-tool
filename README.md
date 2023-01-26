@@ -27,33 +27,23 @@ POST alpacas/_bulk
 
 ### First time users only 🪴
 
+- See [config.js](config/config.js) and override any non sensitive values in the corresponding environment files eg [config.test.json](config/config.test.json)
+
 MySQL to JSON converter:
 
-- An .env file in the root of your project should contain the keys
+- An `.env` file in the root of your project should contain keys for sensitive values, eg
 
 MySQL running locally
 
 ```
 MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
-MYSQL_DATABASE="YOUR DATABASE NAME GOES HERE"
 ```
 
-MySQL on Azure portal - Work in progress
+MySQL on Azure portal
 
-- Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate and put in the [./data](./data) folder
-- Run test command with `node functions/sql_queries/azure_mysql_createtable.js`
-
-- TODO ANITA CLEANUP README! AND SWITCH .env AUTOMATED WAY
-- Run in test mode: Switch .env manually for now and run `npm run sql_to_json_test`
-- Run in local mode: Switch .env manually for now and run `npm run sql_to_json`
-
-```
-MYSQL_AZURE_USER="some user"
-MYSQL_AZURE_PASSWORD=enter password"
-MYSQL_AZURE_DATABASE="actual database for the app"
-MYSQL_AZURE_TEST_DATABASE="database to test command"
-MYSQL_AZURE_CERTIFICATE="enter certificate file name"
-```
+1. Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate
+2. Put it in the [./data](./data) folder which must be in `.gitignore`
+3. Update filename to match config `db.ssl_ca` value
 
 NDJSON file to Elasticsearch index
 
@@ -70,8 +60,7 @@ ELASTIC_PASSWORD="UPDATE-ME"
 1. JSON file is created from .sql file dump and stored in [./data](./data)
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
 3. Start MySQL server `mysql.server start`
-4. Run `node sql_to_json.js`
-5. MySQL on Azure portal - Work in progress: Manually update command in [sql_to_json.js](sql_to_json.js)
+4. Run `npm run sql_to_json` or `npm run sql_to_json_test` depending on the environment - ensure `.env` file contains correct overrides for sensitive values
 
 ### JSON -> Elasticsearch client -> auto create index 🤖
 

@@ -1,10 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import convict from "convict";
-
 import * as url from "url";
-
-//addFormat(require("convict-format-with-validator").ipaddress);
 
 // Define a schema
 const config = convict({
@@ -65,12 +62,21 @@ const config = convict({
 
 // Load environment dependent configuration
 const env = config.get("env");
+
+// TODO work in progress automatically select .env or .env.test
+// const envFile = env === "local" ? `env` : `env.${env}`;
+// const envPath = url.fileURLToPath(new URL(`./../.${envFile}`, import.meta.url));
+// dotenv.config({ path: envPath });
+
 config.loadFile(
   url.fileURLToPath(new URL(`./config.${env}.json`, import.meta.url))
 );
 
+// console.log("envPath", envPath);
+console.log("The environment (NODE_ENV) is:", env);
+console.log('The value of the "db.host" is:', config.get("db.host"));
+
 // Perform validation
 config.validate();
-//config.validate({ allowed: "strict" });
 
 export default config;
