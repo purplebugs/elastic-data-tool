@@ -66,15 +66,15 @@ ELASTIC_PASSWORD="UPDATE-ME"
 
 Automate with Elasticsearch client
 
-1. Create index in Elasticsearch from existing JSON file: `node elastic_bulk.js` - edit JSON filename as needed // TODO automate getting this fromSQL -> JSON step
+1. Create index in Elasticsearch from existing JSON file: `node json_to_elastic` - edit JSON filename as needed // TODO automate getting this fromSQL -> JSON step
 2. Verify the index was created in Elasticsearch Dev Tools: `GET alpacas/_search` - note it uses an alias that is updated `GET _alias/alpacas`
 
 ### JSON -> NDJSON -> import file to Elasticsearch 💾
 
 Generate NDJSON file to import manually to Elasticsearch
 
-1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
-2. Run `node index`
+1. Edit the JSON filename to read from in [json_to_ndjson.js](./json_to_ndjson.js) and save the file
+2. Run `node json_to_ndjson`
 3. Look for the generated file in the directory
 4. Import this file to Elasticsearch
 
