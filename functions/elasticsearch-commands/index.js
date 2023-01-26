@@ -1,15 +1,14 @@
-import dotenv from "dotenv";
-const config = dotenv.config();
+import config from "../../config/config.js";
 import { Client } from "@elastic/elasticsearch";
 
 // Ref https://www.elastic.co/guide/en/elasticsearch/client/javascript-api/current/introduction.html
 const client = new Client({
   cloud: {
-    id: process.env.ELASTIC_CLOUD_ID,
+    id: config.get("cloud.id"), //process.env.ELASTIC_CLOUD_ID,
   },
   auth: {
-    username: process.env.ELASTIC_USERNAME,
-    password: process.env.ELASTIC_PASSWORD,
+    username: config.get("auth.username"),
+    password: config.get("auth.password"),
   },
 });
 
@@ -187,13 +186,6 @@ const alpacaDocument_2 = {
   },
   webpage: "http://www.AnitaLovesAlpacas.com/",
 };
-
-// const alpacaArray = [
-//   { create: {} },
-//   alpacaDocument_1,
-//   { create: {} },
-//   alpacaDocument_2,
-// ];
 
 const CreateIndexName = (indexName) => {
   const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
