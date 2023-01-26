@@ -66,7 +66,7 @@ ELASTIC_PASSWORD="UPDATE-ME"
 
 Automate with Elasticsearch client
 
-1. Created index in Elasticsearch from existing JSON file: `node elastic-bulk.js`
+1. Create index in Elasticsearch from existing JSON file: `node elastic-bulk.js` - edit JSON filename as needed // TODO automate getting this fromSQL -> JSON step
 2. Verify the index was created in Elasticsearch Dev Tools: `GET alpacas/_search` - note it uses an alias that is updated `GET _alias/alpacas`
 
 ### JSON -> NDJSON -> import file to Elasticsearch 💾
