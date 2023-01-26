@@ -58,6 +58,27 @@ const config = convict({
       default: "./data/DigiCertGlobalRootCA.crt.pem",
     },
   },
+  cloud: {
+    id: {
+      doc: "The Elastic cloud id",
+      format: String,
+      default: "store me in a place for senstive data, not here",
+      env: "ELASTIC_CLOUD_ID",
+    },
+  },
+  auth: {
+    username: {
+      doc: "The Elastic cloud username",
+      format: String,
+      default: "store me in a place for senstive data, not here",
+      env: "ELASTIC_USERNAME",
+    },
+    password: {
+      doc: "The Elastic cloud password",
+      default: "store me in a place for senstive data, not here",
+      env: "ELASTIC_PASSWORD",
+    },
+  },
 });
 
 // Load environment dependent configuration
