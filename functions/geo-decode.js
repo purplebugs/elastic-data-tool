@@ -14,12 +14,12 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   }
 
   if (cache.has(alpacaObject.keeper)) {
-    console.log(`[LOG] Using ${alpacaObject.keeper} from cache`);
+    console.log(`[LOG] Using location ${alpacaObject.keeper} from cache`);
     return cache.get(alpacaObject.keeper);
   }
 
   // example address: { zip: "0167", city: "Oslo", street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
-  console.log(alpacaObject);
+  // console.debug(alpacaObject);
 
   const searchParams = new URLSearchParams();
   searchParams.set("fuzzy", "true");
@@ -65,7 +65,7 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
     },
   };
 
-  console.log(obj);
+  // console.debug(obj);
 
   cache.set(alpacaObject.keeper, obj);
   console.log(`[LOG] Location ${alpacaObject.keeper} added to cache`);

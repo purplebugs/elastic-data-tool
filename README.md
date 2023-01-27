@@ -29,11 +29,9 @@ POST alpacas/_bulk
 
 - See [config.js](config/config.js) and override any non sensitive values in the corresponding environment files eg [config.test.json](config/config.test.json)
 
-MySQL to JSON converter:
+MySQL
 
-- An `.env` file in the root of your project should contain keys for sensitive values, eg
-
-MySQL running locally
+- `.env` file in root project should contain keys for sensitive values, eg
 
 ```
 MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
@@ -45,7 +43,7 @@ MySQL on Azure portal
 2. Put it in the [./data](./data) folder which must be in `.gitignore`
 3. Update filename to match config `db.ssl_ca` value
 
-NDJSON file to Elasticsearch index
+Elasticsearch
 
 ```
 ELASTIC_CLOUD_ID="UPDATE-ME"
@@ -55,26 +53,33 @@ ELASTIC_PASSWORD="UPDATE-ME"
 
 ## 2. Use the app 🎷
 
-### SQL -> JSON 👾
+Pre-conditions
 
-1. JSON file is created from .sql file dump and stored in [./data](./data)
-2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
-3. Start MySQL server `mysql.server start`
-4. Run `npm run sql_to_json` or `npm run sql_to_json_test` depending on the environment - ensure `.env` file contains correct overrides for sensitive values
+1. `.env` file contains correct overrides for sensitive values for corrent environment
+2. `mysql.server start` if need to run SQL commands locally
+3. If need JSON file locally, file is created from .sql file dump and stored in [./data](./data), if not follow the steps at [pre-requisistes.md](pre-requisistes.md)
 
-### JSON -> Elasticsearch client -> auto create index 🤖
+### SQL -> Elasticsearch index 🤖
+
+1. Local env `npm run sql_to_elastic` or test env `npm run sql_to_elastic_test`
+
+### SQL -> JSON File 👾
+
+1. Local env`npm run sql_to_json` or test env`npm run sql_to_json_test`
+
+### JSON File -> Elasticsearch index 🤖
 
 Automate with Elasticsearch client
 
-1. Create index in Elasticsearch from existing JSON file: `node elastic_bulk.js` - edit JSON filename as needed // TODO automate getting this fromSQL -> JSON step
+1. Create index in Elasticsearch from existing JSON file: `node json_to_elastic` - edit JSON filename as needed // TODO automate getting this fromSQL -> JSON step
 2. Verify the index was created in Elasticsearch Dev Tools: `GET alpacas/_search` - note it uses an alias that is updated `GET _alias/alpacas`
 
-### JSON -> NDJSON -> import file to Elasticsearch 💾
+### JSON File -> NDJSON File -> import file to Elasticsearch 💾
 
 Generate NDJSON file to import manually to Elasticsearch
 
-1. Edit the JSON filename to read from in [index.js](./index.js) and save the file
-2. Run `node index`
+1. Edit the JSON filename to read from in [json_to_ndjson.js](./json_to_ndjson.js) and save the file
+2. Run `node json_to_ndjson`
 3. Look for the generated file in the directory
 4. Import this file to Elasticsearch
 

@@ -262,9 +262,9 @@ export default async function createIndexWithDocuments(alpacaArray) {
     body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2], // alpacaArray,
   });
 
-  console.log(
-    `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
-  );
+  // console.log(
+  //   `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
+  // );
 
   const resultSwitchAlias = await SwitchAlias(
     indexNameWithTimestamp,
