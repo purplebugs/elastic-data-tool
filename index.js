@@ -12,8 +12,8 @@ import createIndexWithDocuments from "./functions/elasticsearch_commands/index.j
 /******** SQL -> Elastic ********/
 console.log(`[LOG] START SQL -> Elastic`);
 
-// TODO refactor sql_to_json.js as function so can re use here in one line instead
 const connection = await connectToDb();
+
 const [alpacaRegistries] = await getAlpacaRegistries(connection);
 console.log(
   `[LOG] Retrieving ${alpacaRegistries.length} alpaca registry ids from database`

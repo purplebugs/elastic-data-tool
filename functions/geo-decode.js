@@ -14,7 +14,7 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   }
 
   if (cache.has(alpacaObject.keeper)) {
-    // console.log(`[LOG] Using ${alpacaObject.keeper} from cache`);
+    console.log(`[LOG] Using location ${alpacaObject.keeper} from cache`);
     return cache.get(alpacaObject.keeper);
   }
 
@@ -31,7 +31,7 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   searchParams.set("side", "0");
   searchParams.set("asciiKompatibel", "true");
 
-  // console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
+  console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
   // Ref: https://kartkatalog.geonorge.no/metadata/adresse-rest-api/44eeffdc-6069-4000-a49b-2d6bfc59ac61
   // https://ws.geonorge.no/adresser/v1/
@@ -68,7 +68,7 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   // console.debug(obj);
 
   cache.set(alpacaObject.keeper, obj);
-  // console.log(`[LOG] Location ${alpacaObject.keeper} added to cache`);
+  console.log(`[LOG] Location ${alpacaObject.keeper} added to cache`);
 
   return obj;
 };
