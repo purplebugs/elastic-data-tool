@@ -93,9 +93,9 @@ export const populationByMunicipalityLookup = (alpacaObject) => {
   // Parse file, eg:
   const populationByMunicipalityArray = JSON.parse(myFile);
 
-  console.log(
-    `[LOG] alpacaObject?.location?.kommunenummer:  ${alpacaObject?.location?.kommunenummer}`
-  );
+  // console.log(
+  //   `[LOG] alpacaObject?.location?.kommunenummer:  ${alpacaObject?.location?.kommunenummer}`
+  // );
 
   const found = populationByMunicipalityArray.find(
     (item) => item?.municipalityNumber == alpacaObject?.location?.kommunenummer

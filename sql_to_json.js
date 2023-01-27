@@ -14,14 +14,14 @@ const now = Date.now().toString();
 
 const connection = await connectToDb();
 const [alpacaRegistries] = await getAlpacaRegistries(connection);
-console.log("alpacaRegistries", alpacaRegistries);
+// console.log("alpacaRegistries", alpacaRegistries);
 
 const [alpacaIdsFromNorwegianRegistry] =
   await getAlpacaIdsFromNorwegianRegistry(connection);
-console.log("alpacaIdsFromNorwegianRegistry", alpacaIdsFromNorwegianRegistry);
+// console.log("alpacaIdsFromNorwegianRegistry", alpacaIdsFromNorwegianRegistry);
 
 const [alpacaDetailsArray] = await getAlpacaDetails(connection);
-console.log("alpacaDetailsArray", alpacaDetailsArray);
+// console.log("alpacaDetailsArray", alpacaDetailsArray);
 
 const alpacaJSON = JSON.stringify(alpacaDetailsArray);
 
