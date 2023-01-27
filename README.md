@@ -29,11 +29,9 @@ POST alpacas/_bulk
 
 - See [config.js](config/config.js) and override any non sensitive values in the corresponding environment files eg [config.test.json](config/config.test.json)
 
-MySQL to JSON converter:
+MySQL
 
-- An `.env` file in the root of your project should contain keys for sensitive values, eg
-
-MySQL running locally
+- `.env` file in root project should contain keys for sensitive values, eg
 
 ```
 MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
@@ -45,7 +43,7 @@ MySQL on Azure portal
 2. Put it in the [./data](./data) folder which must be in `.gitignore`
 3. Update filename to match config `db.ssl_ca` value
 
-NDJSON file to Elasticsearch index
+Elasticsearch
 
 ```
 ELASTIC_CLOUD_ID="UPDATE-ME"
@@ -55,27 +53,19 @@ ELASTIC_PASSWORD="UPDATE-ME"
 
 ## 2. Use the app 🎷
 
-### SQL -> Elasticsearch index 🤖
-
 Pre-conditions
 
-1. JSON file is created from .sql file dump and stored in [./data](./data)
-2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
-3. Start MySQL server `mysql.server start`
+1. `.env` file contains correct overrides for sensitive values for corrent environment
+2. `mysql.server start` if need to run SQL commands locally
+3. If need JSON file locally, file is created from .sql file dump and stored in [./data](./data), if not follow the steps at [pre-requisistes.md](pre-requisistes.md)
 
-Run
+### SQL -> Elasticsearch index 🤖
 
-1. `npm run sql_to_elastic` or `npm run sql_to_elastic_test` depending on the environment - ensure `.env` file contains correct overrides for sensitive values
+1. Local env `npm run sql_to_elastic` or test env `npm run sql_to_elastic_test`
 
 ### SQL -> JSON File 👾
 
-Pre-conditions
-
-1. Same as SQL -> Elasticsearch
-
-Run
-
-1. `npm run sql_to_json` or `npm run sql_to_json_test` depending on the environment - ensure `.env` file contains correct overrides for sensitive values
+1. Local env`npm run sql_to_json` or test env`npm run sql_to_json_test`
 
 ### JSON File -> Elasticsearch index 🤖
 
