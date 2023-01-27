@@ -4,6 +4,8 @@
   "description": "Convert data to formats to easily ingest into Elasticsearch",
   "main": "index.js",
   "scripts": {
+    "sql_to_elastic": "node index.js",
+    "sql_to_elastic_test": "NODE_ENV=test node index.js",
     "sql_to_json": "node sql_to_json.js",
     "sql_to_json_test": "NODE_ENV=test node sql_to_json.js",
     "build": "echo \"Error: no build specified\" && exit 0",

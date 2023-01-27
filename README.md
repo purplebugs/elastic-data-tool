@@ -55,21 +55,36 @@ ELASTIC_PASSWORD="UPDATE-ME"
 
 ## 2. Use the app 🎷
 
-### SQL -> JSON 👾
+### SQL -> Elasticsearch index 🤖
+
+Pre-conditions
 
 1. JSON file is created from .sql file dump and stored in [./data](./data)
 2. If this is not the case, follow the steps at [pre-requisistes.md](pre-requisistes.md)
 3. Start MySQL server `mysql.server start`
-4. Run `npm run sql_to_json` or `npm run sql_to_json_test` depending on the environment - ensure `.env` file contains correct overrides for sensitive values
 
-### JSON -> Elasticsearch client -> auto create index 🤖
+Run
+
+1. `npm run sql_to_elastic` or `npm run sql_to_elastic_test` depending on the environment - ensure `.env` file contains correct overrides for sensitive values
+
+### SQL -> JSON File 👾
+
+Pre-conditions
+
+1. Same as SQL -> Elasticsearch
+
+Run
+
+1. `npm run sql_to_json` or `npm run sql_to_json_test` depending on the environment - ensure `.env` file contains correct overrides for sensitive values
+
+### JSON File -> Elasticsearch index 🤖
 
 Automate with Elasticsearch client
 
 1. Create index in Elasticsearch from existing JSON file: `node json_to_elastic` - edit JSON filename as needed // TODO automate getting this fromSQL -> JSON step
 2. Verify the index was created in Elasticsearch Dev Tools: `GET alpacas/_search` - note it uses an alias that is updated `GET _alias/alpacas`
 
-### JSON -> NDJSON -> import file to Elasticsearch 💾
+### JSON File -> NDJSON File -> import file to Elasticsearch 💾
 
 Generate NDJSON file to import manually to Elasticsearch
 

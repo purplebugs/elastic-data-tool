@@ -10,11 +10,9 @@ import { writeFileSync } from "fs";
 
 const now = Date.now().toString();
 
-/******** SQL to JSON ********/
+/******** SQL -> JSON ********/
 
 const connection = await connectToDb();
-// TODO use cloud = true somewhere in app based on command line flag for MySQL Azure db, eg
-// const connection = await connectToDb(true);
 const [alpacaRegistries] = await getAlpacaRegistries(connection);
 console.log("alpacaRegistries", alpacaRegistries);
 
@@ -26,6 +24,9 @@ const [alpacaDetailsArray] = await getAlpacaDetails(connection);
 console.log("alpacaDetailsArray", alpacaDetailsArray);
 
 const alpacaJSON = JSON.stringify(alpacaDetailsArray);
+
+/******** JSON -> FILE ********/
+
 // Write to file which will write as one long line
 writeFileSync(`./data/alpacas-from-sql-${now}.json`, alpacaJSON);
 
