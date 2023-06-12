@@ -23,7 +23,7 @@ const config = convict({
     host: {
       doc: "Database host name/IP",
       format: "*",
-      default: "localhost",
+      default: "127.0.0.1", // 2023-06 If "localhost" mysql2 connects to mysql database via ::1:3306 which does not work Ref: https://github.com/sidorares/node-mysql2/issues/1840
     },
     name: {
       doc: "Database name",
@@ -89,9 +89,7 @@ const env = config.get("env");
 // const envPath = url.fileURLToPath(new URL(`./../.${envFile}`, import.meta.url));
 // dotenv.config({ path: envPath });
 
-config.loadFile(
-  url.fileURLToPath(new URL(`./config.${env}.json`, import.meta.url))
-);
+config.loadFile(url.fileURLToPath(new URL(`./config.${env}.json`, import.meta.url)));
 
 // console.log("envPath", envPath);
 console.log("The environment (NODE_ENV) is:", env);
