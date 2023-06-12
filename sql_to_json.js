@@ -20,7 +20,7 @@ const [alpacaDetailsArray] = await getAlpacaDetails(connection);
 
 const alpacaJSON = JSON.stringify(alpacaDetailsArray);
 
-console.log(`[LOG] END JSON -> FILE`);
+console.log(`[LOG] END SQL -> JSON`);
 
 /******** JSON -> FILE ********/
 console.log(`[LOG] START JSON -> FILE`);
