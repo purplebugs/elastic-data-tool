@@ -1,8 +1,10 @@
+import { PUBLIC_FARMS } from "./public_farms.js";
+
 export const getPublicFarms = async (connection) => {
   // query database
-  const result = await connection.execute(
-    "SELECT idCompany AS keeper, Name AS name FROM `alp_Company` WHERE `Name` IN ('Farm name 1', 'Farm name 2') ORDER BY Name"
-  );
+  const query =
+    "SELECT idCompany AS keeper, Name AS name FROM `alp_Company` WHERE `Name` IN (" + PUBLIC_FARMS + ") ORDER BY Name";
+  const result = await connection.execute(query);
 
   return result;
 };
