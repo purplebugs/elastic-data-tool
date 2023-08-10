@@ -1,8 +1,10 @@
-import { connectToDb } from "./functions/sql_queries/connect_to_db.js";
-
-import { getAlpacaDetails } from "./functions/sql_queries/get_alpacas.js";
-
+// EXTERNAL
 import { writeFileSync } from "fs";
+
+// INTERNAL
+import { connectToDb } from "./functions/sql_queries/connect_to_db.js";
+import { getAlpacaDetails } from "./functions/sql_queries/get_alpacas.js";
+import fileTransformer from "./functions/fileTransformer.js";
 
 const now = Date.now().toString();
 
@@ -12,9 +14,11 @@ console.log(`[LOG] START SQL -> JSON`);
 const connection = await connectToDb();
 
 const [alpacaDetailsArray] = await getAlpacaDetails(connection);
-// console.log("alpacaDetailsArray", alpacaDetailsArray);
+console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`);
 
-const alpacaJSON = JSON.stringify(alpacaDetailsArray);
+const [enrichedAlpacaDetailsArray] = await fileTransformer(alpacaDetailsArray, false);
+// console.log("enrichedAlpacaDetailsArray", enrichedAlpacaDetailsArray);
+const alpacaJSON = JSON.stringify(enrichedAlpacaDetailsArray);
 
 console.log(`[LOG] END SQL -> JSON`);
 
