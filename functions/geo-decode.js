@@ -1,15 +1,9 @@
-import fetch from "node-fetch";
+import fetchRetry from "./fetchRetry.js";
 
 const cache = new Map();
 
 export const getLatLongFromGeoNorge = async (alpacaObject) => {
-  if (
-    !alpacaObject ||
-    !alpacaObject.keeper ||
-    !alpacaObject.street ||
-    !alpacaObject.zip ||
-    !alpacaObject.city
-  ) {
+  if (!alpacaObject || !alpacaObject.keeper || !alpacaObject.street || !alpacaObject.zip || !alpacaObject.city) {
     return {};
   }
 
@@ -36,9 +30,7 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   // Ref: https://kartkatalog.geonorge.no/metadata/adresse-rest-api/44eeffdc-6069-4000-a49b-2d6bfc59ac61
   // https://ws.geonorge.no/adresser/v1/
 
-  const response = await fetch(
-    `https://ws.geonorge.no/adresser/v1/sok?${searchParams}`
-  );
+  const response = await fetchRetry(`https://ws.geonorge.no/adresser/v1/sok?${searchParams}`, {}, 2);
   const data = await response.json();
 
   // TODO - if address not found use fuzzy search format below and grab first result since this solves at least one of the missing address cases

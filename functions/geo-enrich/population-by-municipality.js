@@ -1,9 +1,8 @@
 import { readFileSync, writeFileSync } from "fs";
-import fetch from "node-fetch";
+import fetchRetry from "../fetchRetry.js";
 
 // Locations of static dump of files from running getPopulationByMunicipalityFromSSB()
-const backupPopulationByMunicipalityFileJSON =
-  "./functions/geo-enrich/population-by-municipality-1663243071159.json";
+const backupPopulationByMunicipalityFileJSON = "./functions/geo-enrich/population-by-municipality-1663243071159.json";
 const backupPopulationByMunicipalityFileNDJSON =
   "./functions/geo-enrich/population-by-municipality-1663230933633.ndjson";
 
@@ -18,19 +17,21 @@ export const getPopulationByMunicipalityFromSSB = async () => {
 
   // Read file from disk
   // TODO update so query is no longer hardcoded for year 2022
-  const myQueryObjectBodyFile = readFileSync(
-    "functions/geo-enrich/population-by-municipality-query-body.json"
-  );
+  const myQueryObjectBodyFile = readFileSync("functions/geo-enrich/population-by-municipality-query-body.json");
 
   // Parse file
   const myParsedQueryObjectBody = JSON.parse(myQueryObjectBodyFile);
   const myQueryBody = myParsedQueryObjectBody.queryObj;
 
-  const response = await fetch("https://data.ssb.no/api/v0/no/table/07459/", {
-    method: "post",
-    body: JSON.stringify(myQueryBody),
-    headers: { "Content-Type": "application/json" },
-  });
+  const response = await fetchRetry(
+    "https://data.ssb.no/api/v0/no/table/07459/",
+    {
+      method: "post",
+      body: JSON.stringify(myQueryBody),
+      headers: { "Content-Type": "application/json" },
+    },
+    2
+  );
 
   const data = await response.json();
 
@@ -45,9 +46,7 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   for (const key in municipalities) {
     const index = municipalities[key];
     const zip = key.slice(2); // 'K-3001' -> '3001'
-    console.log(
-      `[LOG] Retrieving from API: ${key}: ${zip}: ${index}: ${labels[key]}: ${values[index]}`
-    );
+    console.log(`[LOG] Retrieving from API: ${key}: ${zip}: ${index}: ${labels[key]}: ${values[index]}`);
 
     populationByMunicipalityArrayForJSON.push({
       municipalityNumberFromSSB: key,
@@ -70,19 +69,12 @@ export const getPopulationByMunicipalityFromSSB = async () => {
   // eg:
   // [{"municipalityNumberFromSSB":"K-3001","municipalityNumber":"3001","municipalityName":"Halden","population":31444},{"municipalityNumberFromSSB":"K-3002","municipalityNumber":"3002","municipalityName":"Moss","population":50290}]
 
-  writeFileSync(
-    `data/population-by-municipality-${now}.json`,
-    JSON.stringify(populationByMunicipalityArrayForJSON)
-  );
+  writeFileSync(`data/population-by-municipality-${now}.json`, JSON.stringify(populationByMunicipalityArrayForJSON));
 
   // joining all items in the array with new lines to form NDJSON, eg. to import to Elasticsearch as own index
-  const myOutputFileContentsForNDJSON =
-    populationByMunicipalityArrayForNDJSON.join("\n");
+  const myOutputFileContentsForNDJSON = populationByMunicipalityArrayForNDJSON.join("\n");
 
-  writeFileSync(
-    `data/population-by-municipality-${now}.ndjson`,
-    myOutputFileContentsForNDJSON
-  );
+  writeFileSync(`data/population-by-municipality-${now}.ndjson`, myOutputFileContentsForNDJSON);
 };
 
 export const populationByMunicipalityLookup = (alpacaObject) => {
