@@ -27,5 +27,3 @@ writeFileSync(`./data/alpacas-from-sql-${now}.json`, alpacaJSON);
 console.log(`[LOG] END JSON -> FILE`);
 
 // For readability could JSON.parse and write to file with line breaks
-
-await connection.end();
