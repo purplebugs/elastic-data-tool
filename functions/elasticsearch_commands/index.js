@@ -150,6 +150,9 @@ const alpacaDocument_1 = {
   street: "Alpaca street",
   name: "Anita's Alpacas",
   populationByMunicipality: "not found",
+  public: {
+    type: "boolean",
+  },
   location: {
     kommunenavn: null,
     coordinates: [null, null],
@@ -238,23 +241,13 @@ export default async function createIndexWithDocuments(alpacaArray) {
     name: indexTemplateName,
   });
 
-  console.log(
-    `[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`
-  );
+  console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
 
   if (!indexTemplateExists) {
-    console.log(
-      `[LOG] Index template: ${indexTemplateName} does not exist, create`
-    );
-    const resultCreateIndexTemplate = await client.indices.putIndexTemplate(
-      template
-    );
+    console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
+    const resultCreateIndexTemplate = await client.indices.putIndexTemplate(template);
 
-    console.log(
-      `[LOG] Result of create index template: ${JSON.stringify(
-        resultCreateIndexTemplate
-      )}`
-    );
+    console.log(`[LOG] Result of create index template: ${JSON.stringify(resultCreateIndexTemplate)}`);
   }
 
   const resultCreateIndex = await client.bulk({
@@ -266,14 +259,9 @@ export default async function createIndexWithDocuments(alpacaArray) {
   //   `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
   // );
 
-  const resultSwitchAlias = await SwitchAlias(
-    indexNameWithTimestamp,
-    indexName
-  );
+  const resultSwitchAlias = await SwitchAlias(indexNameWithTimestamp, indexName);
 
-  console.log(
-    `[LOG] Result of switch alias: ${JSON.stringify(resultSwitchAlias)}`
-  );
+  console.log(`[LOG] Result of switch alias: ${JSON.stringify(resultSwitchAlias)}`);
 
   // TODO remove old indices
 }

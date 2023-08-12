@@ -177,7 +177,7 @@ POST alpaca-anita-geopoint/_update/1
 }
 ```
 
-## 3. Update alapaca index with public farm flag 🦙 💐
+## 3. Update alpaca index with public farm flag 🦙 💐
 
 - Create index containing only public farms
 - Tip, generate this command using this tool as per README
