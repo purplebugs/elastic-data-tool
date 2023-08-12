@@ -6,7 +6,7 @@ describe("A thing", () => {
     assert.strictEqual(1, 1);
   });
 
-  it("should be ok", () => {
-    assert.strictEqual(2, 2);
+  it("should fail", () => {
+    assert.strictEqual(2, 3);
   });
 });
