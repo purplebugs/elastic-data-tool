@@ -23,7 +23,7 @@ console.log(`[LOG] Retrieving ${alpacaIdsFromNorwegianRegistry.length} alpaca id
 const [alpacaDetailsArray] = await getAlpacaDetails(connection);
 console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`);
 
-const myOutput = await fileTransformer(alpacaDetailsArray, { bulkSyntax: true });
+const myOutput = await fileTransformer(alpacaDetailsArray, { bulkSyntax: true }, { geoDecodeEnrich: true });
 
 await createIndexWithDocuments(myOutput);
 

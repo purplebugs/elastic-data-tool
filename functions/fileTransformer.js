@@ -2,7 +2,7 @@ import { getLatLongFromGeoNorge } from "./geo-decode.js";
 import { populationByMunicipalityLookup } from "./geo-enrich/population-by-municipality.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
-export default async function fileTransformer(file, { bulkSyntax = false }) {
+export default async function fileTransformer(file, { bulkSyntax = false }, { geoDecodeEnrich = true }) {
   // Loop over all items
 
   const myOutput = [];
@@ -20,19 +20,24 @@ export default async function fileTransformer(file, { bulkSyntax = false }) {
       console.log("[LOG] Farm is public: ", item.keeperName);
     }
 
-    const geoDecodeObj = await getLatLongFromGeoNorge(item);
-    const geoDecodedObj = Object.assign(publicFieldAdded, geoDecodeObj);
+    let geoEnrichedObj = {};
+    if (geoDecodeEnrich) {
+      const geoDecodeObj = await getLatLongFromGeoNorge(item);
+      const geoDecodedObj = Object.assign(publicFieldAdded, geoDecodeObj);
 
-    const geoEnrichObj = populationByMunicipalityLookup(geoDecodedObj);
-    const geoEnrichedObj = Object.assign(geoDecodedObj, geoEnrichObj);
+      const geoEnrichObj = populationByMunicipalityLookup(geoDecodedObj);
+      geoEnrichedObj = Object.assign(geoDecodedObj, geoEnrichObj);
+    }
 
-    if (bulkSyntax) {
+    if (bulkSyntax && geoDecodeEnrich) {
       // For Elasticsearch POST /_bulk body format
       //[{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
 
       myOutput.push({ create: {} });
       myOutput.push(geoEnrichedObj);
-    } else {
+    }
+
+    if (!bulkSyntax && geoDecodeEnrich) {
       // conveniently stringify also removes spaces
       myOutput.push(JSON.stringify(geoEnrichedObj));
     }
