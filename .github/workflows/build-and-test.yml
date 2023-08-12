@@ -3,6 +3,10 @@
 
 name: Elastic data tool ⚒️ Build + Test
 
+defaults:
+  run:
+    working-directory: ./
+
 on:
   push:
     branches: ["main"]
