@@ -65,7 +65,7 @@ Pre-conditions
 
 ### SQL -> JSON File 👾
 
-1. Local env`npm run sql_to_json` or test env`npm run sql_to_json_test`
+1. Local env `npm run sql_to_json` or test env `npm run sql_to_json_test`
 
 ### JSON File -> Elasticsearch index 🤖
 

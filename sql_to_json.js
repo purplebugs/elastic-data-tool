@@ -16,7 +16,7 @@ const connection = await connectToDb();
 const [alpacaDetailsArray] = await getAlpacaDetails(connection);
 console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`);
 
-const enrichedAlpacaDetailsArray = await fileTransformer(alpacaDetailsArray, false);
+const enrichedAlpacaDetailsArray = await fileTransformer(alpacaDetailsArray, { bulkSyntax: false });
 const alpacaJSON = `[${enrichedAlpacaDetailsArray.toString()}]`;
 
 console.log(`[LOG] END SQL -> JSON`);
