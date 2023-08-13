@@ -15,22 +15,15 @@ console.log(`[LOG] START SQL -> Elastic`);
 const connection = await connectToDb();
 
 const [alpacaRegistries] = await getAlpacaRegistries(connection);
-console.log(
-  `[LOG] Retrieving ${alpacaRegistries.length} alpaca registry ids from database`
-);
+console.log(`[LOG] Retrieving ${alpacaRegistries.length} alpaca registry ids from database`);
 
-const [alpacaIdsFromNorwegianRegistry] =
-  await getAlpacaIdsFromNorwegianRegistry(connection);
-console.log(
-  `[LOG] Retrieving ${alpacaIdsFromNorwegianRegistry.length} alpaca ids from database`
-);
+const [alpacaIdsFromNorwegianRegistry] = await getAlpacaIdsFromNorwegianRegistry(connection);
+console.log(`[LOG] Retrieving ${alpacaIdsFromNorwegianRegistry.length} alpaca ids from database`);
 
 const [alpacaDetailsArray] = await getAlpacaDetails(connection);
-console.log(
-  `[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`
-);
+console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`);
 
-const myOutput = await fileTransformer(alpacaDetailsArray, true);
+const myOutput = await fileTransformer(alpacaDetailsArray, { bulkSyntax: true }, { geoDecodeEnrich: true });
 
 await createIndexWithDocuments(myOutput);
 
