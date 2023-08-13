@@ -33,10 +33,13 @@ export default async function fileTransformer(file, { bulkSyntax = false }, { ge
       // For Elasticsearch POST /_bulk body format
       //[{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
       myOutput.push({ create: {} });
+      myOutput.push(itemTransformed);
     }
 
-    // conveniently stringify also removes spaces
-    myOutput.push(JSON.stringify(itemTransformed));
+    if (!bulkSyntax) {
+      // conveniently stringify also removes spaces
+      myOutput.push(JSON.stringify(itemTransformed));
+    }
 
     //console.log(myOutput);
 
