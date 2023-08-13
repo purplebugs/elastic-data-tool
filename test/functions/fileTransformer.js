@@ -15,8 +15,6 @@ describe("Farm info transformer", async () => {
     // ACT
     const result = await fileTransformer(alpacaDetailsArray, { bulkSyntax: false }, { geoDecodeEnrich: false });
 
-    console.log("result[0]", result[0]);
-
     // ASSERT
     assert.equal(
       result[0],
@@ -39,8 +37,6 @@ describe("Farm info transformer", async () => {
 
     // ACT
     const result = await fileTransformer(alpacaDetailsArray, { bulkSyntax: false }, { geoDecodeEnrich: false });
-
-    console.log("result[0]", result[0]);
 
     // ASSERT
     assert.equal(
