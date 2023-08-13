@@ -83,7 +83,11 @@ Generate NDJSON file to import manually to Elasticsearch
 3. Look for the generated file in the directory
 4. Import this file to Elasticsearch
 
-## 3. Use the app helpers 🐕‍🦺
+## 3. Test app ✅
+
+`npm run test`
+
+## 4. Use the app helpers 🐕‍🦺
 
 ### Regenerate latest population data 👶
 
@@ -120,13 +124,9 @@ Note: the app by default geo enriches using a static file
 1. Pre-condition: search for `const PUBLIC_FARMS` and replace farm list with actual
 1. Run `node get_public_farms.js` and look at console log and for file in [./data](./data)
 
-## 4. Create data in Elasticsearch from scratch 🎸
+## 5. Create data in Elasticsearch from scratch 🎸
 
 - [Data setup in Elasticsearch](elasticsearch_data_setup.md)
-
-## 5. Test app ✅
-
-`npm run test`
 
 ## Credits 👏
 
