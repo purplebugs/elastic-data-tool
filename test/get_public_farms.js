@@ -16,9 +16,7 @@ describe("Get public farms", async () => {
     console.log("result", result);
     // ASSERT
 
-    assert.equal(
-      result,
-      `{"index":{"_id":1}}\n{"keeper":1234,"name":"Alpakkahagen","public":true}\n{"index":{"_id":2}}\n{"keeper":5678,"name":"Another public farm","public":true}`
-    );
+    const expected = `{"index":{"_id":1}}\n{"keeper":1234,"name":"Alpakkahagen","public":true}\n{"index":{"_id":2}}\n{"keeper":5678,"name":"Another public farm","public":true}`;
+    assert.equal(result, expected);
   });
 });
