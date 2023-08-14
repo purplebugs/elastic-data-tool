@@ -48,4 +48,27 @@ describe("Farm info transformer", async () => {
       })
     );
   });
+
+  it("should format with elasticsearch bulkSyntax if `bulkSyntax: true`", async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Not a public farm name",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray, { bulkSyntax: true }, { geoDecodeEnrich: false });
+
+    // ASSERT
+    assert.deepEqual(result, [
+      { create: {} },
+      {
+        alpacaId: 1234,
+        keeperName: "Not a public farm name",
+        public: false,
+      },
+    ]);
+  });
 });
