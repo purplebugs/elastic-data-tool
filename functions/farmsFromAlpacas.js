@@ -1,4 +1,3 @@
-// TODO add test
 export const farmsFromAlpacas = (alpacas) => {
   // Get farms with count of alpacas from list of alpacas
 
