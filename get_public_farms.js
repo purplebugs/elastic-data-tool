@@ -13,6 +13,8 @@ const now = Date.now().toString();
 const connection = await connectToDb();
 
 const [publicFarms] = await getPublicFarms(connection);
+
+console.log("[LOG] publicFarms", publicFarms);
 console.log("[LOG] Number of publicFarms: ", publicFarms.length);
 
 const resultJSON = JSON.stringify(publicFarms);
