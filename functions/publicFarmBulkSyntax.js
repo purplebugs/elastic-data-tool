@@ -1,5 +1,7 @@
 export const publicFarmBulkSyntax = async (farms) => {
-  // For creation of public farms index in Elasticsearch to be used as enrich pipeline
+  // For creation of public farms index in Elasticsearch, which used to be used as enrich pipeline
+  // Note enrich policy not needed since public farms are auto flagged when getting data
+  // though this public farm index creation helper is handy so keeping it
 
   const myOutput = [];
   let count = 1;
