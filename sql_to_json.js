@@ -25,6 +25,41 @@ const enrichedAlpacaDetailsArray = await fileTransformer(
 );
 const alpacaJSON = `[${enrichedAlpacaDetailsArray.toString()}]`;
 
+// TODO farmsJSON - get farms with count of alpacas from alpacaJSON
+
+const farmsFromAlpacas = (alpacaJSON) => {
+  const farms = new Map();
+
+  // TODO sort out ridiculous alpacaJSON --> JSON.parse()
+  for (const alpaca of JSON.parse(alpacaJSON)) {
+    const lat = alpaca?.location?.coordinates[1] ?? null;
+    const lng = alpaca?.location?.coordinates[0] ?? null;
+
+    if (!farms.has(alpaca.keeperName)) {
+      // First time for farm
+      farms.set(alpaca.keeperName, { id: alpaca.companyId, lat: lat, lng: lng, countOfAlpacas: 0 });
+    }
+
+    if (farms.has(alpaca.keeperName)) {
+      // Increment alpaca count for farm
+      const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
+      // console.log(`[LOG] Increment alpaca count for: ${alpaca.keeperName} to ${count}`);
+      farms.set(alpaca.keeperName, {
+        id: alpaca.companyId,
+        lat: lat,
+        lng: lng,
+        countOfAlpacas: count,
+      });
+    }
+  }
+
+  // console.log("farms", farms);
+  return farms;
+};
+
+// TODO write to file, extract to file, add test
+farmsFromAlpacas(alpacaJSON);
+
 console.log(`[LOG] END SQL -> JSON`);
 
 /******** JSON -> FILE ********/
