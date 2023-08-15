@@ -44,7 +44,7 @@ const config = convict({
     port: {
       doc: "The port to bind.",
       format: "port",
-      default: 3306,
+      default: 0, // Sending in port 0 is a feature in node.js which grabs a random available port number, useful for test runs // 3306
       env: "PORT",
     },
     ssl: {
