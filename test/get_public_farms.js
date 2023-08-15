@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { transformerBulkSyntax } from "../get_public_farms.js";
+import { publicFarmBulkSyntax } from "../functions/publicFarmBulkSyntax.js";
 
 describe("Get public farms", async () => {
   it("should transform public farms with elasticsearch _bulk syntax", async () => {
@@ -11,7 +11,7 @@ describe("Get public farms", async () => {
     ];
 
     // ACT
-    const result = await transformerBulkSyntax(publicFarmArray);
+    const result = await publicFarmBulkSyntax(publicFarmArray);
 
     console.log("result", result);
     // ASSERT
