@@ -37,11 +37,8 @@ export default async function fileTransformer(file, { bulkSyntax = false }, { ge
     }
 
     if (!bulkSyntax) {
-      // conveniently stringify also removes spaces
-      myOutput.push(JSON.stringify(itemTransformed));
+      myOutput.push(itemTransformed);
     }
-
-    //console.log(myOutput);
 
     count++;
   }
