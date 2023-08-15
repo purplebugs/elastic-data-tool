@@ -16,6 +16,8 @@ const connection = await connectToDb();
 const [alpacaDetailsArray] = await getAlpacaDetails(connection);
 console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`);
 
+await connection.end();
+
 const enrichedAlpacaDetailsArray = await fileTransformer(
   alpacaDetailsArray,
   { bulkSyntax: false },
@@ -30,6 +32,7 @@ console.log(`[LOG] START JSON -> FILE`);
 
 // Write to file which will write as one long line
 writeFileSync(`./data/alpacas-from-sql-${now}.json`, alpacaJSON);
+console.log("[LOG] See file: ", `./data/alpacas-from-sql-${now}.json`);
 
 console.log(`[LOG] END JSON -> FILE`);
 
