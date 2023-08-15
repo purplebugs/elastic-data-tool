@@ -92,9 +92,8 @@ const env = config.get("env");
 config.loadFile(url.fileURLToPath(new URL(`./config.${env}.json`, import.meta.url)));
 
 // console.log("envPath", envPath);
-console.log("[LOG] The environment (NODE_ENV) is:", env);
-console.log('[LOG] The value of the "db.host" is:', config.get("db.host"));
-console.log('[LOG] The value of the "db.port" is:', config.get("db.port"));
+console.log("The environment (NODE_ENV) is:", env);
+console.log('The value of the "db.host" is:', config.get("db.host"));
 
 // Perform validation
 config.validate();
