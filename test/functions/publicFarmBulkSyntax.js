@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { publicFarmBulkSyntax } from "../functions/publicFarmBulkSyntax.js";
+import { publicFarmBulkSyntax } from "../../functions/publicFarmBulkSyntax.js";
 
 describe("Get public farms", async () => {
   it("should transform public farms with elasticsearch _bulk syntax", async () => {
