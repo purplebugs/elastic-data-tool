@@ -20,3 +20,4 @@ const myOutputFileContents = myOutput.join("\n");
 /******** NDJSON -> FILE ********/
 
 writeFileSync(`./data/alpacas-format-cleaned-${now}.ndjson`, myOutputFileContents);
+console.log("[LOG] See file: ", `./data/alpacas-format-cleaned-${now}.ndjson`);

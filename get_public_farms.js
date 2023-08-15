@@ -14,6 +14,8 @@ const connection = await connectToDb();
 
 const [publicFarms] = await getPublicFarms(connection);
 
+await connection.end();
+
 console.log("[LOG] publicFarms", publicFarms);
 console.log("[LOG] Number of publicFarms: ", publicFarms.length);
 
