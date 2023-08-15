@@ -16,14 +16,11 @@ describe("Farm info transformer", async () => {
     const result = await fileTransformer(alpacaDetailsArray, { bulkSyntax: false }, { geoDecodeEnrich: false });
 
     // ASSERT
-    assert.equal(
-      result[0],
-      JSON.stringify({
-        alpacaId: 1234,
-        keeperName: "Not a public farm name",
-        public: false,
-      })
-    );
+    assert.deepEqual(result[0], {
+      alpacaId: 1234,
+      keeperName: "Not a public farm name",
+      public: false,
+    });
   });
 
   it("should set as public farm if farm IS in list of public farms", async () => {
@@ -39,14 +36,11 @@ describe("Farm info transformer", async () => {
     const result = await fileTransformer(alpacaDetailsArray, { bulkSyntax: false }, { geoDecodeEnrich: false });
 
     // ASSERT
-    assert.equal(
-      result[0],
-      JSON.stringify({
-        alpacaId: 1234,
-        keeperName: "Alpakkahagen",
-        public: true,
-      })
-    );
+    assert.deepEqual(result[0], {
+      alpacaId: 1234,
+      keeperName: "Alpakkahagen",
+      public: true,
+    });
   });
 
   it("should format with elasticsearch bulkSyntax if `bulkSyntax: true`", async () => {

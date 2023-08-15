@@ -13,7 +13,6 @@ describe("Get public farms", async () => {
     // ACT
     const result = await publicFarmBulkSyntax(publicFarmArray);
 
-    console.log("result", result);
     // ASSERT
 
     const expected = `{"index":{"_id":1}}
