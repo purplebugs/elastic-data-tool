@@ -5,6 +5,7 @@ import { writeFileSync } from "fs";
 import { connectToDb } from "./functions/sql_queries/connect_to_db.js";
 import { getAlpacaDetails } from "./functions/sql_queries/get_alpacas.js";
 import fileTransformer from "./functions/fileTransformer.js";
+import { farmsFromAlpacas } from "./functions/farmsFromAlpacas.js";
 
 const now = Date.now().toString();
 
@@ -25,40 +26,7 @@ const enrichedAlpacaDetailsArray = await fileTransformer(
 );
 const alpacaJSON = `[${enrichedAlpacaDetailsArray.toString()}]`;
 
-// TODO farmsJSON - get farms with count of alpacas from alpacaJSON
-
-const farmsFromAlpacas = (alpacaJSON) => {
-  const farms = new Map();
-
-  // TODO sort out ridiculous alpacaJSON --> JSON.parse()
-  for (const alpaca of JSON.parse(alpacaJSON)) {
-    const lat = alpaca?.location?.coordinates[1] ?? null;
-    const lng = alpaca?.location?.coordinates[0] ?? null;
-
-    if (!farms.has(alpaca.keeperName)) {
-      // First time for farm
-      farms.set(alpaca.keeperName, { id: alpaca.companyId, lat: lat, lng: lng, countOfAlpacas: 0 });
-    }
-
-    if (farms.has(alpaca.keeperName)) {
-      // Increment alpaca count for farm
-      const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
-      // console.log(`[LOG] Increment alpaca count for: ${alpaca.keeperName} to ${count}`);
-      farms.set(alpaca.keeperName, {
-        id: alpaca.companyId,
-        lat: lat,
-        lng: lng,
-        countOfAlpacas: count,
-      });
-    }
-  }
-
-  // console.log("farms", farms);
-  return farms;
-};
-
-// TODO write to file, extract to file, add test
-farmsFromAlpacas(alpacaJSON);
+const farmsWithAlpacaCountArray = farmsFromAlpacas(alpacaJSON);
 
 console.log(`[LOG] END SQL -> JSON`);
 
@@ -68,6 +36,9 @@ console.log(`[LOG] START JSON -> FILE`);
 // Write to file which will write as one long line
 writeFileSync(`./data/alpacas-from-sql-${now}.json`, alpacaJSON);
 console.log("[LOG] See file: ", `./data/alpacas-from-sql-${now}.json`);
+
+writeFileSync(`./data/farms-from-alpacas-from-sql-${now}.json`, JSON.stringify(farmsWithAlpacaCountArray));
+console.log("[LOG] See file: ", `./data/farms-from-alpacas-from-sql-${now}.json`);
 
 console.log(`[LOG] END JSON -> FILE`);
 
