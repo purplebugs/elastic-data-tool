@@ -4,7 +4,7 @@ export const farmsFromAlpacas = (alpacas) => {
 
   const farms = new Map();
 
-  for (const alpaca of JSON.parse(alpacas)) {
+  for (const alpaca of alpacas) {
     const lat = alpaca?.location?.coordinates[1] ?? null;
     const lng = alpaca?.location?.coordinates[0] ?? null;
 
