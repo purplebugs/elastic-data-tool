@@ -15,7 +15,12 @@ const myOutput = await fileTransformer(myParsedFile, { bulkSyntax: false }, { ge
 /******** array -> NDJSON ********/
 
 // joining all items in the array with new lines to form NDJSON
-const myOutputFileContents = myOutput.join("\n");
+const myOutputFileContents = myOutput
+  .map((item) => {
+    // Stringify also conveniently also removes spaces
+    return JSON.stringify(item);
+  })
+  .join("\n");
 
 /******** NDJSON -> FILE ********/
 
