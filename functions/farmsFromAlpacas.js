@@ -20,10 +20,11 @@ export const farmsFromAlpacas = (alpacas) => {
       const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
       farms.set(alpaca.keeperName, {
         id: alpaca.companyId,
-        name: alpaca.keeperName,
+        city: alpaca.city,
+        countOfAlpacas: count,
         lat: lat,
         lng: lng,
-        countOfAlpacas: count,
+        name: alpaca.keeperName,
       });
     }
   }

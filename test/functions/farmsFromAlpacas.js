@@ -8,18 +8,21 @@ describe("Farms from alpacas transformer", async () => {
     const alpacaDetailsArray = [
       {
         alpacaId: 123,
+        city: null,
         companyId: 111,
         keeperName: "Farm one",
         location: { type: "Point", coordinates: [null, null], kommunenummer: null, kommunenavn: null },
       },
       {
         alpacaId: 456,
+        city: null,
         companyId: 111,
         keeperName: "Farm one",
         location: { type: "Point", coordinates: [null, null], kommunenummer: null, kommunenavn: null },
       },
       {
         alpacaId: 789,
+        city: "Fredrikstad",
         companyId: 222,
         keeperName: "Farm two",
         location: {
@@ -37,15 +40,14 @@ describe("Farms from alpacas transformer", async () => {
     // ASSERT
 
     const expected = [
-      { id: 111, name: "Farm one", lat: null, lng: null, countOfAlpacas: 2 },
+      { id: 111, city: null, countOfAlpacas: 2, lat: null, lng: null, name: "Farm one" },
       {
         id: 222,
-        name: "Farm two",
-        lat: null,
-        lng: null,
+        city: "Fredrikstad",
         countOfAlpacas: 1,
         lat: 59.295708720373376,
         lng: 10.97662911768462,
+        name: "Farm two",
       },
     ];
     assert.deepEqual(result, expected);
