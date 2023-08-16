@@ -24,6 +24,7 @@ export const farmsFromAlpacas = (alpacas) => {
         countOfAlpacas: count,
         lat: lat,
         lng: lng,
+        public: alpaca.public ?? false,
         name: alpaca.keeperName,
       });
     }
