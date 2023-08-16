@@ -1,9 +1,13 @@
-export const farmsFromAlpacas = (alpacas) => {
+export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
   // Get farms with count of alpacas from list of alpacas
 
   const farms = new Map();
 
-  for (const alpaca of alpacas) {
+  const alpacasByFarmType = alpacas.filter((alpaca) => {
+    return publicFarmsOnly === true ? alpaca.public === true : alpacas;
+  });
+
+  for (const alpaca of alpacasByFarmType) {
     const lat = alpaca?.location?.coordinates[1] ?? null;
     const lng = alpaca?.location?.coordinates[0] ?? null;
 
