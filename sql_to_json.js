@@ -25,7 +25,8 @@ const enrichedAlpacaDetailsArray = await fileTransformer(
   { geoDecodeEnrich: true }
 );
 
-const farmsWithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: true });
+const farms_ALL_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: false });
+const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: true });
 
 console.log(`[LOG] END SQL -> JSON`);
 
@@ -36,8 +37,14 @@ console.log(`[LOG] START JSON -> FILE`);
 writeFileSync(`./data/alpacas-from-sql-${now}.json`, JSON.stringify(enrichedAlpacaDetailsArray));
 console.log("[LOG] See file: ", `./data/alpacas-from-sql-${now}.json`);
 
-writeFileSync(`./data/farms-from-alpacas-from-sql-${now}.json`, JSON.stringify(farmsWithAlpacaCountArray));
-console.log("[LOG] See file: ", `./data/farms-from-alpacas-from-sql-${now}.json`);
+writeFileSync(`./data/farms-ALL-from-alpacas-from-sql-${now}.json`, JSON.stringify(farms_ALL_WithAlpacaCountArray));
+console.log("[LOG] See file: ", `./data/farms-ALL-from-alpacas-from-sql-${now}.json`);
+
+writeFileSync(
+  `./data/farms-PUBLIC-from-alpacas-from-sql-${now}.json`,
+  JSON.stringify(farms_PUBLIC_WithAlpacaCountArray)
+);
+console.log("[LOG] See file: ", `./data/farms-PUBLIC-from-alpacas-from-sql-${now}.json`);
 
 console.log(`[LOG] END JSON -> FILE`);
 
