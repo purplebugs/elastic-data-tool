@@ -3,7 +3,7 @@ import { strict as assert } from "node:assert";
 import { farmsFromAlpacas } from "../../functions/farmsFromAlpacas.js";
 
 describe("Farms from alpacas transformer", async () => {
-  it("should transform list of alpacas to list of farms with alpaca count", async () => {
+  it("should transform list of alpacas to list of ALL farms with alpaca count if `{ publicFarmsOnly : false }`", async () => {
     // ARRANGE
     const alpacaDetailsArray = [
       {
@@ -36,7 +36,7 @@ describe("Farms from alpacas transformer", async () => {
     ];
 
     // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray);
+    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
 
     // ASSERT
 

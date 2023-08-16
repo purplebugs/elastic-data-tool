@@ -25,7 +25,7 @@ const enrichedAlpacaDetailsArray = await fileTransformer(
   { geoDecodeEnrich: true }
 );
 
-const farmsWithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray);
+const farmsWithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: true });
 
 console.log(`[LOG] END SQL -> JSON`);
 
