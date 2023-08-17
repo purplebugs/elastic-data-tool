@@ -13,7 +13,7 @@ const client = new Client({
 });
 
 const indexName = `alpacas`;
-const indexTemplateName = `${indexName}_iindex_template`;
+const indexTemplateName = `${indexName}_index_template`;
 const indexPatterns = `${indexName}-*`;
 
 const indexTemplate = {
