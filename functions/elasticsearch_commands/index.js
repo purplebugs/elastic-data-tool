@@ -136,8 +136,10 @@ const indexTemplate = {
   index_patterns: indexPatterns,
   priority: 1,
   composed_of: [componentTemplateName],
-  aliases: {
-    alpacas: {},
+  template: {
+    aliases: {
+      indexName: {},
+    },
   },
 };
 
