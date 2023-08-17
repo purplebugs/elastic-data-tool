@@ -132,37 +132,42 @@ const indexTemplate = {
   },
 };
 
-const CreateIndexName = (indexName) => {
-  const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
+const createIndexName = (indexName) => {
+  try {
+    const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
 
-  const date = new Date();
-  const month = addLeadingZero(date.getMonth() + 1);
-  const day = addLeadingZero(date.getDate());
-  const hours = addLeadingZero(date.getHours());
-  const minutes = addLeadingZero(date.getMinutes());
-  return `${indexName}-${date.getFullYear()}-${month}-${day}_${hours}-${minutes}`;
+    const date = new Date();
+    const month = addLeadingZero(date.getMonth() + 1);
+    const day = addLeadingZero(date.getDate());
+    const hours = addLeadingZero(date.getHours());
+    const minutes = addLeadingZero(date.getMinutes());
+    return `${indexName}-${date.getFullYear()}-${month}-${day}_${hours}-${minutes}`;
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createIndexName: Could not create index name");
+  }
 };
 
-const SwitchAlias = async (newIndexName, aliasName) => {
-  let actions = [
-    {
+const switchAlias = async (newIndexName, indexName) => {
+  try {
+    let actions = [
+      {
+        remove: {
+          index: `alpacas-*`,
+          alias: indexName,
+        },
+      },
+    ];
+
+    actions.push({
       add: {
         index: newIndexName,
         alias: indexName,
       },
-    },
-  ];
+    });
 
-  actions.unshift({
-    remove: {
-      index: `alpacas-*`,
-      alias: indexName,
-    },
-  });
+    console.log("[LOG] Alias actions: ", actions);
 
-  console.log("[LOG] Alias actions: ", actions);
-
-  try {
     await client.indices.updateAliases({
       body: {
         actions: actions,
@@ -176,7 +181,7 @@ const SwitchAlias = async (newIndexName, aliasName) => {
 };
 
 export default async function createIndexWithDocuments(alpacaArray) {
-  const indexNameWithTimestamp = CreateIndexName(indexName);
+  const indexNameWithTimestamp = createIndexName(indexName);
 
   const indexTemplateExists = await client.indices.existsIndexTemplate({
     name: indexTemplateName,
@@ -200,7 +205,7 @@ export default async function createIndexWithDocuments(alpacaArray) {
     `[LOG] Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length}`
   );
 
-  const resultSwitchAlias = await SwitchAlias(indexNameWithTimestamp, indexName);
+  const resultSwitchAlias = await switchAlias(indexNameWithTimestamp, indexName);
 
   console.log(`[LOG] Result of switch alias: ${JSON.stringify(resultSwitchAlias)}`);
 }
