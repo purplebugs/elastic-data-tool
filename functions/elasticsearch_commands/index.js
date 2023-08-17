@@ -131,65 +131,6 @@ const template = {
   },
 };
 
-const alpacaDocument_1 = {
-  zip: "0577",
-  country: "NO",
-  alpacaId: 9876543210,
-  gender: "SEX_FEMALE",
-  alpacaShortName: "ANITA IS COOL",
-  city: "Tøyen",
-  dateOfDeath: null,
-  keeper: 30,
-  dateOfBirth: null,
-  color1: "COLOR_LIGHT_FAWN",
-  public: false,
-  farmType: {
-    public: true,
-    keeper: 30,
-  },
-  street: "Alpaca street",
-  name: "Anita's Alpacas",
-  populationByMunicipality: "not found",
-  public: {
-    type: "boolean",
-  },
-  location: {
-    kommunenavn: null,
-    coordinates: [null, null],
-    kommunenummer: null,
-    type: "Point",
-  },
-  webpage: "http://www.AnitaLovesAlpacas.com/",
-};
-
-const alpacaDocument_2 = {
-  zip: "0577",
-  country: "NO",
-  alpacaId: 9999943210,
-  gender: "SEX_MALE",
-  alpacaShortName: "THOR IS COOL",
-  city: "Tøyen",
-  dateOfDeath: null,
-  keeper: 30,
-  dateOfBirth: null,
-  color1: "COLOR_BLACK",
-  public: false,
-  farmType: {
-    public: true,
-    keeper: 30,
-  },
-  street: "Alpaca street",
-  name: "Anita's Alpacas",
-  populationByMunicipality: "not found",
-  location: {
-    kommunenavn: null,
-    coordinates: [null, null],
-    kommunenummer: null,
-    type: "Point",
-  },
-  webpage: "http://www.AnitaLovesAlpacas.com/",
-};
-
 const CreateIndexName = (indexName) => {
   const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
 
@@ -211,7 +152,6 @@ const SwitchAlias = async (newIndexName, aliasName) => {
     },
   ];
 
-  // TODO can check to remove old alias only if exists, meanwhile simply remove all that match
   actions.unshift({
     remove: {
       index: `alpacas-*`,
@@ -252,16 +192,14 @@ export default async function createIndexWithDocuments(alpacaArray) {
 
   const resultCreateIndex = await client.bulk({
     index: indexNameWithTimestamp,
-    body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2], // alpacaArray,
+    body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
   });
 
-  // console.log(
-  //   `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
-  // );
+  console.log(
+    `[LOG] Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length}`
+  );
 
   const resultSwitchAlias = await SwitchAlias(indexNameWithTimestamp, indexName);
 
   console.log(`[LOG] Result of switch alias: ${JSON.stringify(resultSwitchAlias)}`);
-
-  // TODO remove old indices
 }
