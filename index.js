@@ -7,7 +7,10 @@ import {
 } from "./functions/sql_queries/get_alpacas.js";
 
 import fileTransformer from "./functions/fileTransformer.js";
+
+// ELASTICSEARCH
 import createIndexWithDocuments from "./functions/elasticsearch_commands/index.js";
+import alpacaComponentTemplate from "./functions/elasticsearch_commands/component_templates/alpacas.js";
 
 /******** SQL -> Elastic ********/
 console.log(`[LOG] START SQL -> Elastic`);
@@ -27,6 +30,6 @@ await connection.end();
 
 const myOutput = await fileTransformer(alpacaDetailsArray, { bulkSyntax: true }, { geoDecodeEnrich: true });
 
-await createIndexWithDocuments(myOutput);
+await createIndexWithDocuments("alpacas", myOutput, alpacaComponentTemplate);
 
 console.log(`[LOG] END SQL -> Elastic`);
