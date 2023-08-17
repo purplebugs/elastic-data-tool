@@ -148,6 +148,31 @@ const createIndexName = (indexName) => {
   }
 };
 
+async function createIndexTemplate(indexTemplateName) {
+  try {
+    const indexTemplateExists = await client.indices.existsIndexTemplate({
+      name: indexTemplateName,
+    });
+
+    console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
+
+    if (!indexTemplateExists) {
+      console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
+      const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
+
+      if (!resultCreateIndexTemplate.acknowledged) {
+        console.error(error);
+        throw new Error("🧨 createIndexTemplate:", resultCreateIndexTemplate);
+      }
+
+      console.log(`[LOG] ✅ Result of create index template:`, resultCreateIndexTemplate);
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createIndexTemplate:", error);
+  }
+}
+
 const switchAlias = async (newIndexName, indexName) => {
   try {
     let actions = [
@@ -185,31 +210,6 @@ const switchAlias = async (newIndexName, indexName) => {
     throw new Error("🧨 switchAlias:", error);
   }
 };
-
-async function createIndexTemplate(indexTemplateName) {
-  try {
-    const indexTemplateExists = await client.indices.existsIndexTemplate({
-      name: indexTemplateName,
-    });
-
-    console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
-
-    if (!indexTemplateExists) {
-      console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
-      const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
-
-      if (!resultCreateIndexTemplate.acknowledged) {
-        console.error(error);
-        throw new Error("🧨 createIndexTemplate:", resultCreateIndexTemplate);
-      }
-
-      console.log(`[LOG] ✅ Result of create index template:`, resultCreateIndexTemplate);
-    }
-  } catch (error) {
-    console.error(error);
-    throw new Error("🧨 createIndexTemplate:", error);
-  }
-}
 
 export default async function createIndexWithDocuments(alpacaArray) {
   try {
