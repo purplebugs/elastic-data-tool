@@ -212,17 +212,27 @@ async function createIndexTemplate(indexTemplateName) {
 }
 
 export default async function createIndexWithDocuments(alpacaArray) {
-  const indexNameWithTimestamp = createIndexName(indexName);
-  await createIndexTemplate(indexTemplateName);
+  try {
+    const indexNameWithTimestamp = createIndexName(indexName);
+    await createIndexTemplate(indexTemplateName);
 
-  const resultCreateIndex = await client.bulk({
-    index: indexNameWithTimestamp,
-    body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
-  });
+    const resultCreateIndex = await client.bulk({
+      index: indexNameWithTimestamp,
+      body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
+    });
 
-  console.log(
-    `[LOG] Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length}`
-  );
+    if (resultCreateIndex.errors) {
+      console.error(error);
+      throw new Error("🧨 resultCreateIndex:", resultCreateIndex);
+    }
 
-  await switchAlias(indexNameWithTimestamp, indexName);
+    console.log(
+      `[LOG] ✅ Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length}`
+    );
+
+    await switchAlias(indexNameWithTimestamp, indexName);
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createIndexWithDocuments:", error);
+  }
 }
