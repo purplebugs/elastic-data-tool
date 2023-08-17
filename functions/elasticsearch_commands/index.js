@@ -161,7 +161,7 @@ const createIndexName = (indexName) => {
 
 const createComponentTemplate = async (componentTemplateName) => {
   try {
-    console.log(`[LOG] 🤖 Start creation component template: ${componentTemplateName}`);
+    console.log(`[LOG] 🤖 Start of create component template: ${componentTemplateName}`);
 
     const resultCreateComponentTemplate = await client.cluster.putComponentTemplate({
       name: componentTemplateName,
@@ -176,7 +176,7 @@ const createComponentTemplate = async (componentTemplateName) => {
     }
 
     console.log(
-      `[LOG] ✅ Result of create component template ${componentTemplateName} :`,
+      `[LOG] ✅ Result of create component template: ${componentTemplateName}`,
       resultCreateComponentTemplate
     );
   } catch (error) {
