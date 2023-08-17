@@ -148,7 +148,7 @@ const createIndexName = (indexName) => {
   }
 };
 
-async function createIndexTemplate(indexTemplateName) {
+const createIndexTemplate = async (indexTemplateName) => {
   try {
     const indexTemplateExists = await client.indices.existsIndexTemplate({
       name: indexTemplateName,
@@ -171,7 +171,7 @@ async function createIndexTemplate(indexTemplateName) {
     console.error(error);
     throw new Error("🧨 createIndexTemplate:", error);
   }
-}
+};
 
 const switchAlias = async (newIndexName, indexName) => {
   try {
