@@ -13,13 +13,14 @@ const client = new Client({
 });
 
 const indexName = `alpacas`;
-const indexTemplateName = `alpacas_template`;
-const indexPatterns = `alpacas-*`;
+const indexTemplateName = `${indexName}_index_template`;
+const indexPatterns = `${indexName}-*`;
 
-const template = {
+const indexTemplate = {
   name: indexTemplateName,
   create: true,
   index_patterns: indexPatterns,
+  priority: 1,
   template: {
     mappings: {
       properties: {
@@ -131,137 +132,107 @@ const template = {
   },
 };
 
-const alpacaDocument_1 = {
-  zip: "0577",
-  country: "NO",
-  alpacaId: 9876543210,
-  gender: "SEX_FEMALE",
-  alpacaShortName: "ANITA IS COOL",
-  city: "Tøyen",
-  dateOfDeath: null,
-  keeper: 30,
-  dateOfBirth: null,
-  color1: "COLOR_LIGHT_FAWN",
-  public: false,
-  farmType: {
-    public: true,
-    keeper: 30,
-  },
-  street: "Alpaca street",
-  name: "Anita's Alpacas",
-  populationByMunicipality: "not found",
-  public: {
-    type: "boolean",
-  },
-  location: {
-    kommunenavn: null,
-    coordinates: [null, null],
-    kommunenummer: null,
-    type: "Point",
-  },
-  webpage: "http://www.AnitaLovesAlpacas.com/",
+const createIndexName = (indexName) => {
+  try {
+    const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
+
+    const date = new Date();
+    const month = addLeadingZero(date.getMonth() + 1);
+    const day = addLeadingZero(date.getDate());
+    const hours = addLeadingZero(date.getHours());
+    const minutes = addLeadingZero(date.getMinutes());
+    return `${indexName}-${date.getFullYear()}-${month}-${day}_${hours}-${minutes}`;
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createIndexName: Could not create index name");
+  }
 };
 
-const alpacaDocument_2 = {
-  zip: "0577",
-  country: "NO",
-  alpacaId: 9999943210,
-  gender: "SEX_MALE",
-  alpacaShortName: "THOR IS COOL",
-  city: "Tøyen",
-  dateOfDeath: null,
-  keeper: 30,
-  dateOfBirth: null,
-  color1: "COLOR_BLACK",
-  public: false,
-  farmType: {
-    public: true,
-    keeper: 30,
-  },
-  street: "Alpaca street",
-  name: "Anita's Alpacas",
-  populationByMunicipality: "not found",
-  location: {
-    kommunenavn: null,
-    coordinates: [null, null],
-    kommunenummer: null,
-    type: "Point",
-  },
-  webpage: "http://www.AnitaLovesAlpacas.com/",
-};
+const switchAlias = async (newIndexName, indexName) => {
+  try {
+    let actions = [
+      {
+        remove: {
+          index: `alpacas-*`,
+          alias: indexName,
+        },
+      },
+    ];
 
-const CreateIndexName = (indexName) => {
-  const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
-
-  const date = new Date();
-  const month = addLeadingZero(date.getMonth() + 1);
-  const day = addLeadingZero(date.getDate());
-  const hours = addLeadingZero(date.getHours());
-  const minutes = addLeadingZero(date.getMinutes());
-  return `${indexName}-${date.getFullYear()}-${month}-${day}_${hours}-${minutes}`;
-};
-
-const SwitchAlias = async (newIndexName, aliasName) => {
-  let actions = [
-    {
+    actions.push({
       add: {
         index: newIndexName,
         alias: indexName,
       },
-    },
-  ];
+    });
 
-  // TODO can check to remove old alias only if exists, meanwhile simply remove all that match
-  actions.unshift({
-    remove: {
-      index: `alpacas-*`,
-      alias: indexName,
-    },
-  });
+    console.log("[LOG] Alias actions:", actions);
 
-  console.log("[LOG] Alias actions: ", actions);
-
-  try {
-    await client.indices.updateAliases({
+    const resultSwitchAlias = await client.indices.updateAliases({
       body: {
         actions: actions,
       },
     });
-    return true;
+
+    if (!resultSwitchAlias.acknowledged) {
+      console.error(error);
+      throw new Error("🧨 switchAlias:", resultSwitchAlias);
+    }
+
+    console.log(`[LOG] ✅ Result of switch alias:`, resultSwitchAlias);
   } catch (error) {
-    console.error(JSON.stringify(error));
-    return false;
+    console.error(error);
+    throw new Error("🧨 switchAlias:", error);
   }
 };
 
-export default async function createIndexWithDocuments(alpacaArray) {
-  const indexNameWithTimestamp = CreateIndexName(indexName);
+async function createIndexTemplate(indexTemplateName) {
+  try {
+    const indexTemplateExists = await client.indices.existsIndexTemplate({
+      name: indexTemplateName,
+    });
 
-  const indexTemplateExists = await client.indices.existsIndexTemplate({
-    name: indexTemplateName,
-  });
+    console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
 
-  console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
+    if (!indexTemplateExists) {
+      console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
+      const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
 
-  if (!indexTemplateExists) {
-    console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
-    const resultCreateIndexTemplate = await client.indices.putIndexTemplate(template);
+      if (!resultCreateIndexTemplate.acknowledged) {
+        console.error(error);
+        throw new Error("🧨 createIndexTemplate:", resultCreateIndexTemplate);
+      }
 
-    console.log(`[LOG] Result of create index template: ${JSON.stringify(resultCreateIndexTemplate)}`);
+      console.log(`[LOG] ✅ Result of create index template:`, resultCreateIndexTemplate);
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createIndexTemplate:", error);
   }
+}
 
-  const resultCreateIndex = await client.bulk({
-    index: indexNameWithTimestamp,
-    body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2], // alpacaArray,
-  });
+export default async function createIndexWithDocuments(alpacaArray) {
+  try {
+    const indexNameWithTimestamp = createIndexName(indexName);
+    await createIndexTemplate(indexTemplateName);
 
-  // console.log(
-  //   `[LOG] Result of create index: ${JSON.stringify(resultCreateIndex)}`
-  // );
+    const resultCreateIndex = await client.bulk({
+      index: indexNameWithTimestamp,
+      body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
+    });
 
-  const resultSwitchAlias = await SwitchAlias(indexNameWithTimestamp, indexName);
+    if (resultCreateIndex.errors) {
+      console.error(error);
+      throw new Error("🧨 resultCreateIndex:", resultCreateIndex);
+    }
 
-  console.log(`[LOG] Result of switch alias: ${JSON.stringify(resultSwitchAlias)}`);
+    console.log(
+      `[LOG] ✅ Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length}`
+    );
 
-  // TODO remove old indices
+    await switchAlias(indexNameWithTimestamp, indexName);
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createIndexWithDocuments:", error);
+  }
 }
