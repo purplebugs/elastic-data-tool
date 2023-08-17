@@ -20,6 +20,7 @@ const indexTemplate = {
   name: indexTemplateName,
   create: true,
   index_patterns: indexPatterns,
+  priority: 1,
   template: {
     mappings: {
       properties: {
