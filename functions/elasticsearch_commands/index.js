@@ -84,7 +84,7 @@ const switchAlias = async (newIndexName, indexName) => {
     let actions = [
       {
         remove: {
-          index: `alpacas-*`,
+          index: `${indexName}-*`,
           alias: indexName,
         },
       },
