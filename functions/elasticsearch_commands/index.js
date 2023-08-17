@@ -13,7 +13,7 @@ const client = new Client({
 });
 
 const indexName = `alpacas`;
-const indexTemplateName = `alpacas_template`;
+const indexTemplateName = `alpacas_index_template`;
 const indexPatterns = `alpacas-*`;
 
 const indexTemplate = {
