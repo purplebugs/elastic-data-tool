@@ -13,8 +13,8 @@ const client = new Client({
 });
 
 const indexName = `alpacas`;
-const indexTemplateName = `alpacas_index_template`;
-const indexPatterns = `alpacas-*`;
+const indexTemplateName = `${indexName}_iindex_template`;
+const indexPatterns = `${indexName}-*`;
 
 const indexTemplate = {
   name: indexTemplateName,
@@ -180,21 +180,34 @@ const switchAlias = async (newIndexName, indexName) => {
   }
 };
 
+async function createIndexTemplate(indexTemplateName) {
+  try {
+    const indexTemplateExists = await client.indices.existsIndexTemplate({
+      name: indexTemplateName,
+    });
+
+    console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
+
+    if (!indexTemplateExists) {
+      console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
+      const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
+
+      console.log(`[LOG] Result of create index template: ${JSON.stringify(resultCreateIndexTemplate)}`);
+
+      if (!resultCreateIndexTemplate.acknowledged) {
+        console.error(error);
+        throw new Error("🧨 createIndexTemplate: ", resultCreateIndexTemplate);
+      }
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createIndexTemplate: ", error);
+  }
+}
+
 export default async function createIndexWithDocuments(alpacaArray) {
   const indexNameWithTimestamp = createIndexName(indexName);
-
-  const indexTemplateExists = await client.indices.existsIndexTemplate({
-    name: indexTemplateName,
-  });
-
-  console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
-
-  if (!indexTemplateExists) {
-    console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
-    const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
-
-    console.log(`[LOG] Result of create index template: ${JSON.stringify(resultCreateIndexTemplate)}`);
-  }
+  await createIndexTemplate(indexTemplateName);
 
   const resultCreateIndex = await client.bulk({
     index: indexNameWithTimestamp,
