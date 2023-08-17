@@ -13,14 +13,12 @@ const client = new Client({
 });
 
 const indexName = `alpacas`;
+const componentTemplateName = `${indexName}_component_template`;
 const indexTemplateName = `${indexName}_index_template`;
 const indexPatterns = `${indexName}-*`;
 
-const indexTemplate = {
-  name: indexTemplateName,
-  create: true,
-  index_patterns: indexPatterns,
-  priority: 1,
+const componentTemplate = {
+  create: false, // Replace/update existing. Ref: https://www.elastic.co/guide/en/elasticsearch/reference/8.9/indices-component-template.html#put-component-template-api-query-params
   template: {
     mappings: {
       properties: {
@@ -126,9 +124,20 @@ const indexTemplate = {
         },
       },
     },
-    aliases: {
-      alpacas: {},
-    },
+  },
+  _meta: {
+    description: "Define JSON structure of document",
+  },
+};
+
+const indexTemplate = {
+  name: indexTemplateName,
+  create: true, // TODO perhaps set to false so can override existing without needing priority and checks for existing before create?
+  index_patterns: indexPatterns,
+  priority: 1,
+  composed_of: [componentTemplateName],
+  aliases: {
+    alpacas: {},
   },
 };
 
@@ -145,6 +154,32 @@ const createIndexName = (indexName) => {
   } catch (error) {
     console.error(error);
     throw new Error("🧨 createIndexName: Could not create index name");
+  }
+};
+
+const createComponentTemplate = async (componentTemplateName) => {
+  try {
+    console.log(`[LOG] 🤖 Start creation component template: ${componentTemplateName}`);
+
+    const resultCreateComponentTemplate = await client.cluster.putComponentTemplate({
+      name: componentTemplateName,
+      template: componentTemplate.template,
+      create: componentTemplate.create,
+      _meta: componentTemplate._meta,
+    });
+
+    if (!resultCreateComponentTemplate.acknowledged) {
+      console.error(error);
+      throw new Error("🧨 createComponentTemplate:", resultCreateComponentTemplate);
+    }
+
+    console.log(
+      `[LOG] ✅ Result of create component template ${componentTemplateName} :`,
+      resultCreateComponentTemplate
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 createComponentTemplate:", error);
   }
 };
 
@@ -214,6 +249,7 @@ const switchAlias = async (newIndexName, indexName) => {
 export default async function createIndexWithDocuments(alpacaArray) {
   try {
     const indexNameWithTimestamp = createIndexName(indexName);
+    await createComponentTemplate(componentTemplateName);
     await createIndexTemplate(indexTemplateName);
 
     const resultCreateIndex = await client.bulk({
