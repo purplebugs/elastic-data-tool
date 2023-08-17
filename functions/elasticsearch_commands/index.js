@@ -166,17 +166,23 @@ const switchAlias = async (newIndexName, indexName) => {
       },
     });
 
-    console.log("[LOG] Alias actions: ", actions);
+    console.log("[LOG] Alias actions:", actions);
 
-    await client.indices.updateAliases({
+    const resultSwitchAlias = await client.indices.updateAliases({
       body: {
         actions: actions,
       },
     });
-    return true;
+
+    if (!resultSwitchAlias.acknowledged) {
+      console.error(error);
+      throw new Error("🧨 switchAlias:", resultSwitchAlias);
+    }
+
+    console.log(`[LOG] ✅ Result of switch alias:`, resultSwitchAlias);
   } catch (error) {
-    console.error(JSON.stringify(error));
-    return false;
+    console.error(error);
+    throw new Error("🧨 switchAlias:", error);
   }
 };
 
@@ -192,16 +198,16 @@ async function createIndexTemplate(indexTemplateName) {
       console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
       const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
 
-      console.log(`[LOG] Result of create index template: ${JSON.stringify(resultCreateIndexTemplate)}`);
-
       if (!resultCreateIndexTemplate.acknowledged) {
         console.error(error);
-        throw new Error("🧨 createIndexTemplate: ", resultCreateIndexTemplate);
+        throw new Error("🧨 createIndexTemplate:", resultCreateIndexTemplate);
       }
+
+      console.log(`[LOG] ✅ Result of create index template:`, resultCreateIndexTemplate);
     }
   } catch (error) {
     console.error(error);
-    throw new Error("🧨 createIndexTemplate: ", error);
+    throw new Error("🧨 createIndexTemplate:", error);
   }
 }
 
@@ -218,7 +224,5 @@ export default async function createIndexWithDocuments(alpacaArray) {
     `[LOG] Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length}`
   );
 
-  const resultSwitchAlias = await switchAlias(indexNameWithTimestamp, indexName);
-
-  console.log(`[LOG] Result of switch alias: ${JSON.stringify(resultSwitchAlias)}`);
+  await switchAlias(indexNameWithTimestamp, indexName);
 }
