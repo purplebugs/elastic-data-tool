@@ -12,11 +12,6 @@ const client = new Client({
   },
 });
 
-const indexName = `alpacas`;
-const componentTemplateName = `${indexName}_component_template`;
-const indexTemplateName = `${indexName}_index_template`;
-const indexPatterns = `${indexName}-*`;
-
 const componentTemplate = {
   create: false, // Replace/update existing. Ref: https://www.elastic.co/guide/en/elasticsearch/reference/8.9/indices-component-template.html#put-component-template-api-query-params
   template: {
@@ -130,19 +125,6 @@ const componentTemplate = {
   },
 };
 
-const indexTemplate = {
-  name: indexTemplateName,
-  create: true, // TODO perhaps set to false so can override existing without needing priority and checks for existing before create?
-  index_patterns: indexPatterns,
-  priority: 1,
-  composed_of: [componentTemplateName],
-  template: {
-    aliases: {
-      indexName: {},
-    },
-  },
-};
-
 const createIndexName = (indexName) => {
   try {
     const addLeadingZero = (number) => (number < 10 ? `0${number}` : number);
@@ -185,7 +167,7 @@ const createComponentTemplate = async (componentTemplateName) => {
   }
 };
 
-const createIndexTemplate = async (indexTemplateName) => {
+const createIndexTemplate = async (indexTemplateName, indexTemplate) => {
   try {
     const indexTemplateExists = await client.indices.existsIndexTemplate({
       name: indexTemplateName,
@@ -248,15 +230,32 @@ const switchAlias = async (newIndexName, indexName) => {
   }
 };
 
-export default async function createIndexWithDocuments(alpacaArray) {
+export default async function createIndexWithDocuments(indexName, items) {
   try {
+    const componentTemplateName = `${indexName}_component_template`;
+    const indexTemplateName = `${indexName}_index_template`;
+    const indexPatterns = `${indexName}-*`;
+
+    const indexTemplate = {
+      name: indexTemplateName,
+      create: true, // TODO perhaps set to false so can override existing without needing priority and checks for existing before create?
+      index_patterns: indexPatterns,
+      priority: 1,
+      composed_of: [componentTemplateName],
+      template: {
+        aliases: {
+          indexName: {},
+        },
+      },
+    };
+
     const indexNameWithTimestamp = createIndexName(indexName);
     await createComponentTemplate(componentTemplateName);
-    await createIndexTemplate(indexTemplateName);
+    await createIndexTemplate(indexTemplateName, indexTemplate);
 
     const resultCreateIndex = await client.bulk({
       index: indexNameWithTimestamp,
-      body: alpacaArray, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
+      body: items, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
     });
 
     if (resultCreateIndex.errors) {

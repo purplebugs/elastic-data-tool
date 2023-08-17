@@ -27,6 +27,6 @@ await connection.end();
 
 const myOutput = await fileTransformer(alpacaDetailsArray, { bulkSyntax: true }, { geoDecodeEnrich: true });
 
-await createIndexWithDocuments(myOutput);
+await createIndexWithDocuments("alpacas", myOutput);
 
 console.log(`[LOG] END SQL -> Elastic`);
