@@ -16,7 +16,7 @@ const indexName = `alpacas`;
 const indexTemplateName = `alpacas_template`;
 const indexPatterns = `alpacas-*`;
 
-const template = {
+const indexTemplate = {
   name: indexTemplateName,
   create: true,
   index_patterns: indexPatterns,
@@ -185,7 +185,7 @@ export default async function createIndexWithDocuments(alpacaArray) {
 
   if (!indexTemplateExists) {
     console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
-    const resultCreateIndexTemplate = await client.indices.putIndexTemplate(template);
+    const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
 
     console.log(`[LOG] Result of create index template: ${JSON.stringify(resultCreateIndexTemplate)}`);
   }
