@@ -11,7 +11,7 @@ const now = Date.now().toString();
 const jsonFileToConvertToNDJSON = "alpacas-address-camelCase-several-only.json";
 
 const myParsedFile = fileReader(jsonFileToConvertToNDJSON);
-const myOutput = bulkSyntax(await fileTransformer(myParsedFile, { geoDecodeEnrich: true }));
+const myOutput = await fileTransformer(myParsedFile, { geoDecodeEnrich: true });
 
 /******** array -> NDJSON ********/
 
