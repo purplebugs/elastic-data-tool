@@ -2,7 +2,7 @@ import { getLatLongFromGeoNorge } from "./geo-decode.js";
 import { populationByMunicipalityLookup } from "./geo-enrich/population-by-municipality.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
-export default async function fileTransformer(file, { bulkSyntax = false }, { geoDecodeEnrich = true }) {
+export default async function fileTransformer(file, { geoDecodeEnrich = true }) {
   // Loop over all items
 
   const myOutput = [];
@@ -29,16 +29,7 @@ export default async function fileTransformer(file, { bulkSyntax = false }, { ge
       itemTransformed = Object.assign(itemTransformed, geoEnrichObj);
     }
 
-    if (bulkSyntax) {
-      // For Elasticsearch POST /_bulk body format
-      //[{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
-      myOutput.push({ create: {} });
-      myOutput.push(itemTransformed);
-    }
-
-    if (!bulkSyntax) {
-      myOutput.push(itemTransformed);
-    }
+    myOutput.push(itemTransformed);
 
     count++;
   }
