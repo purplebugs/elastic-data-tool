@@ -8,6 +8,7 @@ import {
 
 import fileTransformer from "./functions/fileTransformer.js";
 import { farmsFromAlpacas } from "./functions/farmsFromAlpacas.js";
+import bulkSyntax from "./functions/elasticsearch_commands/bulkSyntax.js";
 
 // ELASTICSEARCH
 import createIndexWithDocuments from "./functions/elasticsearch_commands/index.js";
@@ -30,7 +31,7 @@ console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from d
 
 await connection.end();
 
-const myOutput = await fileTransformer(alpacaDetailsArray, { bulkSyntax: true }, { geoDecodeEnrich: true });
+const myOutput = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
 const farms_ALL_WithAlpacaCountArray = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
 const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: true });
 

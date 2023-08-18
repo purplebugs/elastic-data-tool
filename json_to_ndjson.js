@@ -1,6 +1,7 @@
 import { writeFileSync } from "fs";
 import fileReader from "./functions/fileReader.js";
 import fileTransformer from "./functions/fileTransformer.js";
+import bulkSyntax from "./functions/elasticsearch_commands/bulkSyntax.js";
 
 /******** JSON -> geodecode + enrich -> array ********/
 
@@ -10,7 +11,7 @@ const now = Date.now().toString();
 const jsonFileToConvertToNDJSON = "alpacas-address-camelCase-several-only.json";
 
 const myParsedFile = fileReader(jsonFileToConvertToNDJSON);
-const myOutput = await fileTransformer(myParsedFile, { bulkSyntax: false }, { geoDecodeEnrich: true });
+const myOutput = await fileTransformer(myParsedFile, { geoDecodeEnrich: true });
 
 /******** array -> NDJSON ********/
 

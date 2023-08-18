@@ -19,11 +19,7 @@ console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from d
 
 await connection.end();
 
-const enrichedAlpacaDetailsArray = await fileTransformer(
-  alpacaDetailsArray,
-  { bulkSyntax: false },
-  { geoDecodeEnrich: true }
-);
+const enrichedAlpacaDetailsArray = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true });
 
 const farms_ALL_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: false });
 const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: true });
