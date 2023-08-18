@@ -7,11 +7,13 @@ import {
 } from "./functions/sql_queries/get_alpacas.js";
 
 import fileTransformer from "./functions/fileTransformer.js";
+import { farmsFromAlpacas } from "./functions/farmsFromAlpacas.js";
 import bulkSyntax from "./functions/elasticsearch_commands/bulkSyntax.js";
 
 // ELASTICSEARCH
 import createIndexWithDocuments from "./functions/elasticsearch_commands/index.js";
 import alpacaComponentTemplate from "./functions/elasticsearch_commands/component_templates/alpacas.js";
+import farmsComponentTemplate from "./functions/elasticsearch_commands/component_templates/farms.js";
 
 /******** SQL -> Elastic ********/
 console.log(`[LOG] START SQL -> Elastic`);
@@ -29,8 +31,13 @@ console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from d
 
 await connection.end();
 
-const myOutput = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
+const alpacas = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
+await createIndexWithDocuments("alpacas", alpacas, alpacaComponentTemplate);
 
-await createIndexWithDocuments("alpacas", myOutput, alpacaComponentTemplate);
+const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
+await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
+
+const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
+await createIndexWithDocuments("farms_public", farms_public, farmsComponentTemplate);
 
 console.log(`[LOG] END SQL -> Elastic`);

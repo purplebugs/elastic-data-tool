@@ -151,7 +151,7 @@ export default async function createIndexWithDocuments(indexName, items, compone
     }
 
     console.log(
-      `[LOG] ✅ Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length}`
+      `[LOG] ✅ Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length} 💚`
     );
 
     await switchAlias(indexNameWithTimestamp, indexName);
