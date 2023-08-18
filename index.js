@@ -31,17 +31,13 @@ console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from d
 
 await connection.end();
 
-const enrichedAlpacaDetailsArray = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
+const alpacas = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
+await createIndexWithDocuments("alpacas", alpacas, alpacaComponentTemplate);
 
-const farms_ALL_WithAlpacaCountArray = bulkSyntax(
-  farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: false })
-);
-const farms_PUBLIC_WithAlpacaCountArray = bulkSyntax(
-  farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: true })
-);
-
-await createIndexWithDocuments("alpacas", enrichedAlpacaDetailsArray, alpacaComponentTemplate);
+const farms_ALL_WithAlpacaCountArray = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
 await createIndexWithDocuments("farms_all", farms_ALL_WithAlpacaCountArray, farmsComponentTemplate);
+
+const farms_PUBLIC_WithAlpacaCountArray = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
 await createIndexWithDocuments("farms_public", farms_PUBLIC_WithAlpacaCountArray, farmsComponentTemplate);
 
 console.log(`[LOG] END SQL -> Elastic`);
