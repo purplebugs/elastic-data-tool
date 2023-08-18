@@ -34,10 +34,10 @@ await connection.end();
 const alpacas = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
 await createIndexWithDocuments("alpacas", alpacas, alpacaComponentTemplate);
 
-const farms_ALL_WithAlpacaCountArray = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
-await createIndexWithDocuments("farms_all", farms_ALL_WithAlpacaCountArray, farmsComponentTemplate);
+const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
+await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
 
-const farms_PUBLIC_WithAlpacaCountArray = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
-await createIndexWithDocuments("farms_public", farms_PUBLIC_WithAlpacaCountArray, farmsComponentTemplate);
+const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
+await createIndexWithDocuments("farms_public", farms_public, farmsComponentTemplate);
 
 console.log(`[LOG] END SQL -> Elastic`);
