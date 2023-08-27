@@ -29,6 +29,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
         lat: lat,
         lng: lng,
         public: alpaca.public ?? false,
+        private: !alpaca.public ?? true,
         name: alpaca.keeperName,
       });
     }

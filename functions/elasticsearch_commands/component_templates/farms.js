@@ -36,6 +36,9 @@ export default {
         public: {
           type: "boolean",
         },
+        private: {
+          type: "boolean",
+        },
       },
     },
   },
