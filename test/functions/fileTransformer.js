@@ -19,6 +19,7 @@ describe("Farm info transformer", async () => {
     assert.deepEqual(result[0], {
       alpacaId: 1234,
       keeperName: "Not a public farm name",
+      private: true,
       public: false,
     });
   });
@@ -39,6 +40,7 @@ describe("Farm info transformer", async () => {
     assert.deepEqual(result[0], {
       alpacaId: 1234,
       keeperName: "Alpakkahagen",
+      private: false,
       public: true,
     });
   });

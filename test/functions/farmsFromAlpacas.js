@@ -12,6 +12,7 @@ describe("Farms from alpacas transformer", async () => {
         companyId: 111,
         keeperName: "Farm one",
         location: { type: "Point", coordinates: [null, null], kommunenummer: null, kommunenavn: null },
+        private: true,
       },
       {
         alpacaId: 456,
@@ -19,6 +20,8 @@ describe("Farms from alpacas transformer", async () => {
         companyId: 111,
         keeperName: "Farm one",
         location: { type: "Point", coordinates: [null, null], kommunenummer: null, kommunenavn: null },
+        public: false,
+        private: true,
       },
       {
         alpacaId: 789,
@@ -32,6 +35,7 @@ describe("Farms from alpacas transformer", async () => {
           kommunenavn: "FREDRIKSTAD",
         },
         public: true,
+        private: false,
       },
     ];
 
@@ -41,7 +45,7 @@ describe("Farms from alpacas transformer", async () => {
     // ASSERT
 
     const expected = [
-      { id: 111, city: null, countOfAlpacas: 2, lat: null, lng: null, name: "Farm one", public: false },
+      { id: 111, city: null, countOfAlpacas: 2, lat: null, lng: null, name: "Farm one", public: false, private: true },
       {
         id: 222,
         city: "Fredrikstad",
@@ -50,6 +54,7 @@ describe("Farms from alpacas transformer", async () => {
         lng: 10.97662911768462,
         name: "Farm two",
         public: true,
+        private: false,
       },
     ];
     assert.deepEqual(result, expected);
@@ -64,6 +69,7 @@ describe("Farms from alpacas transformer", async () => {
         companyId: 111,
         keeperName: "Farm one",
         location: { type: "Point", coordinates: [null, null], kommunenummer: null, kommunenavn: null },
+        private: true,
       },
       {
         alpacaId: 456,
@@ -72,6 +78,7 @@ describe("Farms from alpacas transformer", async () => {
         keeperName: "Farm one",
         location: { type: "Point", coordinates: [null, null], kommunenummer: null, kommunenavn: null },
         public: false,
+        private: true,
       },
       {
         alpacaId: 789,
@@ -85,6 +92,7 @@ describe("Farms from alpacas transformer", async () => {
           kommunenavn: "FREDRIKSTAD",
         },
         public: true,
+        private: false,
       },
     ];
 
@@ -102,6 +110,7 @@ describe("Farms from alpacas transformer", async () => {
         lng: 10.97662911768462,
         name: "Farm two",
         public: true,
+        private: false,
       },
     ];
     assert.deepEqual(result, expected);
