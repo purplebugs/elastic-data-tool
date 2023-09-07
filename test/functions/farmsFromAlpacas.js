@@ -70,6 +70,7 @@ describe("Farms from alpacas transformer", async () => {
         companyId: 111,
         keeperName: "Farm one",
         location: { type: "Point", coordinates: [null, null], kommunenummer: null, kommunenavn: null },
+        public: false,
         private: true,
       },
       {
