@@ -18,6 +18,13 @@ export default {
         id: {
           type: "long",
         },
+        location: {
+          properties: {
+            coordinates: {
+              type: "geo_point",
+            },
+          },
+        },
         lat: {
           type: "float",
         },
