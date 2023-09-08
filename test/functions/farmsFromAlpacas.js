@@ -46,13 +46,30 @@ describe("Farms from alpacas transformer", async () => {
     // ASSERT
 
     const expected = [
-      { id: 111, city: null, countOfAlpacas: 2, lat: null, lng: null, name: "Farm one", public: false, private: true },
+      {
+        id: 111,
+        city: null,
+        countOfAlpacas: 2,
+        lat: null,
+        lng: null,
+        location: {
+          coordinates: [null, null],
+          type: "Point",
+        },
+        name: "Farm one",
+        public: false,
+        private: true,
+      },
       {
         id: 222,
         city: "Fredrikstad",
         countOfAlpacas: 1,
         lat: 59.295708720373376,
         lng: 10.97662911768462,
+        location: {
+          coordinates: [10.97662911768462, 59.295708720373376],
+          type: "Point",
+        },
         name: "Farm two",
         public: true,
         private: false,
@@ -110,6 +127,10 @@ describe("Farms from alpacas transformer", async () => {
         countOfAlpacas: 1,
         lat: 59.295708720373376,
         lng: 10.97662911768462,
+        location: {
+          coordinates: [10.97662911768462, 59.295708720373376],
+          type: "Point",
+        },
         name: "Farm two",
         public: true,
         private: false,
