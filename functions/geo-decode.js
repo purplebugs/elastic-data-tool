@@ -3,7 +3,7 @@ import axios from "axios";
 
 const cache = new Map();
 
-export const getLatLngFromGoogleGeocodingAPI = async (alpacaObject) => {
+export const getLatLngFromAddress = async (alpacaObject) => {
   if (!alpacaObject || !alpacaObject.keeper || !alpacaObject.street || !alpacaObject.zip || !alpacaObject.city) {
     return {};
   }
@@ -13,7 +13,6 @@ export const getLatLngFromGoogleGeocodingAPI = async (alpacaObject) => {
     return cache.get(alpacaObject.keeper);
   }
 
-  // example address: { zip: "0167", city: "Oslo", street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
   // console.debug(alpacaObject);
 
   console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
@@ -23,18 +22,27 @@ export const getLatLngFromGoogleGeocodingAPI = async (alpacaObject) => {
   // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
 
   const client = new Client({});
-  const response = await client.geocode(
-    {
-      params: {
-        address: [`${alpacaObject.street} ${alpacaObject.zip.toString()} ${alpacaObject.city}`],
-        key: process.env.GOOGLE_MAPS_API_KEY,
-      },
-      timeout: 1000, // milliseconds
-    },
-    axios
-  );
+  let data = null;
 
-  const data = response.data;
+  try {
+    const response = await client.geocode(
+      {
+        params: {
+          address: [`${alpacaObject.street} ${alpacaObject.zip.toString()} ${alpacaObject.city}`],
+          key: process.env.GOOGLE_MAPS_API_KEY,
+        },
+        timeout: 1000, // milliseconds
+      },
+      axios
+    );
+
+    if (response?.data.status === "OK") {
+      data = response?.data || null;
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 getLatLngFromAddress: Response from Google Geocode API failed");
+  }
 
   const latitude = data?.results[0]?.geometry?.location?.lat || null;
   const longitude = data?.results[0]?.geometry?.location?.lng || null;
