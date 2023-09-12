@@ -29,8 +29,6 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
         countOfAlpacas: count,
         lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates
         lng: lng, // TODO remove this field when alpaca app is updated to use location.coordinates
-        // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
-        // Geopoint as an object using GeoJSON format
         location: location,
         public: alpaca.public ?? false,
         private: !alpaca.public ?? true,
