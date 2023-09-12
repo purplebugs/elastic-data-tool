@@ -1,8 +1,9 @@
-import fetchRetry from "./fetchRetry.js";
+import { Client } from "@googlemaps/google-maps-services-js";
+import axios from "axios";
 
 const cache = new Map();
 
-export const getLatLongFromGeoNorge = async (alpacaObject) => {
+export const getLatLngFromAddress = async (alpacaObject) => {
   if (!alpacaObject || !alpacaObject.keeper || !alpacaObject.street || !alpacaObject.zip || !alpacaObject.city) {
     return {};
   }
@@ -12,33 +13,41 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
     return cache.get(alpacaObject.keeper);
   }
 
-  // example address: { zip: "0167", city: "Oslo", street: "Wergelandsveien 15"} ->  "Wergelandsveien 15, 0167, Oslo"
   // console.debug(alpacaObject);
-
-  const searchParams = new URLSearchParams();
-  searchParams.set("fuzzy", "true");
-  searchParams.set("sok", alpacaObject.street);
-  searchParams.set("postnummer", alpacaObject.zip.toString());
-  searchParams.set("poststed", alpacaObject.city);
-  searchParams.set("utkoordsys", "4258");
-  searchParams.set("treffPerSide", "10");
-  searchParams.set("side", "0");
-  searchParams.set("asciiKompatibel", "true");
 
   console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
-  // Ref: https://kartkatalog.geonorge.no/metadata/adresse-rest-api/44eeffdc-6069-4000-a49b-2d6bfc59ac61
-  // https://ws.geonorge.no/adresser/v1/
+  // Use geocoding from https://github.com/googlemaps/google-maps-services-js
+  // Ref: https://developers.google.com/maps/documentation/geocoding/overview
+  // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
 
-  const response = await fetchRetry(`https://ws.geonorge.no/adresser/v1/sok?${searchParams}`, {}, 2);
-  const data = await response.json();
+  const client = new Client({});
+  let data = null;
 
-  // TODO - if address not found use fuzzy search format below and grab first result since this solves at least one of the missing address cases
-  // https://ws.geonorge.no/adresser/v1/sok?sok=myStreet 123, My town name, fuzzy=true&postnummer=7200&utkoordsys=4258&treffPerSide=10&side=0&asciiKompatibel=true
+  try {
+    const response = await client.geocode(
+      {
+        params: {
+          address: [`${alpacaObject.street} ${alpacaObject.zip.toString()} ${alpacaObject.city}`],
+          key: process.env.GOOGLE_MAPS_API_KEY,
+        },
+        timeout: 1000, // milliseconds
+      },
+      axios
+    );
 
-  // "representasjonspunkt": { "epsg": "EPSG:4258", "lat": 59.295708720373376, "lon": 10.97662911768462 }
-  const latitude = data?.adresser[0]?.representasjonspunkt.lat || null;
-  const longitude = data?.adresser[0]?.representasjonspunkt.lon || null;
+    if (response?.data?.status === "OK") {
+      data = response?.data || null;
+    }
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 getLatLngFromAddress: Response from Google Geocode API failed");
+  }
+
+  const latitude = data?.results[0]?.geometry?.location?.lat || null;
+  const longitude = data?.results[0]?.geometry?.location?.lng || null;
+  const formatted_address = data?.results[0]?.formatted_address || null;
+  const place_id = data?.results[0]?.place_id || null;
 
   // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
   // Geopoint as an object using GeoJSON format
