@@ -40,11 +40,6 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
   const latitude = data?.adresser[0]?.representasjonspunkt.lat || null;
   const longitude = data?.adresser[0]?.representasjonspunkt.lon || null;
 
-  // "kommunenummer": "3004",
-  // "kommunenavn": "FREDRIKSTAD",
-  const kommunenummer = data?.adresser[0]?.kommunenummer || null;
-  const kommunenavn = data?.adresser[0]?.kommunenavn || null;
-
   // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
   // Geopoint as an object using GeoJSON format
 
@@ -52,8 +47,6 @@ export const getLatLongFromGeoNorge = async (alpacaObject) => {
     location: {
       type: "Point",
       coordinates: [longitude, latitude],
-      kommunenummer: kommunenummer,
-      kommunenavn: kommunenavn,
     },
   };
 
