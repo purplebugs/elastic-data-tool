@@ -36,7 +36,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       axios
     );
 
-    if (response?.data.status === "OK") {
+    if (response?.data?.status === "OK") {
       data = response?.data || null;
     }
   } catch (error) {
