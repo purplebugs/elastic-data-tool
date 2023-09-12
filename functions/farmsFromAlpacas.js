@@ -10,6 +10,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
   for (const alpaca of alpacasByFarmType) {
     const lat = alpaca?.location?.coordinates[1] ?? null;
     const lng = alpaca?.location?.coordinates[0] ?? null;
+    const location = alpaca?.location ?? null;
 
     if (!farms.has(alpaca.keeperName)) {
       // First time for farm
@@ -28,12 +29,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
         countOfAlpacas: count,
         lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates
         lng: lng, // TODO remove this field when alpaca app is updated to use location.coordinates
-        // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
-        // Geopoint as an object using GeoJSON format
-        location: {
-          type: "Point",
-          coordinates: [lng, lat],
-        },
+        location: location,
         public: alpaca.public ?? false,
         private: !alpaca.public ?? true,
         name: alpaca.keeperName,

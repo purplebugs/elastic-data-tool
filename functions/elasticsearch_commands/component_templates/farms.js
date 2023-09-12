@@ -23,6 +23,28 @@ export default {
             coordinates: {
               type: "geo_point",
             },
+            google: {
+              properties: {
+                formatted_address: {
+                  type: "text",
+                  fields: {
+                    keyword: {
+                      type: "keyword",
+                      ignore_above: 256,
+                    },
+                  },
+                },
+                place_id: {
+                  type: "text",
+                  fields: {
+                    keyword: {
+                      type: "keyword",
+                      ignore_above: 256,
+                    },
+                  },
+                },
+              },
+            },
           },
         },
         lat: {
