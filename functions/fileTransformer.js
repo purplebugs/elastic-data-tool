@@ -1,5 +1,4 @@
 import { getLatLongFromGeoNorge } from "./geo-decode.js";
-import { populationByMunicipalityLookup } from "./geo-enrich/population-by-municipality.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
 export default async function fileTransformer(file, { geoDecodeEnrich = true }) {
@@ -26,9 +25,6 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true }) 
     if (geoDecodeEnrich) {
       const geoDecodeObj = await getLatLongFromGeoNorge(item);
       itemTransformed = Object.assign(itemTransformed, geoDecodeObj);
-
-      const geoEnrichObj = populationByMunicipalityLookup(itemTransformed);
-      itemTransformed = Object.assign(itemTransformed, geoEnrichObj);
     }
 
     myOutput.push(itemTransformed);
