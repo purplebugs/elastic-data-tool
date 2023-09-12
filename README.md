@@ -8,7 +8,6 @@ Personal learning project which should result in a greater understanding of how 
 
 - SQL -> JSON
 - geo decoding JSON data containing location by adding latitude, longitude from address fields using external API
-- geo enriching JSON data containing location by adding population statistics using external API
 - JSON -> NDJSON -> import file to Elasticsearch
 - JSON -> NDJSON -> Elasticsearch API `POST /_bulk` command, eg
 
@@ -89,27 +88,6 @@ Generate NDJSON file to import manually to Elasticsearch
 
 ## 4. Use the app helpers 🐕‍🦺
 
-### Regenerate latest population data 👶
-
-Run the following, then update the file referenced by the app to use this latest file
-
-Note: the app by default geo enriches using a static file
-
-1. Run `node functions/geo-enrich/get-population-by-municipality.js` to generate a standalone JSON file and a standalone NDJSON file in [./data](./data) containing population by municipality, eg
-
-.json
-
-```
-[{"municipalityNumberFromSSB":"K-3001","municipalityNumber":"3001","municipalityName":"Halden","population":31444},{"municipalityNumberFromSSB":"K-3002","municipalityNumber":"3002","municipalityName":"Moss","population":50290}]
-```
-
-.ndjson
-
-```
-{"municipalityNumber":"K-3001","municipalityName":"Halden","population":31444}
-{"municipalityNumber":"K-3002","municipalityName":"Moss","population":50290}
-```
-
 ### Get public farms 🦙
 
 - This is an independent helper tool to create NDJSON file for Elasticsearch API `POST /_bulk` command, eg
@@ -131,7 +109,6 @@ Note: the app by default geo enriches using a static file
 ## Credits 👏
 
 - Location data from [Geo Norge](https://www.geonorge.no/)
-- Population data from [SSB - Statistisk sentralbyrå - Statistics Norway](https://www.ssb.no/)
 
 ## License 📝
 
