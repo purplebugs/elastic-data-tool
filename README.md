@@ -114,7 +114,7 @@ Generate NDJSON file to import manually to Elasticsearch
 
 ## Credits 👏
 
-- Location data from [Geo Norge](https://www.geonorge.no/)
+- Location data from [Google Maps](https://developers.google.com/maps/documentation/geocoding/)
 
 ## License 📝
 
