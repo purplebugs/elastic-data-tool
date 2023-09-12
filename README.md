@@ -50,6 +50,12 @@ ELASTIC_USERNAME="UPDATE-ME"
 ELASTIC_PASSWORD="UPDATE-ME"
 ```
 
+Google API
+
+```
+GOOGLE_MAPS_API_KEY="UPDATE-ME"
+```
+
 ## 2. Use the app 🎷
 
 Pre-conditions
