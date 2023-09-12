@@ -56,6 +56,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     location: {
       type: "Point",
       coordinates: [longitude, latitude],
+      google: { formatted_address: formatted_address, place_id: place_id }, // TODO add to farms indices, add mappings
     },
   };
 
