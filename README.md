@@ -92,23 +92,7 @@ Generate NDJSON file to import manually to Elasticsearch
 
 `npm run test`
 
-## 4. Use the app helpers 🐕‍🦺
-
-### Get public farms 🦙
-
-- This is an independent helper tool to create NDJSON file for Elasticsearch API `POST /_bulk` command, eg
-
-```
-{"index":{"_id":1}}
-{"keeper":32,"name":"Farm name 1","public":true}
-{"index":{"_id":2}}
-{"keeper":16,"name":"Farm name 2","public":true}
-```
-
-1. Pre-condition: search for `const PUBLIC_FARMS` and replace farm list with actual
-1. Run `node get_public_farms.js` and look at console log and for file in [./data](./data)
-
-## 5. Create data in Elasticsearch from scratch 🎸
+## 4. Create data in Elasticsearch from scratch 🎸
 
 - [Data setup in Elasticsearch](elasticsearch_data_setup.md)
 
