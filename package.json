@@ -4,8 +4,6 @@
   "description": "Convert data to formats to easily ingest into Elasticsearch",
   "main": "index.js",
   "scripts": {
-    "get_public_farms": "node get_public_farms.js",
-    "get_public_farms_test": "NODE_ENV=test node get_public_farms.js",
     "sql_to_elastic": "node index.js",
     "sql_to_elastic_test": "NODE_ENV=test node index.js",
     "sql_to_json": "node sql_to_json.js",

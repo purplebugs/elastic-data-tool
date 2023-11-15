@@ -11,7 +11,10 @@ describe("Farms from alpacas transformer", async () => {
         city: null,
         companyId: 111,
         keeperName: "Farm one",
-        location: { type: "Point", coordinates: [null, null] },
+        location: {
+          type: "Point",
+          coordinates: [null, null],
+        },
         public: false,
         private: true,
       },
@@ -32,6 +35,10 @@ describe("Farms from alpacas transformer", async () => {
         location: {
           type: "Point",
           coordinates: [10.97662911768462, 59.295708720373376],
+          google: {
+            formatted_address: "Anita street, 1234 Oslo, Norway",
+            place_id: "some-random-id",
+          },
         },
         public: true,
         private: false,
@@ -67,6 +74,10 @@ describe("Farms from alpacas transformer", async () => {
         location: {
           coordinates: [10.97662911768462, 59.295708720373376],
           type: "Point",
+          google: {
+            formatted_address: "Anita street, 1234 Oslo, Norway",
+            place_id: "some-random-id",
+          },
         },
         name: "Farm two",
         public: true,

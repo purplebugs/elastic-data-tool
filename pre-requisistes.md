@@ -32,3 +32,10 @@ MySQL running locally
 
 1. Go to root directory of app
 2. Run `node sql_to_json.js` and look for generated file in [./data](./data)
+
+## Troubleshooting
+
+If the .sql file contains `CREATE DATABASE IF NOT EXISTS` then either
+
+- comment that out, or
+- update the database name in the .sql file, then in the SQL -> JSON step remove the database name, eg `mysql -u root -p > alpaca.sql`
