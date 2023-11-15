@@ -105,7 +105,6 @@ Generate NDJSON file to import manually to Elasticsearch
 {"keeper":16,"name":"Farm name 2","public":true}
 ```
 
-1. Pre-condition: search for `const PUBLIC_FARMS` and replace farm list with actual
 1. Run `node get_public_farms.js` and look at console log and for file in [./data](./data)
 
 ## 5. Create data in Elasticsearch from scratch 🎸

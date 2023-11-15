@@ -1,9 +1,3 @@
-import { PUBLIC_FARMS } from "./public_farms.js";
-
-const publicFarms = PUBLIC_FARMS.map((farm) => {
-  return `"${farm}"`;
-});
-
 export const getPublicFarms = async (connection) => {
   // query database
   const query = `SELECT idCompany AS keeper, Name AS name FROM alp_Company WHERE idCompany IN (SELECT idCompanyCategory from alp_CompanyCategories where Category = 1) ORDER BY Name`;

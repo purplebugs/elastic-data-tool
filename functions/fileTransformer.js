@@ -1,11 +1,19 @@
+// SQL
+import { connectToDb } from "./sql_queries/connect_to_db.js";
+import { getPublicFarms } from "./sql_queries/get_public_farms.js";
+
+// HELPERS
 import { getLatLngFromAddress } from "./geo-decode.js";
-import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
 export default async function fileTransformer(file, { geoDecodeEnrich = true }) {
   // Loop over all items
 
   const myOutput = [];
   let count = 1;
+
+  const connection = await connectToDb();
+  const [publicFarms] = await getPublicFarms(connection);
+  await connection.end();
 
   for await (const item of file) {
     // convert each item to a JSON string
@@ -16,7 +24,10 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true }) 
     // By default all farms are private
     let itemTransformed = Object.assign({}, item, { public: false, private: true });
 
-    if (item.keeperName && PUBLIC_FARMS.some((element) => element.toLowerCase() === item.keeperName.toLowerCase())) {
+    if (
+      item.keeperName &&
+      publicFarms.map((farm) => farm.name).some((element) => element.toLowerCase() === item.keeperName.toLowerCase())
+    ) {
       // If farm is found in approved public list, it is no longer private
       itemTransformed = Object.assign({}, item, { public: true, private: false });
       console.log("[LOG] Farm is public: ", item.keeperName);
