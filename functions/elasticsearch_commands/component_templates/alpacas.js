@@ -116,6 +116,15 @@ export default {
             },
           },
         },
+        status: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         street: {
           type: "text",
           fields: {
