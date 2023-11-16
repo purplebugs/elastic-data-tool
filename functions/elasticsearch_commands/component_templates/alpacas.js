@@ -93,7 +93,7 @@ export default {
         dateOfDeath: {
           type: "date",
         },
-        description: {
+        descriptionAlpaca: {
           type: "text",
           fields: {
             keyword: {

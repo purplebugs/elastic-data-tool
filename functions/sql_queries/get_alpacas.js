@@ -25,8 +25,8 @@ export const getAlpacaDetails = async (connection) => {
     "tc.Name AS tagColor, " +
     "a.MicrochipNO AS microchipNumber, a.MicrochipLoc AS microchipLOC," +
     "color1.Name AS color1, color2.Name AS color2, color3.Name AS color3, colorSolid.Name AS colorSolid, " +
-    "a.description, " +
-    "a.Keeper AS keeper, c.idCompany AS companyId, c.Name AS keeperName, c.Street AS street, c.Zip AS zip, c.City AS city, c.Country as country, c.Webpage FROM `alp_Alpaca` a " +
+    "a.description AS descriptionAlpaca, " +
+    "a.Keeper AS keeper, c.idCompany AS companyId, c.Name AS keeperName, c.Street AS street, c.Zip AS zip, c.City AS city, c.Country as country, c.Webpage, c.Description as descriptionCompany FROM `alp_Alpaca` a " +
     "INNER JOIN alp_Sex s ON a.Sex = s.idSex " +
     "INNER JOIN alp_Breed b ON a.Breed = b.idBreed " +
     "LEFT JOIN alp_status st ON a.Status = st.idStatus " +
