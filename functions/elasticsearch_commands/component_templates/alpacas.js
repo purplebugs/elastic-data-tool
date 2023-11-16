@@ -102,6 +102,15 @@ export default {
             },
           },
         },
+        email: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         gender: {
           type: "text",
           fields: {
@@ -162,6 +171,15 @@ export default {
           },
         },
         name: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        phone: {
           type: "text",
           fields: {
             keyword: {
