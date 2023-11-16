@@ -29,9 +29,9 @@ export const getAlpacaDetails = async (connection) => {
     "a.Keeper AS keeper, c.idCompany AS companyId, c.Name AS keeperName, c.Street AS street, c.Zip AS zip, c.City AS city, c.Country as country, c.Webpage FROM `alp_Alpaca` a " +
     "INNER JOIN alp_Sex s ON a.Sex = s.idSex " +
     "INNER JOIN alp_Breed b ON a.Breed = b.idBreed " +
-    "INNER JOIN alp_status st ON a.Status = st.idStatus " +
-    "INNER JOIN alp_TagColor tc ON a.TagColor = tc.idTagColor " +
-    "LEFT JOIN alp_Color color1 ON a.Color1 = color1.idColor " +
+    "LEFT JOIN alp_status st ON a.Status = st.idStatus " +
+    "LEFT JOIN alp_TagColor tc ON a.TagColor = tc.idTagColor " +
+    "INNER JOIN alp_Color color1 ON a.Color1 = color1.idColor " +
     "LEFT JOIN alp_Color color2 ON a.Color2 = color2.idColor " +
     "LEFT JOIN alp_Color color3 ON a.Color3 = color3.idColor " +
     "LEFT JOIN alp_Color colorSolid ON a.ColorSolid = colorSolid.idColor " +
