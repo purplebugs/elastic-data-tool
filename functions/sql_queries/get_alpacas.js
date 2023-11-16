@@ -16,7 +16,7 @@ export const getAlpacaIdsFromNorwegianRegistry = async (connection) => {
 
 export const getAlpacaDetails = async (connection) => {
   const query =
-    "select a.idAlpaca as alpacaId, a.ShortName AS alpacaShortName, " +
+    "select a.idAlpaca as alpacaId, a.RegisteredName AS alpacaRegisteredName, a.ShortName AS alpacaShortName, " +
     "s.Name AS gender, " +
     "color1.Name AS alpacaColor1, " +
     "CONVERT(DOB, DATE) AS DOB, CONVERT(DOD, DATE) AS DOD, " +
