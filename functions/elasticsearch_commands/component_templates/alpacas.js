@@ -93,7 +93,16 @@ export default {
         dateOfDeath: {
           type: "date",
         },
-        description: {
+        descriptionAlpaca: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        email: {
           type: "text",
           fields: {
             keyword: {
@@ -162,6 +171,15 @@ export default {
           },
         },
         name: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        phone: {
           type: "text",
           fields: {
             keyword: {

@@ -27,12 +27,16 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
         id: alpaca.companyId,
         city: alpaca.city,
         countOfAlpacas: count,
+        descriptionCompany: alpaca.descriptionCompany,
+        email: alpaca.email,
         lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates
         lng: lng, // TODO remove this field when alpaca app is updated to use location.coordinates
         location: location,
+        name: alpaca.keeperName,
+        phone: alpaca.phone,
         public: alpaca.public ?? false,
         private: !alpaca.public ?? true,
-        name: alpaca.keeperName,
+        webpage: alpaca.webpage,
       });
     }
   }

@@ -15,6 +15,24 @@ export default {
         countOfAlpacas: {
           type: "long",
         },
+        descriptionCompany: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        email: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         id: {
           type: "long",
         },
@@ -54,6 +72,15 @@ export default {
           type: "float",
         },
         name: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        phone: {
           type: "text",
           fields: {
             keyword: {
