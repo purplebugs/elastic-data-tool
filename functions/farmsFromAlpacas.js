@@ -27,6 +27,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
         id: alpaca.companyId,
         city: alpaca.city,
         countOfAlpacas: count,
+        descriptionCompany: alpaca.descriptionCompany,
         lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates
         lng: lng, // TODO remove this field when alpaca app is updated to use location.coordinates
         location: location,
