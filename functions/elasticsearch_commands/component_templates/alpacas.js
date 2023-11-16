@@ -6,7 +6,25 @@ export default {
         alpacaId: {
           type: "long",
         },
+        alpacaRegisteredName: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         alpacaShortName: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        breed: {
           type: "text",
           fields: {
             keyword: {
@@ -33,6 +51,33 @@ export default {
             },
           },
         },
+        color2: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        color3: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        colorSolid: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         country: {
           type: "text",
           fields: {
@@ -47,6 +92,15 @@ export default {
         },
         dateOfDeath: {
           type: "date",
+        },
+        description: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
         },
         gender: {
           type: "text",
@@ -89,6 +143,24 @@ export default {
             },
           },
         },
+        microchipLOC: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        microchipNumber: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         name: {
           type: "text",
           fields: {
@@ -98,7 +170,34 @@ export default {
             },
           },
         },
+        status: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         street: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        tagColor: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        tagId: {
           type: "text",
           fields: {
             keyword: {
