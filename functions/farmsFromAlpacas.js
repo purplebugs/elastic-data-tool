@@ -31,9 +31,9 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
         lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates
         lng: lng, // TODO remove this field when alpaca app is updated to use location.coordinates
         location: location,
+        name: alpaca.keeperName,
         public: alpaca.public ?? false,
         private: !alpaca.public ?? true,
-        name: alpaca.keeperName,
       });
     }
   }
