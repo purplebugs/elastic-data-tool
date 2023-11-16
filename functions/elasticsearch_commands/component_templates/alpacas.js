@@ -24,6 +24,15 @@ export default {
             },
           },
         },
+        breed: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         city: {
           type: "text",
           fields: {
