@@ -107,6 +107,24 @@ export default {
             },
           },
         },
+        microchipLOC: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        microchipNumber: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         name: {
           type: "text",
           fields: {
@@ -126,6 +144,24 @@ export default {
           },
         },
         street: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        tagColor: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
+        tagId: {
           type: "text",
           fields: {
             keyword: {
