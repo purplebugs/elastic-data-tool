@@ -18,6 +18,7 @@ describe("Farms from alpacas transformer", async () => {
         },
         public: false,
         private: true,
+        webpage: null,
       },
       {
         alpacaId: 456,
@@ -28,6 +29,7 @@ describe("Farms from alpacas transformer", async () => {
         location: { type: "Point", coordinates: [null, null] },
         public: false,
         private: true,
+        webpage: null,
       },
       {
         alpacaId: 789,
@@ -45,6 +47,7 @@ describe("Farms from alpacas transformer", async () => {
         },
         public: true,
         private: false,
+        webpage: "www.farmtwo.com",
       },
     ];
 
@@ -68,6 +71,7 @@ describe("Farms from alpacas transformer", async () => {
         name: "Farm one",
         public: false,
         private: true,
+        webpage: null,
       },
       {
         id: 222,
@@ -87,6 +91,7 @@ describe("Farms from alpacas transformer", async () => {
         name: "Farm two",
         public: true,
         private: false,
+        webpage: "www.farmtwo.com",
       },
     ];
     assert.deepEqual(result, expected);
@@ -103,6 +108,7 @@ describe("Farms from alpacas transformer", async () => {
         location: { type: "Point", coordinates: [null, null] },
         public: false,
         private: true,
+        webpage: null,
       },
       {
         alpacaId: 456,
@@ -112,6 +118,7 @@ describe("Farms from alpacas transformer", async () => {
         location: { type: "Point", coordinates: [null, null] },
         public: false,
         private: true,
+        webpage: null,
       },
       {
         alpacaId: 789,
@@ -125,6 +132,7 @@ describe("Farms from alpacas transformer", async () => {
         },
         public: true,
         private: false,
+        webpage: "www.farmtwo.com",
       },
     ];
 
@@ -148,95 +156,7 @@ describe("Farms from alpacas transformer", async () => {
         name: "Farm two",
         public: true,
         private: false,
-      },
-    ];
-    assert.deepEqual(result, expected);
-  });
-
-  it("should transform list of alpacas to list of farms with company fields", async () => {
-    // ARRANGE
-    const alpacaDetailsArray = [
-      {
-        alpacaId: 123,
-        city: null,
-        companyId: 111,
-        descriptionCompany: undefined,
-        keeperName: "Farm one",
-        location: {
-          type: "Point",
-          coordinates: [null, null],
-        },
-        public: false,
-        private: true,
-      },
-      {
-        alpacaId: 456,
-        city: null,
-        companyId: 111,
-        descriptionCompany: undefined,
-        keeperName: "Farm one",
-        location: { type: "Point", coordinates: [null, null] },
-        public: false,
-        private: true,
-      },
-      {
-        alpacaId: 789,
-        city: "Fredrikstad",
-        companyId: 222,
-        descriptionCompany: "More info about Farm two",
-        keeperName: "Farm two",
-        location: {
-          type: "Point",
-          coordinates: [10.97662911768462, 59.295708720373376],
-          google: {
-            formatted_address: "Anita street, 1234 Oslo, Norway",
-            place_id: "some-random-id",
-          },
-        },
-        public: true,
-        private: false,
-      },
-    ];
-
-    // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
-
-    // ASSERT
-
-    const expected = [
-      {
-        id: 111,
-        city: null,
-        countOfAlpacas: 2,
-        descriptionCompany: undefined,
-        lat: null,
-        lng: null,
-        location: {
-          coordinates: [null, null],
-          type: "Point",
-        },
-        name: "Farm one",
-        public: false,
-        private: true,
-      },
-      {
-        id: 222,
-        city: "Fredrikstad",
-        countOfAlpacas: 1,
-        descriptionCompany: "More info about Farm two",
-        lat: 59.295708720373376,
-        lng: 10.97662911768462,
-        location: {
-          coordinates: [10.97662911768462, 59.295708720373376],
-          type: "Point",
-          google: {
-            formatted_address: "Anita street, 1234 Oslo, Norway",
-            place_id: "some-random-id",
-          },
-        },
-        name: "Farm two",
-        public: true,
-        private: false,
+        webpage: "www.farmtwo.com",
       },
     ];
     assert.deepEqual(result, expected);
