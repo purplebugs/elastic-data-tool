@@ -93,6 +93,15 @@ export default {
         dateOfDeath: {
           type: "date",
         },
+        description: {
+          type: "text",
+          fields: {
+            keyword: {
+              type: "keyword",
+              ignore_above: 256,
+            },
+          },
+        },
         gender: {
           type: "text",
           fields: {
