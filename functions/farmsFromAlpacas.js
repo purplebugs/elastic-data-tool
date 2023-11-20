@@ -1,4 +1,4 @@
-export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
+export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlpacas = false) => {
   // Get farms with count of alpacas from list of alpacas
 
   const farms = new Map();
@@ -17,13 +17,19 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
       farms.set(alpaca.keeperName, {
         name: alpaca.keeperName,
         countOfAlpacas: 0,
+        alpacas: [],
       });
     }
 
     if (farms.has(alpaca.keeperName)) {
       // Increment alpaca count for existing farm, and fill out rest of values
       const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
-      farms.set(alpaca.keeperName, {
+
+      if (includeAlpacas) {
+        farms.get(alpaca.keeperName).alpacas.push(alpaca);
+      }
+
+      const farm = {
         id: alpaca.companyId,
         city: alpaca.city,
         countOfAlpacas: count,
@@ -37,7 +43,12 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
         public: alpaca.public ?? false,
         private: !alpaca.public ?? true,
         webpage: alpaca.webpage,
-      });
+      };
+
+      farms.set(
+        alpaca.keeperName,
+        includeAlpacas ? Object.assign(farm, { alpacas: farms.get(alpaca.keeperName).alpacas }) : farm
+      );
     }
   }
 
