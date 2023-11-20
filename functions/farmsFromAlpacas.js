@@ -1,4 +1,4 @@
-export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, { includeAlpacas = false }) => {
+export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlpacas = false) => {
   // Get farms with count of alpacas from list of alpacas
 
   const farms = new Map();

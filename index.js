@@ -35,10 +35,10 @@ await connection.end();
 const alpacas = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
 await createIndexWithDocuments("alpacas", alpacas, alpacaComponentTemplate);
 
-const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }, { includeAlpacas: false }));
+const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
 await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
 
-const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }, { includeAlpacas: false }));
+const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
 await createIndexWithDocuments("farms_public", farms_public, farmsComponentTemplate);
 
 const companies_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }, { includeAlpacas: true }));
