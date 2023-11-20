@@ -32,7 +32,6 @@ const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(
   { includeAlpacas: false }
 );
 
-// TODO add flag to include animals list
 const companies_all = farmsFromAlpacas(
   enrichedAlpacaDetailsArray,
   { publicFarmsOnly: false },

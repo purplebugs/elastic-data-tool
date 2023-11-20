@@ -17,13 +17,18 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, { includeA
       farms.set(alpaca.keeperName, {
         name: alpaca.keeperName,
         countOfAlpacas: 0,
+        alpacas: [],
       });
     }
 
     if (farms.has(alpaca.keeperName)) {
       // Increment alpaca count for existing farm, and fill out rest of values
       const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
-      const alpacas = [];
+
+      if (includeAlpacas) {
+        farms.get(alpaca.keeperName).alpacas.push(alpaca);
+      }
+
       const farm = {
         id: alpaca.companyId,
         city: alpaca.city,
@@ -40,15 +45,10 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, { includeA
         webpage: alpaca.webpage,
       };
 
-      let farmWithAlpaca = null;
-
-      if (includeAlpacas) {
-        farmWithAlpaca = Object.assign(farm, { alpacas: alpacas.push(alpaca) });
-        console.log("alpacas", alpacas);
-        // console.log("farmWithAlpaca", farmWithAlpaca);
-      }
-
-      farms.set(alpaca.keeperName, includeAlpacas ? farmWithAlpaca : farm);
+      farms.set(
+        alpaca.keeperName,
+        includeAlpacas ? Object.assign(farm, { alpacas: farms.get(alpaca.keeperName).alpacas }) : farm
+      );
     }
   }
 
