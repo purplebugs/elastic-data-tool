@@ -32,8 +32,8 @@ console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from d
 
 await connection.end();
 
-const alpacas = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
-await createIndexWithDocuments("alpacas", alpacas, alpacaComponentTemplate);
+const alpacas = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true });
+await createIndexWithDocuments("alpacas", bulkSyntax(alpacas), alpacaComponentTemplate);
 
 const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
 await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
