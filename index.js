@@ -40,4 +40,8 @@ await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
 const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
 await createIndexWithDocuments("farms_public", farms_public, farmsComponentTemplate);
 
+// TODO add flag to include animals list
+const companies_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
+await createIndexWithDocuments("companies_all", companies_all, farmsComponentTemplate);
+
 console.log(`[LOG] END SQL -> Elastic`);
