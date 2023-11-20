@@ -14,6 +14,7 @@ import bulkSyntax from "./functions/elasticsearch_commands/bulkSyntax.js";
 import createIndexWithDocuments from "./functions/elasticsearch_commands/index.js";
 import alpacaComponentTemplate from "./functions/elasticsearch_commands/component_templates/alpacas.js";
 import farmsComponentTemplate from "./functions/elasticsearch_commands/component_templates/farms.js";
+import companiesComponentTemplate from "./functions/elasticsearch_commands/component_templates/companies.js";
 
 /******** SQL -> Elastic ********/
 console.log(`[LOG] START SQL -> Elastic`);
@@ -34,14 +35,15 @@ await connection.end();
 const alpacas = bulkSyntax(await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true }));
 await createIndexWithDocuments("alpacas", alpacas, alpacaComponentTemplate);
 
-const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
+const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }, { includeAlpacas: false }));
 await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
 
-const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
+const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }, { includeAlpacas: false }));
 await createIndexWithDocuments("farms_public", farms_public, farmsComponentTemplate);
 
-// TODO add flag to include animals list
-const companies_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
-await createIndexWithDocuments("companies_all", companies_all, farmsComponentTemplate);
+const companies_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }, { includeAlpacas: true }));
+
+// The order of templates matters.  Otherwise the nested property of alpacas is lost, GOD only knows why!!
+await createIndexWithDocuments("companies_all", companies_all, companiesComponentTemplate, farmsComponentTemplate);
 
 console.log(`[LOG] END SQL -> Elastic`);

@@ -3,97 +3,249 @@ export default {
   template: {
     mappings: {
       properties: {
-        city: {
-          type: "text",
-          fields: {
-            keyword: {
-              type: "keyword",
-              ignore_above: 256,
-            },
-          },
-        },
-        countOfAlpacas: {
-          type: "long",
-        },
-        descriptionCompany: {
-          type: "text",
-          fields: {
-            keyword: {
-              type: "keyword",
-              ignore_above: 256,
-            },
-          },
-        },
-        email: {
-          type: "text",
-          fields: {
-            keyword: {
-              type: "keyword",
-              ignore_above: 256,
-            },
-          },
-        },
-        id: {
-          type: "long",
-        },
-        location: {
+        alpacas: {
+          type: "nested",
           properties: {
-            coordinates: {
-              type: "geo_point",
+            alpacaId: {
+              type: "long",
             },
-            google: {
-              properties: {
-                formatted_address: {
-                  type: "text",
-                  fields: {
-                    keyword: {
-                      type: "keyword",
-                      ignore_above: 256,
-                    },
-                  },
+            alpacaRegisteredName: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
                 },
-                place_id: {
-                  type: "text",
-                  fields: {
-                    keyword: {
-                      type: "keyword",
-                      ignore_above: 256,
+              },
+            },
+            alpacaShortName: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            breed: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            city: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            color1: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            color2: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            color3: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            colorSolid: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            country: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            dateOfBirth: {
+              type: "date",
+            },
+            dateOfDeath: {
+              type: "date",
+            },
+            descriptionAlpaca: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            email: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            gender: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            keeper: {
+              type: "long",
+            },
+            location: {
+              properties: {
+                coordinates: {
+                  type: "geo_point",
+                },
+                google: {
+                  properties: {
+                    formatted_address: {
+                      type: "text",
+                      fields: {
+                        keyword: {
+                          type: "keyword",
+                          ignore_above: 256,
+                        },
+                      },
+                    },
+                    place_id: {
+                      type: "text",
+                      fields: {
+                        keyword: {
+                          type: "keyword",
+                          ignore_above: 256,
+                        },
+                      },
                     },
                   },
                 },
               },
             },
-          },
-        },
-        lat: {
-          type: "float",
-        },
-        lng: {
-          type: "float",
-        },
-        name: {
-          type: "text",
-          fields: {
-            keyword: {
-              type: "keyword",
-              ignore_above: 256,
+            microchipLOC: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            microchipNumber: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            name: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            phone: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            status: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            street: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            tagColor: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            tagId: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            webpage: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            zip: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
             },
           },
-        },
-        phone: {
-          type: "text",
-          fields: {
-            keyword: {
-              type: "keyword",
-              ignore_above: 256,
-            },
-          },
-        },
-        public: {
-          type: "boolean",
-        },
-        private: {
-          type: "boolean",
         },
       },
     },
