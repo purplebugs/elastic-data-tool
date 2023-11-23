@@ -1,3 +1,5 @@
+import { capitaliseFirstLetter } from "./capitaliseFirstLetter.js";
+
 export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlpacas = false) => {
   // Get farms with count of alpacas from list of alpacas
 
@@ -31,7 +33,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
 
       const farm = {
         id: alpaca.companyId,
-        city: alpaca.city,
+        city: alpaca.city ? capitaliseFirstLetter(alpaca?.city) : alpaca.city,
         countOfAlpacas: count,
         descriptionCompany: alpaca.descriptionCompany,
         email: alpaca.email,
