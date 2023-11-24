@@ -105,15 +105,6 @@ export default {
                 },
               },
             },
-            email: {
-              type: "text",
-              fields: {
-                keyword: {
-                  type: "keyword",
-                  ignore_above: 256,
-                },
-              },
-            },
             gender: {
               type: "text",
               fields: {
@@ -125,35 +116,6 @@ export default {
             },
             keeper: {
               type: "long",
-            },
-            location: {
-              properties: {
-                coordinates: {
-                  type: "geo_point",
-                },
-                google: {
-                  properties: {
-                    formatted_address: {
-                      type: "text",
-                      fields: {
-                        keyword: {
-                          type: "keyword",
-                          ignore_above: 256,
-                        },
-                      },
-                    },
-                    place_id: {
-                      type: "text",
-                      fields: {
-                        keyword: {
-                          type: "keyword",
-                          ignore_above: 256,
-                        },
-                      },
-                    },
-                  },
-                },
-              },
             },
             microchipLOC: {
               type: "text",
@@ -174,15 +136,6 @@ export default {
               },
             },
             name: {
-              type: "text",
-              fields: {
-                keyword: {
-                  type: "keyword",
-                  ignore_above: 256,
-                },
-              },
-            },
-            phone: {
               type: "text",
               fields: {
                 keyword: {
@@ -227,15 +180,7 @@ export default {
                 },
               },
             },
-            webpage: {
-              type: "text",
-              fields: {
-                keyword: {
-                  type: "keyword",
-                  ignore_above: 256,
-                },
-              },
-            },
+
             zip: {
               type: "text",
               fields: {
