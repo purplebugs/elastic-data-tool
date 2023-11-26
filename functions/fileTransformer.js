@@ -27,8 +27,8 @@ export default async function fileTransformer(file, geoDecodeEnrich = true, anim
       itemTransformed = Object.assign(itemTransformed, geoDecodeObj);
     }
 
-    if (animal === "alpaca") {
-      itemTransformed = Object.assign(itemTransformed, { type: "alpaca" });
+    if (animal !== null || animal !== undefined) {
+      itemTransformed = Object.assign(itemTransformed, { type: animal });
     }
 
     myOutput.push(itemTransformed);
