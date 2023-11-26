@@ -1,8 +1,6 @@
 import { getLatLngFromAddress } from "./geo-decode.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
-// export default async function fileTransformer(file, { geoDecodeEnrich = true }, animal = "alpaca") {
-
 export default async function fileTransformer(file, { geoDecodeEnrich = true, animal = "alpaca" } = {}) {
   // Loop over all items
 
