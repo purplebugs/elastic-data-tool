@@ -28,7 +28,16 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
       const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
 
       if (includeAlpacas) {
-        const { webpage, descriptionCompany, email, phone, location, ...alpacaDetailsToKeep } = alpaca;
+        const {
+          webpage,
+          descriptionCompany,
+          email,
+          phone,
+          location,
+          public: publicHandler, // Temporarily rename field "public" because it is a reserved word and cannot be used in a const
+          private: privateHandler, // Temporarily rename field "private" because it is a reserved word and cannot be used in a const
+          ...alpacaDetailsToKeep
+        } = alpaca;
         farms.get(alpaca.keeperName).alpacas.push(alpacaDetailsToKeep);
       }
 
