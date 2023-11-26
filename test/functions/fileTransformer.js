@@ -21,6 +21,7 @@ describe("Farm info transformer", async () => {
       keeperName: "Not a public farm name",
       private: true,
       public: false,
+      type: "alpaca",
     });
   });
 
@@ -42,6 +43,73 @@ describe("Farm info transformer", async () => {
       keeperName: "Alpakkahagen",
       private: false,
       public: true,
+      type: "alpaca",
+    });
+  });
+
+  it(`should set animal as type: "alpaca" if NOT specified`, async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Alpakkahagen",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false });
+
+    // ASSERT
+    assert.deepEqual(result[0], {
+      alpacaId: 1234,
+      keeperName: "Alpakkahagen",
+      private: false,
+      public: true,
+      type: "alpaca",
+    });
+  });
+
+  it(`should set animal as type: "alpaca" if IS specified`, async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Alpakkahagen",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false, animal: "alpaca" });
+
+    // ASSERT
+    assert.deepEqual(result[0], {
+      alpacaId: 1234,
+      keeperName: "Alpakkahagen",
+      private: false,
+      public: true,
+      type: "alpaca",
+    });
+  });
+
+  it(`should set animal type to some other animal if IS specified`, async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Alpakkahagen",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false, animal: "goat" });
+
+    // ASSERT
+    assert.deepEqual(result[0], {
+      alpacaId: 1234,
+      keeperName: "Alpakkahagen",
+      private: false,
+      public: true,
+      type: "goat",
     });
   });
 });
