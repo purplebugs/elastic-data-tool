@@ -1,4 +1,6 @@
-export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
+import { capitaliseFirstLetter } from "./capitaliseFirstLetter.js";
+
+export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlpacas = false) => {
   // Get farms with count of alpacas from list of alpacas
 
   const farms = new Map();
@@ -17,23 +19,39 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }) => {
       farms.set(alpaca.keeperName, {
         name: alpaca.keeperName,
         countOfAlpacas: 0,
+        alpacas: [],
       });
     }
 
     if (farms.has(alpaca.keeperName)) {
       // Increment alpaca count for existing farm, and fill out rest of values
       const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
-      farms.set(alpaca.keeperName, {
+
+      if (includeAlpacas) {
+        const { webpage, descriptionCompany, email, phone, location, ...alpacaDetailsToKeep } = alpaca;
+        farms.get(alpaca.keeperName).alpacas.push(alpacaDetailsToKeep);
+      }
+
+      const farm = {
         id: alpaca.companyId,
-        city: alpaca.city,
+        city: alpaca.city ? capitaliseFirstLetter(alpaca?.city) : alpaca.city,
         countOfAlpacas: count,
+        descriptionCompany: alpaca.descriptionCompany,
+        email: alpaca.email,
         lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates
         lng: lng, // TODO remove this field when alpaca app is updated to use location.coordinates
         location: location,
+        name: alpaca.keeperName,
+        phone: alpaca.phone,
         public: alpaca.public ?? false,
         private: !alpaca.public ?? true,
-        name: alpaca.keeperName,
-      });
+        webpage: alpaca.webpage,
+      };
+
+      farms.set(
+        alpaca.keeperName,
+        includeAlpacas ? Object.assign(farm, { alpacas: farms.get(alpaca.keeperName).alpacas }) : farm
+      );
     }
   }
 

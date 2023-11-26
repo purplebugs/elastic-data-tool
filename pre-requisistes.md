@@ -38,4 +38,4 @@ MySQL running locally
 If the .sql file contains `CREATE DATABASE IF NOT EXISTS` then either
 
 - comment that out, or
-- update the database name in the .sql file, then in the SQL -> JSON step remove the database name, eg `mysql -u root -p > alpaca.sql`
+- update the database name in the .sql file, then in the SQL -> JSON step remove the database name, eg `mysql -u root -p < alpaca.sql`
