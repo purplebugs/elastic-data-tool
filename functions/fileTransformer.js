@@ -1,7 +1,7 @@
 import { getLatLngFromAddress } from "./geo-decode.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
-export default async function fileTransformer(file, { geoDecodeEnrich = true }) {
+export default async function fileTransformer(file, { geoDecodeEnrich = true, animal = "alpaca" } = {}) {
   // Loop over all items
 
   const myOutput = [];
@@ -25,6 +25,10 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true }) 
     if (geoDecodeEnrich) {
       const geoDecodeObj = await getLatLngFromAddress(item);
       itemTransformed = Object.assign(itemTransformed, geoDecodeObj);
+    }
+
+    if (animal !== null || animal !== undefined) {
+      itemTransformed = Object.assign(itemTransformed, { type: animal });
     }
 
     myOutput.push(itemTransformed);

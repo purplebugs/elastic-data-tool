@@ -120,17 +120,22 @@ const switchAlias = async (newIndexName, indexName) => {
 export default async function createIndexWithDocuments(indexName, items, componentTemplate, componentTemplate2 = null) {
   try {
     const componentTemplateName = `${indexName}_component_template`;
-    const componentTemplateName2 = `${indexName}_component_template2`;
+    const componentTemplateName2 = `${indexName}_component_template2` ?? componentTemplate2;
     const indexTemplateName = `${indexName}_index_template`;
     const indexPatterns = `${indexName}-*`;
 
+    const composed_of = [componentTemplateName];
+
+    if (componentTemplate2 !== null) {
+      composed_of.push(componentTemplateName2);
+    }
+
     const indexTemplate = {
       name: indexTemplateName,
-      create: true, // TODO perhaps set to false so can override existing without needing priority and checks for existing before create?
+      create: false, // Can create or update existing
       index_patterns: indexPatterns,
       priority: 1,
-      composed_of: [componentTemplateName, componentTemplateName2],
-      ignore_missing_component_templates: [componentTemplateName2], // Quick way to add another component template and avoid error
+      composed_of: composed_of,
       template: {
         aliases: {
           indexName: {},

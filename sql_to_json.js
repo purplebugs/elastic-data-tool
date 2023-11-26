@@ -44,8 +44,8 @@ console.log(`[LOG] END SQL -> JSON`);
 console.log(`[LOG] START JSON -> FILE`);
 
 // Write to file which will write as one long line
-writeFileSync(`./data/alpacas-from-sql-${now}.json`, JSON.stringify(enrichedAlpacaDetailsArray));
-console.log("[LOG] See file: ", `./data/alpacas-from-sql-${now}.json`);
+writeFileSync(`./data/animals-ALL-from-alpacas-from-sql-${now}.json`, JSON.stringify(enrichedAlpacaDetailsArray));
+console.log("[LOG] See file: ", `./data/animals-ALL-from-alpacas-from-sql-${now}.json`);
 
 writeFileSync(`./data/farms-ALL-from-alpacas-from-sql-${now}.json`, JSON.stringify(farms_ALL_WithAlpacaCountArray));
 console.log("[LOG] See file: ", `./data/farms-ALL-from-alpacas-from-sql-${now}.json`);

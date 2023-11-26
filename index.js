@@ -32,16 +32,16 @@ console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from d
 
 await connection.end();
 
-const alpacas = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true });
-await createIndexWithDocuments("alpacas", bulkSyntax(alpacas), alpacaComponentTemplate);
+const animals = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true, animal: "alpaca" });
+await createIndexWithDocuments("animals_all", bulkSyntax(animals), alpacaComponentTemplate);
 
-const farms_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }));
+const farms_all = bulkSyntax(farmsFromAlpacas(animals, { publicFarmsOnly: false }));
 await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
 
-const farms_public = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: true }));
+const farms_public = bulkSyntax(farmsFromAlpacas(animals, { publicFarmsOnly: true }));
 await createIndexWithDocuments("farms_public", farms_public, farmsComponentTemplate);
 
-const companies_all = bulkSyntax(farmsFromAlpacas(alpacas, { publicFarmsOnly: false }, { includeAlpacas: true }));
+const companies_all = bulkSyntax(farmsFromAlpacas(animals, { publicFarmsOnly: false }, { includeAlpacas: true }));
 
 // The order of templates matters.  Otherwise the nested property of alpacas is lost, GOD only knows why!!
 await createIndexWithDocuments("companies_all", companies_all, companiesComponentTemplate, farmsComponentTemplate);
