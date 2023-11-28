@@ -27,8 +27,16 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
     const url = urlTransformer(item?.webpage);
     if (url !== null) {
       itemTransformed = Object.assign(itemTransformed, {
-        url: { original: item?.webpage, domain: url.host, full: url.href, scheme: url.protocol.split(":")[0] },
+        url: {
+          original: item?.webpage,
+          domain: url.host,
+          full: url.href,
+          path: url.pathname,
+          scheme: url.protocol.split(":")[0],
+        },
       });
+
+      console.log("-------- itemTransformed:", itemTransformed);
     }
 
     if (geoDecodeEnrich) {

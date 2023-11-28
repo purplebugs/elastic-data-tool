@@ -71,6 +71,7 @@ describe("Farm info transformer", async () => {
         domain: "www.mysite.com",
         full: "http://www.mysite.com/",
         original: "http://www.mysite.com",
+        path: "/",
         scheme: "http",
       },
       webpage: "http://www.mysite.com",

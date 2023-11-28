@@ -65,6 +65,7 @@ describe("urlTransformer", async () => {
     assert.equal(actual.webpage, expected.webpage);
     assert.equal(actual.host, expected.host);
     assert.equal(actual.href, expected.href);
+    assert.equal(actual.pathname, expected.pathname);
     assert.equal(actual.protocol, expected.protocol);
   });
 
@@ -94,6 +95,7 @@ describe("urlTransformer", async () => {
     assert.equal(actual.webpage, expected.webpage);
     assert.equal(actual.host, expected.host);
     assert.equal(actual.href, expected.href);
+    assert.equal(actual.pathname, expected.pathname);
     assert.equal(actual.protocol, expected.protocol);
   });
 });
