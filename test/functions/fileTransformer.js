@@ -53,7 +53,7 @@ describe("Farm info transformer", async () => {
       {
         alpacaId: 1234,
         keeperName: "Not a public farm name",
-        webpage: "http://www.mysite.com",
+        webpage: "http://www.mysite.com/mypath",
       },
     ];
 
@@ -69,12 +69,12 @@ describe("Farm info transformer", async () => {
       type: "alpaca",
       url: {
         domain: "www.mysite.com",
-        full: "http://www.mysite.com/",
-        original: "http://www.mysite.com",
-        path: "/",
+        full: "http://www.mysite.com/mypath",
+        original: "http://www.mysite.com/mypath",
+        path: "/mypath",
         scheme: "http",
       },
-      webpage: "http://www.mysite.com",
+      webpage: "http://www.mysite.com/mypath",
     });
   });
 
