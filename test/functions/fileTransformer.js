@@ -71,9 +71,43 @@ describe("Farm info transformer", async () => {
         domain: "www.mysite.com",
         full: "http://www.mysite.com/",
         original: "http://www.mysite.com",
+        path: "/",
+        pretty: "www.mysite.com",
         scheme: "http",
       },
       webpage: "http://www.mysite.com",
+    });
+  });
+
+  it("should add Elastic Common Schema URL object with pretty path if webpage has path", async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Not a public farm name",
+        webpage: "http://www.mysite.com/mypath/",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false });
+
+    // ASSERT
+    assert.deepEqual(result[0], {
+      alpacaId: 1234,
+      keeperName: "Not a public farm name",
+      private: true,
+      public: false,
+      type: "alpaca",
+      url: {
+        domain: "www.mysite.com",
+        full: "http://www.mysite.com/mypath/",
+        original: "http://www.mysite.com/mypath/",
+        path: "/mypath/",
+        pretty: "www.mysite.com/mypath",
+        scheme: "http",
+      },
+      webpage: "http://www.mysite.com/mypath/",
     });
   });
 
