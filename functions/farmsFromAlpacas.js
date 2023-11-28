@@ -34,6 +34,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
           email,
           phone,
           location,
+          url,
           public: publicHandler, // Temporarily rename field "public" because it is a reserved word and cannot be used in a const
           private: privateHandler, // Temporarily rename field "private" because it is a reserved word and cannot be used in a const
           ...alpacaDetailsToKeep
@@ -54,6 +55,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
         phone: alpaca.phone,
         public: alpaca.public ?? false,
         private: !alpaca.public ?? true,
+        url: alpaca?.url ?? null,
         webpage: alpaca.webpage,
       };
 

@@ -1,5 +1,6 @@
 import { getLatLngFromAddress } from "./geo-decode.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
+import { urlTransformer } from "./urlTransformer.js";
 
 export default async function fileTransformer(file, { geoDecodeEnrich = true, animal = "alpaca" } = {}) {
   // Loop over all items
@@ -20,6 +21,14 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
       // If farm is found in approved public list, it is no longer private
       itemTransformed = Object.assign({}, item, { public: true, private: false });
       console.log("[LOG] Farm is public: ", item.keeperName);
+    }
+
+    // Webpage cleaned and stored in Elastic Common Schema format - https://www.elastic.co/guide/en/ecs/current/ecs-url.html#ecs-url
+    const url = urlTransformer(item?.webpage);
+    if (url !== null) {
+      itemTransformed = Object.assign(itemTransformed, {
+        url: { original: item?.webpage, domain: url.host, full: url.href, scheme: url.protocol.split(":")[0] },
+      });
     }
 
     if (geoDecodeEnrich) {
