@@ -47,6 +47,36 @@ describe("Farm info transformer", async () => {
     });
   });
 
+  it("should add Elastic Common Schema URL object if webpage is not null", async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Not a public farm name",
+        webpage: "http://www.mysite.com",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false });
+
+    // ASSERT
+    assert.deepEqual(result[0], {
+      alpacaId: 1234,
+      keeperName: "Not a public farm name",
+      private: true,
+      public: false,
+      type: "alpaca",
+      url: {
+        domain: "www.mysite.com",
+        full: "http://www.mysite.com/",
+        original: "http://www.mysite.com",
+        scheme: "http",
+      },
+      webpage: "http://www.mysite.com",
+    });
+  });
+
   it(`should set animal as type: "alpaca" if NOT specified`, async () => {
     // ARRANGE
     const alpacaDetailsArray = [
