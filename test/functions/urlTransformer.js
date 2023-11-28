@@ -27,6 +27,18 @@ describe("urlTransformer", async () => {
     assert.equal(actual, expected);
   });
 
+  it(`should return href starting with "https://" if original webpage is missing "http:// or "https://" at start`, async () => {
+    // ARRANGE
+    const webpage = "www.mywebpage.com";
+    const expected = "https://www.mywebpage.com/";
+
+    // ACT
+    const actual = urlTransformer(webpage).href;
+
+    // ASSERT
+    assert.equal(actual, expected);
+  });
+
   it(`should return node URL object with expected properties if webpage starts with http://`, async () => {
     // ARRANGE
     const webpage = "http://www.facebook.com/myFarm/";
