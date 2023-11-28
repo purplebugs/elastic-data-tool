@@ -35,8 +35,6 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
           scheme: url.protocol.split(":")[0],
         },
       });
-
-      console.log("-------- itemTransformed:", itemTransformed);
     }
 
     if (geoDecodeEnrich) {
