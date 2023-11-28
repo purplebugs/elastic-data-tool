@@ -233,6 +233,46 @@ export default {
             },
           },
         },
+        url: {
+          properties: {
+            domain: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            full: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            original: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+            scheme: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
+          },
+        },
         webpage: {
           type: "text",
           fields: {

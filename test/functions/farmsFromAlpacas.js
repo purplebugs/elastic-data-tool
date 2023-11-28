@@ -53,7 +53,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: "phone 123",
         public: true,
         private: false,
-        webpage: "www.farmtwo.com",
+        webpage: null,
       },
     ];
 
@@ -79,6 +79,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: false,
         private: true,
+        url: null,
         webpage: null,
       },
       {
@@ -101,7 +102,8 @@ describe("Farms from alpacas transformer", async () => {
         phone: "phone 123",
         public: true,
         private: false,
-        webpage: "www.farmtwo.com",
+        url: null,
+        webpage: null,
       },
     ];
     assert.deepEqual(result, expected);
@@ -148,7 +150,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: true,
         private: false,
-        webpage: "www.farmtwo.com",
+        webpage: null,
       },
     ];
 
@@ -174,7 +176,8 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: true,
         private: false,
-        webpage: "www.farmtwo.com",
+        url: null,
+        webpage: null,
       },
     ];
     assert.deepEqual(result, expected);
@@ -231,7 +234,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: "phone 123",
         public: true,
         private: false,
-        webpage: "www.farmtwo.com",
+        webpage: null,
       },
     ];
 
@@ -257,6 +260,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: false,
         private: true,
+        url: null,
         webpage: null,
         alpacas: [
           {
@@ -293,7 +297,8 @@ describe("Farms from alpacas transformer", async () => {
         phone: "phone 123",
         public: true,
         private: false,
-        webpage: "www.farmtwo.com",
+        url: null,
+        webpage: null,
         alpacas: [
           {
             alpacaId: 789,
