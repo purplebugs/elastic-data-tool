@@ -262,6 +262,15 @@ export default {
                 },
               },
             },
+            path: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
             scheme: {
               type: "text",
               fields: {
