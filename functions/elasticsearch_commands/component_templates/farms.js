@@ -133,6 +133,15 @@ export default {
                 },
               },
             },
+            pretty: {
+              type: "text",
+              fields: {
+                keyword: {
+                  type: "keyword",
+                  ignore_above: 256,
+                },
+              },
+            },
             scheme: {
               type: "text",
               fields: {
