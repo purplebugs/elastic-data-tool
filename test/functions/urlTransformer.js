@@ -14,6 +14,27 @@ describe("urlTransformer()", async () => {
     // ASSERT
     assert.equal(actual, expected);
   });
+
+  it(`should return ECS object with expected properties if webpage is string WITHOUT path WITHOUT scheme: "www.mysite.com"`, async () => {
+    // ARRANGE
+    const webpage = "www.mysite.com";
+
+    // ACT
+    const actual = urlTransformer(webpage);
+    const expected = {
+      url: {
+        domain: "www.mysite.com",
+        full: "https://www.mysite.com/",
+        original: "www.mysite.com",
+        path: "/",
+        pretty: "www.mysite.com",
+        scheme: "https",
+      },
+    };
+
+    // ASSERT
+    assert.deepEqual(actual, expected);
+  });
 });
 
 describe("toNodeURL()", async () => {
