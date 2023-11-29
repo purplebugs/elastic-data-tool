@@ -1,8 +1,8 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { urlTransformer } from "../../functions/urlTransformer.js";
+import { toNodeURL, urlTransformer } from "../../functions/urlTransformer.js";
 
-describe("urlTransformer", async () => {
+describe("urlTransformer()", async () => {
   it("should return null if webpage field is null or undefined", async () => {
     // ARRANGE
     const webpage = null;
@@ -14,14 +14,16 @@ describe("urlTransformer", async () => {
     // ASSERT
     assert.equal(actual, expected);
   });
+});
 
+describe("toNodeURL()", async () => {
   it(`should return href with trimmed whitespace from start and end`, async () => {
     // ARRANGE
     const webpage = "         http://www.mywebpage.com/hi  ";
     const expected = "http://www.mywebpage.com/hi";
 
     // ACT
-    const actual = urlTransformer(webpage).href;
+    const actual = toNodeURL(webpage).href;
 
     // ASSERT
     assert.equal(actual, expected);
@@ -33,7 +35,7 @@ describe("urlTransformer", async () => {
     const expected = "https://www.mywebpage.com/";
 
     // ACT
-    const actual = urlTransformer(webpage).href;
+    const actual = toNodeURL(webpage).href;
 
     // ASSERT
     assert.equal(actual, expected);
@@ -59,7 +61,7 @@ describe("urlTransformer", async () => {
     };
 
     // ACT
-    const actual = urlTransformer(webpage);
+    const actual = toNodeURL(webpage);
 
     // ASSERT
     assert.equal(actual.webpage, expected.webpage);
@@ -89,7 +91,7 @@ describe("urlTransformer", async () => {
     };
 
     // ACT
-    const actual = urlTransformer(webpage);
+    const actual = toNodeURL(webpage);
 
     // ASSERT
     assert.equal(actual.webpage, expected.webpage);
