@@ -23,22 +23,9 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
       console.log("[LOG] Farm is public: ", item.keeperName);
     }
 
-    // Webpage cleaned and stored in Elastic Common Schema format - https://www.elastic.co/guide/en/ecs/current/ecs-url.html#ecs-url
-    const url = urlTransformer(item?.webpage);
-    if (url !== null) {
-      const path = url?.pathname !== "/" ? url?.pathname : ""; // Only use if there is a string of letters, do not use if is default value "/"
-      const prettyPath = path.endsWith("/") ? path.slice(0, -1) : path; // Remove final "/"
-
-      itemTransformed = Object.assign(itemTransformed, {
-        url: {
-          original: item?.webpage,
-          domain: url.host,
-          full: url.href,
-          path: url.pathname,
-          pretty: url?.host + prettyPath, // This is custom, not part of Elastic Common Schema, used to show clean url on website
-          scheme: url.protocol.split(":")[0],
-        },
-      });
+    const urlTransformed = urlTransformer(item?.webpage);
+    if (urlTransformed !== null) {
+      itemTransformed = Object.assign(itemTransformed, urlTransformed);
     }
 
     if (geoDecodeEnrich) {
