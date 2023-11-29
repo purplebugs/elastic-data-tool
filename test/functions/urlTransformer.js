@@ -103,7 +103,44 @@ describe("toNodeURL()", async () => {
 });
 
 describe("toElasticCommonSchemaURL()", async () => {
-  it(`should return ECS object with expected properties for webpage with path "http://www.facebook.com/myFarm/" `, async () => {
+  it(`should return ECS object with expected properties for webpage WITHOUT path "http://www.mysite.com/" `, async () => {
+    // ARRANGE
+
+    const webpage = "http://www.mysite.com/";
+
+    const nodeURL = {
+      href: "http://www.mysite.com/",
+      origin: "http://www.mysite.com",
+      protocol: "http:",
+      username: "",
+      password: "",
+      host: "www.mysite.com",
+      hostname: "www.mysite.com",
+      port: "",
+      pathname: "/",
+      search: "",
+      searchParams: {},
+      hash: "",
+    };
+
+    // ACT
+    const actual = toElasticCommonSchemaURL(nodeURL, webpage);
+    const expected = {
+      url: {
+        domain: "www.mysite.com",
+        full: "http://www.mysite.com/",
+        original: "http://www.mysite.com/",
+        path: "/",
+        pretty: "www.mysite.com",
+        scheme: "http",
+      },
+    };
+
+    // ASSERT
+    assert.deepEqual(actual, expected);
+  });
+
+  it(`should return ECS object with expected properties for webpage WITH path "http://www.facebook.com/myFarm/" `, async () => {
     // ARRANGE
 
     const webpage = "http://www.facebook.com/myFarm/";
