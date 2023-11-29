@@ -1,8 +1,8 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { urlTransformer } from "../../functions/urlTransformer.js";
+import { toNodeURL, urlTransformer, toElasticCommonSchemaURL } from "../../functions/urlTransformer.js";
 
-describe("urlTransformer", async () => {
+describe("urlTransformer()", async () => {
   it("should return null if webpage field is null or undefined", async () => {
     // ARRANGE
     const webpage = null;
@@ -15,13 +15,36 @@ describe("urlTransformer", async () => {
     assert.equal(actual, expected);
   });
 
+  it(`should return ECS object with expected properties if webpage is string WITHOUT path WITHOUT scheme: "www.mysite.com"`, async () => {
+    // ARRANGE
+    const webpage = "www.mysite.com";
+
+    // ACT
+    const actual = urlTransformer(webpage);
+    const expected = {
+      url: {
+        domain: "www.mysite.com",
+        full: "https://www.mysite.com/",
+        original: "www.mysite.com",
+        path: "/",
+        pretty: "www.mysite.com",
+        scheme: "https",
+      },
+    };
+
+    // ASSERT
+    assert.deepEqual(actual, expected);
+  });
+});
+
+describe("toNodeURL()", async () => {
   it(`should return href with trimmed whitespace from start and end`, async () => {
     // ARRANGE
     const webpage = "         http://www.mywebpage.com/hi  ";
     const expected = "http://www.mywebpage.com/hi";
 
     // ACT
-    const actual = urlTransformer(webpage).href;
+    const actual = toNodeURL(webpage).href;
 
     // ASSERT
     assert.equal(actual, expected);
@@ -33,7 +56,7 @@ describe("urlTransformer", async () => {
     const expected = "https://www.mywebpage.com/";
 
     // ACT
-    const actual = urlTransformer(webpage).href;
+    const actual = toNodeURL(webpage).href;
 
     // ASSERT
     assert.equal(actual, expected);
@@ -59,7 +82,7 @@ describe("urlTransformer", async () => {
     };
 
     // ACT
-    const actual = urlTransformer(webpage);
+    const actual = toNodeURL(webpage);
 
     // ASSERT
     assert.equal(actual.webpage, expected.webpage);
@@ -89,7 +112,7 @@ describe("urlTransformer", async () => {
     };
 
     // ACT
-    const actual = urlTransformer(webpage);
+    const actual = toNodeURL(webpage);
 
     // ASSERT
     assert.equal(actual.webpage, expected.webpage);
@@ -97,5 +120,81 @@ describe("urlTransformer", async () => {
     assert.equal(actual.href, expected.href);
     assert.equal(actual.pathname, expected.pathname);
     assert.equal(actual.protocol, expected.protocol);
+  });
+});
+
+describe("toElasticCommonSchemaURL()", async () => {
+  it(`should return ECS object with expected properties for webpage WITHOUT path "http://www.mysite.com/" `, async () => {
+    // ARRANGE
+
+    const webpage = "http://www.mysite.com/";
+
+    const nodeURL = {
+      href: "http://www.mysite.com/",
+      origin: "http://www.mysite.com",
+      protocol: "http:",
+      username: "",
+      password: "",
+      host: "www.mysite.com",
+      hostname: "www.mysite.com",
+      port: "",
+      pathname: "/",
+      search: "",
+      searchParams: {},
+      hash: "",
+    };
+
+    // ACT
+    const actual = toElasticCommonSchemaURL(nodeURL, webpage);
+    const expected = {
+      url: {
+        domain: "www.mysite.com",
+        full: "http://www.mysite.com/",
+        original: "http://www.mysite.com/",
+        path: "/",
+        pretty: "www.mysite.com",
+        scheme: "http",
+      },
+    };
+
+    // ASSERT
+    assert.deepEqual(actual, expected);
+  });
+
+  it(`should return ECS object with expected properties for webpage WITH path "http://www.facebook.com/myFarm/" `, async () => {
+    // ARRANGE
+
+    const webpage = "http://www.facebook.com/myFarm/";
+
+    const nodeURL = {
+      href: "http://www.facebook.com/myFarm/",
+      origin: "http://www.facebook.com",
+      protocol: "http:",
+      username: "",
+      password: "",
+      host: "www.facebook.com",
+      hostname: "www.facebook.com",
+      port: "",
+      pathname: "/myFarm/",
+      search: "",
+      searchParams: {},
+      hash: "",
+    };
+
+    // ACT
+    const actual = toElasticCommonSchemaURL(nodeURL, webpage);
+    const expected = {
+      url: {
+        domain: "www.facebook.com",
+        full: "http://www.facebook.com/myFarm/",
+        original: "http://www.facebook.com/myFarm/",
+        path: "/myFarm/",
+        pretty: "www.facebook.com/myFarm",
+        scheme: "http",
+      },
+    };
+
+    // ASSERT
+    assert.deepEqual(actual, expected);
   });
 });
