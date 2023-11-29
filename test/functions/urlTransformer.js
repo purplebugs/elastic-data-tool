@@ -1,6 +1,6 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { toNodeURL, urlTransformer } from "../../functions/urlTransformer.js";
+import { toNodeURL, urlTransformer, toElasticCommonSchemaURL } from "../../functions/urlTransformer.js";
 
 describe("urlTransformer()", async () => {
   it("should return null if webpage field is null or undefined", async () => {
@@ -99,5 +99,44 @@ describe("toNodeURL()", async () => {
     assert.equal(actual.href, expected.href);
     assert.equal(actual.pathname, expected.pathname);
     assert.equal(actual.protocol, expected.protocol);
+  });
+});
+
+describe("toElasticCommonSchemaURL()", async () => {
+  it(`should return ECS object with expected properties for webpage with path "http://www.facebook.com/myFarm/" `, async () => {
+    // ARRANGE
+
+    const webpage = "http://www.facebook.com/myFarm/";
+
+    const nodeURL = {
+      href: "http://www.facebook.com/myFarm/",
+      origin: "http://www.facebook.com",
+      protocol: "http:",
+      username: "",
+      password: "",
+      host: "www.facebook.com",
+      hostname: "www.facebook.com",
+      port: "",
+      pathname: "/myFarm/",
+      search: "",
+      searchParams: {},
+      hash: "",
+    };
+
+    // ACT
+    const actual = toElasticCommonSchemaURL(nodeURL, webpage);
+    const expected = {
+      url: {
+        domain: "www.facebook.com",
+        full: "http://www.facebook.com/myFarm/",
+        original: "http://www.facebook.com/myFarm/",
+        path: "/myFarm/",
+        pretty: "www.facebook.com/myFarm",
+        scheme: "http",
+      },
+    };
+
+    // ASSERT
+    assert.deepEqual(actual, expected);
   });
 });
