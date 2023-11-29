@@ -1,4 +1,4 @@
-export const nodeURL = (webpageRaw) => {
+export const toNodeURL = (webpageRaw) => {
   let webpage = undefined;
   let myURL = undefined;
 
@@ -21,7 +21,7 @@ export const nodeURL = (webpageRaw) => {
 
 export const urlTransformer = (webpageRaw) => {
   try {
-    return nodeURL(webpageRaw);
+    return toNodeURL(webpageRaw);
   } catch (error) {
     console.error(error);
     throw new Error("🧨 urlTransformer: Could not transform url");
