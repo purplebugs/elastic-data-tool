@@ -24,11 +24,11 @@ describe("urlTransformer()", async () => {
     const expected = {
       url: {
         domain: "www.mysite.com",
-        full: "https://www.mysite.com/",
+        full: "http://www.mysite.com/",
         original: "www.mysite.com",
         path: "/",
         pretty: "www.mysite.com",
-        scheme: "https",
+        scheme: "http",
       },
     };
 
@@ -50,10 +50,10 @@ describe("toNodeURL()", async () => {
     assert.equal(actual, expected);
   });
 
-  it(`should return href starting with "https://" if original webpage is missing "http:// or "https://" at start`, async () => {
+  it(`should return href starting with "http://" if original webpage is missing "http:// or "https://" at start`, async () => {
     // ARRANGE
     const webpage = "www.mywebpage.com";
-    const expected = "https://www.mywebpage.com/";
+    const expected = "http://www.mywebpage.com/";
 
     // ACT
     const actual = toNodeURL(webpage).href;
