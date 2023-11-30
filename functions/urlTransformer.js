@@ -30,16 +30,20 @@ export const toElasticCommonSchemaURL = (nodeURL, webpageRaw) => {
       return null;
     }
 
-    const path = nodeURL?.pathname !== "/" ? nodeURL?.pathname : ""; // Only use if there is a string of letters, do not use if is default value "/"
-    const prettyPath = path.endsWith("/") ? path.slice(0, -1) : path; // Remove final "/"
+    const full = nodeURL?.href.endsWith("/") ? nodeURL?.href.slice(0, -1) : nodeURL?.href; // Remove final "/"
+
+    const prettyPath =
+      nodeURL?.pathname !== "/" && nodeURL?.pathname.endsWith("/") ? nodeURL?.pathname.slice(0, -1) : nodeURL?.pathname; // Remove final "/"
+
+    const pretty = prettyPath !== "/" ? nodeURL?.host + prettyPath : nodeURL?.host; // Append path if not "/"
 
     return {
       url: {
         original: webpageRaw,
         domain: nodeURL.host,
-        full: nodeURL.href,
-        path: nodeURL.pathname,
-        pretty: nodeURL?.host + prettyPath, // This is custom, not part of Elastic Common Schema, used to show clean url on website
+        full: full,
+        path: prettyPath,
+        pretty: pretty, // This is custom, not part of Elastic Common Schema, used to show clean url on website
         scheme: nodeURL.protocol.split(":")[0],
       },
     };

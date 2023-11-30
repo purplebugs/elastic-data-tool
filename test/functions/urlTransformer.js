@@ -24,7 +24,7 @@ describe("urlTransformer()", async () => {
     const expected = {
       url: {
         domain: "www.mysite.com",
-        full: "http://www.mysite.com/",
+        full: "http://www.mysite.com",
         original: "www.mysite.com",
         path: "/",
         pretty: "www.mysite.com",
@@ -149,7 +149,7 @@ describe("toElasticCommonSchemaURL()", async () => {
     const expected = {
       url: {
         domain: "www.mysite.com",
-        full: "http://www.mysite.com/",
+        full: "http://www.mysite.com",
         original: "http://www.mysite.com/",
         path: "/",
         pretty: "www.mysite.com",
@@ -186,9 +186,9 @@ describe("toElasticCommonSchemaURL()", async () => {
     const expected = {
       url: {
         domain: "www.facebook.com",
-        full: "http://www.facebook.com/myFarm/",
+        full: "http://www.facebook.com/myFarm",
         original: "http://www.facebook.com/myFarm/",
-        path: "/myFarm/",
+        path: "/myFarm",
         pretty: "www.facebook.com/myFarm",
         scheme: "http",
       },
