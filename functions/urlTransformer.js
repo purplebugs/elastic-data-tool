@@ -14,7 +14,7 @@ export const toNodeURL = (webpageRaw) => {
     }
 
     if (myURL === undefined) {
-      myURL = new URL(`https://${webpage}`);
+      myURL = new URL(`http://${webpage}`);
     }
 
     return myURL;
