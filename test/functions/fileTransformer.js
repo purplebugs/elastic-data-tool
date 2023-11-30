@@ -69,7 +69,7 @@ describe("Farm info transformer", async () => {
       type: "alpaca",
       url: {
         domain: "www.mysite.com",
-        full: "http://www.mysite.com/",
+        full: "http://www.mysite.com",
         original: "http://www.mysite.com",
         path: "/",
         pretty: "www.mysite.com",
