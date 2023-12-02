@@ -19,6 +19,7 @@ describe("Farms from alpacas transformer", async () => {
         },
         phone: undefined,
         public: false,
+        status: "STATUS_ACTIVE",
         private: true,
         webpage: null,
       },
@@ -33,10 +34,25 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: false,
         private: true,
+        status: "STATUS_ACTIVE",
         webpage: null,
       },
       {
         alpacaId: 789,
+        city: null,
+        companyId: 111,
+        email: undefined,
+        descriptionCompany: undefined,
+        keeperName: "Farm one",
+        location: { type: "Point", coordinates: [null, null] },
+        phone: undefined,
+        public: false,
+        private: true,
+        status: "STATUS_DEAD",
+        webpage: null,
+      },
+      {
+        alpacaId: 888,
         city: "Fredrikstad",
         companyId: 222,
         descriptionCompany: "More info about Farm two",
@@ -66,7 +82,17 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 111,
         city: null,
-        countOfAlpacas: 2,
+        count: {
+          alpacas: {
+            status: {
+              active: 2,
+              dead: 1,
+              export: 0,
+            },
+            total: 3,
+          },
+        },
+        countOfAlpacas: 3,
         descriptionCompany: undefined,
         email: undefined,
         lat: null,
@@ -85,6 +111,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 222,
         city: "Fredrikstad",
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
         countOfAlpacas: 1,
         descriptionCompany: "More info about Farm two",
         email: "Email@farm.com",
@@ -163,6 +199,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 222,
         city: "Fredrikstad",
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
         countOfAlpacas: 1,
         email: undefined,
         descriptionCompany: "More info about Farm two",
@@ -247,6 +293,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 111,
         city: null,
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 2,
+          },
+        },
         countOfAlpacas: 2,
         descriptionCompany: undefined,
         email: undefined,
@@ -280,6 +336,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 222,
         city: "Fredrikstad",
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
         countOfAlpacas: 1,
         descriptionCompany: "More info about Farm two",
         email: "Email@farm.com",
