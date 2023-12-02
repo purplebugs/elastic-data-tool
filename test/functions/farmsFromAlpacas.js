@@ -19,6 +19,7 @@ describe("Farms from alpacas transformer", async () => {
         },
         phone: undefined,
         public: false,
+        status: "STATUS_ACTIVE",
         private: true,
         webpage: null,
       },
@@ -33,6 +34,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: false,
         private: true,
+        status: "STATUS_DEAD",
         webpage: null,
       },
       {
@@ -69,8 +71,8 @@ describe("Farms from alpacas transformer", async () => {
         count: {
           alpacas: {
             status: {
-              active: 0,
-              dead: 0,
+              active: 1,
+              dead: 1,
               export: 0,
             },
             total: 2,
