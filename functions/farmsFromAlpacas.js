@@ -18,14 +18,15 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
       // First time for farm
       farms.set(alpaca.keeperName, {
         name: alpaca.keeperName,
-        countOfAlpacas: 0,
+        countOfAlpacas: 0, // TODO remove field when count.alpacas.status.total used instead
+        count: { alpacas: { status: { active: 0, export: 0, dead: 0 }, total: 0 } },
         alpacas: [],
       });
     }
 
     if (farms.has(alpaca.keeperName)) {
       // Increment alpaca count for existing farm, and fill out rest of values
-      const count = farms.get(alpaca.keeperName).countOfAlpacas + 1;
+      const count_total = farms.get(alpaca.keeperName).count.alpacas.total + 1;
 
       if (includeAlpacas) {
         const {
@@ -45,7 +46,8 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
       const farm = {
         id: alpaca.companyId,
         city: alpaca.city ? capitaliseFirstLetter(alpaca?.city) : alpaca.city,
-        countOfAlpacas: count,
+        countOfAlpacas: count_total, // TODO remove field when count.alpacas.status.total used instead
+        count: { alpacas: { status: { active: 0, export: 0, dead: 0 }, total: count_total } },
         descriptionCompany: alpaca.descriptionCompany,
         email: alpaca.email,
         lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates

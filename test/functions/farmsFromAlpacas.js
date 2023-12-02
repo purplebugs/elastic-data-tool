@@ -66,6 +66,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 111,
         city: null,
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 2,
+          },
+        },
         countOfAlpacas: 2,
         descriptionCompany: undefined,
         email: undefined,
@@ -85,6 +95,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 222,
         city: "Fredrikstad",
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
         countOfAlpacas: 1,
         descriptionCompany: "More info about Farm two",
         email: "Email@farm.com",
@@ -163,6 +183,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 222,
         city: "Fredrikstad",
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
         countOfAlpacas: 1,
         email: undefined,
         descriptionCompany: "More info about Farm two",
@@ -247,6 +277,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 111,
         city: null,
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 2,
+          },
+        },
         countOfAlpacas: 2,
         descriptionCompany: undefined,
         email: undefined,
@@ -280,6 +320,16 @@ describe("Farms from alpacas transformer", async () => {
       {
         id: 222,
         city: "Fredrikstad",
+        count: {
+          alpacas: {
+            status: {
+              active: 0,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
         countOfAlpacas: 1,
         descriptionCompany: "More info about Farm two",
         email: "Email@farm.com",
