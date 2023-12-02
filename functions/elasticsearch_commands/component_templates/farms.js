@@ -12,6 +12,30 @@ export default {
             },
           },
         },
+        count: {
+          properties: {
+            alpacas: {
+              properties: {
+                status: {
+                  properties: {
+                    active: {
+                      type: "long",
+                    },
+                    dead: {
+                      type: "long",
+                    },
+                    export: {
+                      type: "long",
+                    },
+                  },
+                },
+                total: {
+                  type: "long",
+                },
+              },
+            },
+          },
+        },
         countOfAlpacas: {
           type: "long",
         },
