@@ -41,7 +41,7 @@ await createIndexWithDocuments("farms_all", farms_all, farmsComponentTemplate);
 const farms_public = bulkSyntax(farmsFromAlpacas(animals, { publicFarmsOnly: true }));
 await createIndexWithDocuments("farms_public", farms_public, farmsComponentTemplate);
 
-const companies_all = bulkSyntax(farmsFromAlpacas(animals, { publicFarmsOnly: false }, { includeAlpacas: true }));
+const companies_all = bulkSyntax(farmsFromAlpacas(animals, { publicFarmsOnly: false, includeAlpacas: true }));
 
 // The order of templates matters.  Otherwise the nested property of alpacas is lost, GOD only knows why!!
 await createIndexWithDocuments("companies_all", companies_all, companiesComponentTemplate, farmsComponentTemplate);
