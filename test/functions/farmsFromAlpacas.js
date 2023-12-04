@@ -229,7 +229,7 @@ describe("Farms from alpacas transformer", async () => {
     assert.deepEqual(result, expected);
   });
 
-  it("should transform list of alpacas to list of farms with alpaca list if `{ publicFarmsOnly : false }, { includeAlpacas: true }`", async () => {
+  it("should transform list of alpacas to list of farms with alpaca list if `{ publicFarmsOnly : false , includeAlpacas: true }`", async () => {
     // ARRANGE
     const alpacaDetailsArray = [
       {
@@ -246,6 +246,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: false,
         private: true,
+        status: "STATUS_ACTIVE",
         webpage: null,
       },
       {
@@ -260,6 +261,7 @@ describe("Farms from alpacas transformer", async () => {
         phone: undefined,
         public: false,
         private: true,
+        status: "STATUS_ACTIVE",
         webpage: null,
       },
       {
@@ -280,12 +282,13 @@ describe("Farms from alpacas transformer", async () => {
         phone: "phone 123",
         public: true,
         private: false,
+        status: "STATUS_DEAD",
         webpage: null,
       },
     ];
 
     // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false }, { includeAlpacas: true });
+    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false, includeAlpacas: true });
 
     // ASSERT
 
@@ -296,7 +299,7 @@ describe("Farms from alpacas transformer", async () => {
         count: {
           alpacas: {
             status: {
-              active: 0,
+              active: 2,
               dead: 0,
               export: 0,
             },
@@ -318,20 +321,44 @@ describe("Farms from alpacas transformer", async () => {
         private: true,
         url: null,
         webpage: null,
-        alpacas: [
-          {
-            alpacaId: 123,
-            city: null,
-            companyId: 111,
-            keeperName: "Farm one",
+        alpacas: {
+          all: [
+            {
+              alpacaId: 123,
+              city: null,
+              companyId: 111,
+              keeperName: "Farm one",
+              status: "STATUS_ACTIVE",
+            },
+            {
+              alpacaId: 456,
+              city: null,
+              companyId: 111,
+              keeperName: "Farm one",
+              status: "STATUS_ACTIVE",
+            },
+          ],
+          status: {
+            active: [
+              {
+                alpacaId: 123,
+                city: null,
+                companyId: 111,
+                keeperName: "Farm one",
+                status: "STATUS_ACTIVE",
+              },
+              {
+                alpacaId: 456,
+                city: null,
+                companyId: 111,
+                keeperName: "Farm one",
+                status: "STATUS_ACTIVE",
+              },
+            ],
+            dead: [],
+            export: [],
           },
-          {
-            alpacaId: 456,
-            city: null,
-            companyId: 111,
-            keeperName: "Farm one",
-          },
-        ],
+        },
       },
       {
         id: 222,
@@ -340,7 +367,7 @@ describe("Farms from alpacas transformer", async () => {
           alpacas: {
             status: {
               active: 0,
-              dead: 0,
+              dead: 1,
               export: 0,
             },
             total: 1,
@@ -365,14 +392,30 @@ describe("Farms from alpacas transformer", async () => {
         private: false,
         url: null,
         webpage: null,
-        alpacas: [
-          {
-            alpacaId: 789,
-            city: "Fredrikstad",
-            companyId: 222,
-            keeperName: "Farm two",
+        alpacas: {
+          all: [
+            {
+              alpacaId: 789,
+              city: "Fredrikstad",
+              companyId: 222,
+              keeperName: "Farm two",
+              status: "STATUS_DEAD",
+            },
+          ],
+          status: {
+            active: [],
+            dead: [
+              {
+                alpacaId: 789,
+                city: "Fredrikstad",
+                companyId: 222,
+                keeperName: "Farm two",
+                status: "STATUS_DEAD",
+              },
+            ],
+            export: [],
           },
-        ],
+        },
       },
     ];
     assert.deepEqual(result, expected);

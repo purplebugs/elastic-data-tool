@@ -21,22 +21,9 @@ await connection.end();
 
 const enrichedAlpacaDetailsArray = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true });
 
-const farms_ALL_WithAlpacaCountArray = farmsFromAlpacas(
-  enrichedAlpacaDetailsArray,
-  { publicFarmsOnly: false },
-  { includeAlpacas: false }
-);
-const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(
-  enrichedAlpacaDetailsArray,
-  { publicFarmsOnly: true },
-  { includeAlpacas: false }
-);
-
-const companies_all = farmsFromAlpacas(
-  enrichedAlpacaDetailsArray,
-  { publicFarmsOnly: false },
-  { includeAlpacas: true }
-);
+const farms_ALL_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: false });
+const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: true });
+const companies_all = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: false, includeAlpacas: true });
 
 console.log(`[LOG] END SQL -> JSON`);
 

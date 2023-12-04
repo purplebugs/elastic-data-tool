@@ -1,6 +1,6 @@
 import { capitaliseFirstLetter } from "./capitaliseFirstLetter.js";
 
-export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlpacas = false) => {
+export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpacas = false } = {}) => {
   // Get farms with count of alpacas from list of alpacas
 
   const farms = new Map();
@@ -20,7 +20,7 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
         name: alpaca.keeperName,
         countOfAlpacas: 0, // TODO remove field when count.alpacas.status.total used instead
         count: { alpacas: { status: { active: 0, export: 0, dead: 0 }, total: 0 } },
-        alpacas: [],
+        alpacas: { status: { active: [], export: [], dead: [] }, all: [] },
       });
     }
 
@@ -58,7 +58,22 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true }, includeAlp
           private: privateHandler, // Temporarily rename field "private" because it is a reserved word and cannot be used in a const
           ...alpacaDetailsToKeep
         } = alpaca;
-        farms.get(alpaca.keeperName).alpacas.push(alpacaDetailsToKeep);
+
+        farms.get(alpaca.keeperName).alpacas.all.push(alpacaDetailsToKeep);
+
+        switch (alpaca?.status) {
+          case "STATUS_ACTIVE":
+            farms.get(alpaca.keeperName).alpacas.status.active.push(alpacaDetailsToKeep);
+            break;
+          case "STATUS_DEAD":
+            farms.get(alpaca.keeperName).alpacas.status.dead.push(alpacaDetailsToKeep);
+            break;
+          case "STATUS_EXPORT":
+            farms.get(alpaca.keeperName).alpacas.status.export.push(alpacaDetailsToKeep);
+            break;
+          default:
+            console.log(`[LOG] No status matched alpacaId: ${alpaca.alpacaId}`);
+        }
       }
 
       const farm = {
