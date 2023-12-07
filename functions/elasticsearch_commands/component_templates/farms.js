@@ -36,9 +36,6 @@ export default {
             },
           },
         },
-        countOfAlpacas: {
-          type: "long",
-        },
         descriptionCompany: {
           type: "text",
           fields: {
