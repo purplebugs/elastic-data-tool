@@ -1,5 +1,6 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import axios from "axios";
+import lookup from "country-code-lookup";
 
 const cache = new Map();
 
@@ -24,11 +25,14 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   const client = new Client({});
   let data = null;
 
+  const code = alpacaObject.country ? alpacaObject.country : "NO";
+  const country = lookup.byIso(code);
+
   try {
     const response = await client.geocode(
       {
         params: {
-          address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}`, // TODO ", country"
+          address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country.country}`,
           key: process.env.GOOGLE_MAPS_API_KEY,
         },
         timeout: 1000, // milliseconds
@@ -63,6 +67,8 @@ export const getLatLngFromAddress = async (alpacaObject) => {
         street: alpacaObject.street,
         city: alpacaObject.city,
         zip: alpacaObject.zip,
+        country_code: alpacaObject.country,
+        country_name: country.country,
       },
     },
   };
