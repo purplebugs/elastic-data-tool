@@ -4,14 +4,7 @@ import axios from "axios";
 const cache = new Map();
 
 export const getLatLngFromAddress = async (alpacaObject) => {
-  if (
-    !alpacaObject ||
-    !alpacaObject.keeper ||
-    !alpacaObject.keeperName ||
-    !alpacaObject.street ||
-    !alpacaObject.zip ||
-    !alpacaObject.city
-  ) {
+  if (!alpacaObject || !alpacaObject.keeper) {
     return {};
   }
 
@@ -35,9 +28,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     const response = await client.geocode(
       {
         params: {
-          address: [
-            `${alpacaObject.keeperName} ${alpacaObject.street}, ${alpacaObject.zip.toString()} ${alpacaObject.city}`,
-          ],
+          address: [`${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}`], // TODO ", country"
           key: process.env.GOOGLE_MAPS_API_KEY,
         },
         timeout: 1000, // milliseconds
@@ -66,6 +57,13 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       type: "Point",
       coordinates: [longitude, latitude],
       google: { formatted_address: formatted_address, place_id: place_id },
+      original: {
+        keeper: alpacaObject.keeper,
+        keeperName: alpacaObject.keeperName,
+        street: alpacaObject.street,
+        city: alpacaObject.city,
+        zip: alpacaObject.zip,
+      },
     },
   };
 
