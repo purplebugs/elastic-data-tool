@@ -25,7 +25,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
   // Use geocoding from https://github.com/googlemaps/google-maps-services-js
-  // Ref: https://developers.google.com/maps/documentation/geocoding/overview
+  // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
   // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
 
   const client = new Client({});
@@ -36,7 +36,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       {
         params: {
           address: [
-            `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip.toString()} ${alpacaObject.city}`,
+            `${alpacaObject.keeperName} ${alpacaObject.street}, ${alpacaObject.zip.toString()} ${alpacaObject.city}`,
           ],
           key: process.env.GOOGLE_MAPS_API_KEY,
         },
