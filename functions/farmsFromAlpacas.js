@@ -18,7 +18,6 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
       // First time for farm
       farms.set(alpaca.keeperName, {
         name: alpaca.keeperName,
-        countOfAlpacas: 0, // TODO remove field when count.alpacas.status.total used instead
         count: { alpacas: { status: { active: 0, export: 0, dead: 0 }, total: 0 } },
         alpacas: { status: { active: [], export: [], dead: [] }, all: [] },
       });
@@ -79,7 +78,6 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
       const farm = {
         id: alpaca.companyId,
         city: alpaca.city ? capitaliseFirstLetter(alpaca?.city) : alpaca.city,
-        countOfAlpacas: count_total, // TODO remove field when count.alpacas.status.total used instead
         count: {
           alpacas: {
             status: { active: count_status_active, dead: count_status_dead, export: count_status_export },
