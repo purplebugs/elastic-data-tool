@@ -40,8 +40,6 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
     },
   };
 
-  // console.debug(obj);
-
   cache.set(alpacaObject.keeper, obj);
   console.log(`[LOG] Location ${alpacaObject.keeper} added to cache`);
 
@@ -57,8 +55,6 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     console.log(`[LOG] Using location ${alpacaObject.keeper} from cache`);
     return cache.get(alpacaObject.keeper);
   }
-
-  // console.debug(alpacaObject);
 
   console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
