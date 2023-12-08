@@ -87,7 +87,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   }
 
   // TODO store long_name for administrative_area_level_1, administrative_area_level_2 from address_components
-  console.log(JSON.stringify(data?.results[0], null, 2));
+  // console.log(JSON.stringify(data?.results[0], null, 2));
 
   const obj = transformWithGoogleAddress(alpacaObject, data?.results[0]); // Use first result only
 
