@@ -53,6 +53,9 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   const formatted_address = data?.results[0]?.formatted_address || null;
   const place_id = data?.results[0]?.place_id || null;
 
+  // TODO store long_name for administrative_area_level_1, administrative_area_level_2 from address_components
+  // console.log(JSON.stringify(data?.results[0].address_components, null, 2));
+
   // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
   // Geopoint as an object using GeoJSON format
 
