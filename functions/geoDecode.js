@@ -4,14 +4,20 @@ import lookup from "country-code-lookup";
 
 const cache = new Map();
 
+const overrideNullCountryCode = (original_code) => {
+  return original_code ? original_code : "NO";
+};
+
+const lookupCountryCode = (original_code) => {
+  const code = overrideNullCountryCode(original_code);
+  return lookup.byIso(code).country;
+};
+
 export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
   const latitude = googleResult?.geometry?.location?.lat || null;
   const longitude = googleResult?.geometry?.location?.lng || null;
   const formatted_address = googleResult?.formatted_address || null;
   const place_id = googleResult?.place_id || null;
-
-  const code = alpacaObject.country ? alpacaObject.country : "NO";
-  const country = lookup.byIso(code);
 
   // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
   // Geopoint as an object using GeoJSON format
@@ -28,8 +34,8 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
         city: alpacaObject.city,
         zip: alpacaObject.zip,
         country_code_original: alpacaObject?.country,
-        country_code: code,
-        country_name: country.country,
+        country_code: overrideNullCountryCode(alpacaObject?.country),
+        country_name: lookupCountryCode(overrideNullCountryCode(alpacaObject?.country)),
       },
     },
   };
@@ -63,14 +69,13 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   const client = new Client({});
   let data = null;
 
-  const code = alpacaObject.country ? alpacaObject.country : "NO"; // TODO refactor into one shared function
-  const country = lookup.byIso(code);
+  const country = lookupCountryCode(alpacaObject?.country);
 
   try {
     const response = await client.geocode(
       {
         params: {
-          address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country.country}`,
+          address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`,
           key: process.env.GOOGLE_MAPS_API_KEY,
         },
         timeout: 1000, // milliseconds
