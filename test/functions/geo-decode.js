@@ -1,6 +1,6 @@
 import { describe, it, mock } from "node:test";
 import { strict as assert } from "node:assert";
-import { transformWithGoogleAddress } from "../../functions/geoDecode.js";
+import { transformWithGoogleAddress } from "../../functions/geo-decode.js";
 
 describe("Geo decoder - transform address string to Google place, lat, lng", async () => {
   it("should transform object with address fields from google result", async () => {

@@ -1,4 +1,4 @@
-import { getLatLngFromAddress } from "./geoDecode.js";
+import { getLatLngFromAddress } from "./geo-decode.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 import { urlTransformer } from "./urlTransformer.js";
 
