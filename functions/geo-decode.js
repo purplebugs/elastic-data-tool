@@ -1,10 +1,53 @@
 import { Client } from "@googlemaps/google-maps-services-js";
 import axios from "axios";
+import lookup from "country-code-lookup";
 
 const cache = new Map();
 
+const overrideNullCountryCode = (original_code) => {
+  return original_code ? original_code : "NO";
+};
+
+const lookupCountryCode = (original_code) => {
+  const code = overrideNullCountryCode(original_code);
+  return lookup.byIso(code).country;
+};
+
+export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
+  const latitude = googleResult?.geometry?.location?.lat || null;
+  const longitude = googleResult?.geometry?.location?.lng || null;
+  const formatted_address = googleResult?.formatted_address || null;
+  const place_id = googleResult?.place_id || null;
+
+  // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
+  // Geopoint as an object using GeoJSON format
+
+  const obj = {
+    location: {
+      type: "Point",
+      coordinates: [longitude, latitude],
+      google: { formatted_address: formatted_address, place_id: place_id },
+      original: {
+        keeper: alpacaObject.keeper,
+        keeperName: alpacaObject.keeperName,
+        street: alpacaObject.street,
+        city: alpacaObject.city,
+        zip: alpacaObject.zip,
+        country_code_original: alpacaObject?.country,
+        country_code: overrideNullCountryCode(alpacaObject?.country),
+        country_name: lookupCountryCode(overrideNullCountryCode(alpacaObject?.country)),
+      },
+    },
+  };
+
+  cache.set(alpacaObject.keeper, obj);
+  console.log(`[LOG] Location ${alpacaObject.keeper} added to cache`);
+
+  return obj;
+};
+
 export const getLatLngFromAddress = async (alpacaObject) => {
-  if (!alpacaObject || !alpacaObject.keeper || !alpacaObject.street || !alpacaObject.zip || !alpacaObject.city) {
+  if (!alpacaObject || !alpacaObject.keeper) {
     return {};
   }
 
@@ -13,22 +56,22 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     return cache.get(alpacaObject.keeper);
   }
 
-  // console.debug(alpacaObject);
-
   console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
   // Use geocoding from https://github.com/googlemaps/google-maps-services-js
-  // Ref: https://developers.google.com/maps/documentation/geocoding/overview
+  // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
   // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
 
   const client = new Client({});
   let data = null;
 
+  const country = lookupCountryCode(alpacaObject?.country);
+
   try {
     const response = await client.geocode(
       {
         params: {
-          address: [`${alpacaObject.street} ${alpacaObject.zip.toString()} ${alpacaObject.city}`],
+          address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`,
           key: process.env.GOOGLE_MAPS_API_KEY,
         },
         timeout: 1000, // milliseconds
@@ -44,26 +87,10 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     throw new Error("🧨 getLatLngFromAddress: Response from Google Geocode API failed");
   }
 
-  const latitude = data?.results[0]?.geometry?.location?.lat || null;
-  const longitude = data?.results[0]?.geometry?.location?.lng || null;
-  const formatted_address = data?.results[0]?.formatted_address || null;
-  const place_id = data?.results[0]?.place_id || null;
+  // TODO store long_name for administrative_area_level_1, administrative_area_level_2 from address_components
+  // console.log(JSON.stringify(data?.results[0], null, 2));
 
-  // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
-  // Geopoint as an object using GeoJSON format
-
-  const obj = {
-    location: {
-      type: "Point",
-      coordinates: [longitude, latitude],
-      google: { formatted_address: formatted_address, place_id: place_id },
-    },
-  };
-
-  // console.debug(obj);
-
-  cache.set(alpacaObject.keeper, obj);
-  console.log(`[LOG] Location ${alpacaObject.keeper} added to cache`);
+  const obj = transformWithGoogleAddress(alpacaObject, data?.results[0]); // Use first result only
 
   return obj;
 };
