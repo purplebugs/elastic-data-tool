@@ -90,6 +90,8 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
         google: {
           formatted_address: "Bingenveien 33, 1923 Sørum, Norway",
           place_id: "ChIJrZVJkQHWQ0YRjmnqc_FgDpY",
+          directions_url_href:
+            "https://www.google.com/maps/dir/?api=1&origin=&destination=Bingenveien%2033,%201923%20S%C3%B8rum,%20Norway",
         },
         original: {
           keeper: 61,

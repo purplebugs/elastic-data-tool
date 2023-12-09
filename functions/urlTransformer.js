@@ -66,3 +66,22 @@ export const urlTransformer = (webpageRaw) => {
     throw new Error("🧨 urlTransformer: Could not transform url");
   }
 };
+
+export const toGoogleDirectionsURL = (formatted_address) => {
+  // Ref: https://developers.google.com/maps/documentation/urls/get-started#directions-action
+
+  try {
+    let myURL = undefined;
+
+    if (formatted_address === null || formatted_address === undefined) {
+      return null;
+    }
+
+    myURL = new URL(`https://www.google.com/maps/dir/?api=1&origin=&destination=${formatted_address}`);
+
+    return myURL;
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 toGoogleDirectionsURL: Could not generate url");
+  }
+};

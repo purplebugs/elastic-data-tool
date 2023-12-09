@@ -1,6 +1,10 @@
+// external
 import { Client } from "@googlemaps/google-maps-services-js";
 import axios from "axios";
 import lookup from "country-code-lookup";
+
+// internal
+import { toGoogleDirectionsURL } from "../functions/urlTransformer.js";
 
 const cache = new Map();
 
@@ -26,7 +30,11 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
     location: {
       type: "Point",
       coordinates: [longitude, latitude],
-      google: { formatted_address: formatted_address, place_id: place_id },
+      google: {
+        formatted_address: formatted_address,
+        place_id: place_id,
+        directions_url_href: toGoogleDirectionsURL(formatted_address).href,
+      },
       original: {
         keeper: alpacaObject.keeper,
         keeperName: alpacaObject.keeperName,
