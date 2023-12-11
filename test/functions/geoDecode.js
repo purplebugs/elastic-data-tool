@@ -97,6 +97,8 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
           place_id: "ChIJn_8GjgHWQ0YRZcYaf8f3180",
           directions_url_href:
             "https://www.google.com/maps/dir/?api=1&origin=&destination=Bingenveien%2035,%201923%20S%C3%B8rum,%20Norway",
+          administrative_area_level_1: "Viken",
+          administrative_area_level_2: "Lillestrøm",
         },
         original: {
           keeper: 61,
