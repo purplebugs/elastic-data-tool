@@ -23,6 +23,17 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
   const formatted_address = googleResult?.formatted_address || null;
   const place_id = googleResult?.place_id || null;
 
+  let administrative_area_level_1 = null;
+  let administrative_area_level_2 = null;
+  googleResult?.address_components?.forEach((component) => {
+    if (component?.types?.find((type) => type === "administrative_area_level_1")) {
+      administrative_area_level_1 = component?.long_name;
+    }
+    if (component?.types?.find((type) => type === "administrative_area_level_2")) {
+      administrative_area_level_2 = component?.long_name;
+    }
+  });
+
   // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
   // Geopoint as an object using GeoJSON format
 
@@ -34,6 +45,8 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
         formatted_address: formatted_address,
         place_id: place_id,
         directions_url_href: toGoogleDirectionsURL(formatted_address).href,
+        administrative_area_level_1: administrative_area_level_1,
+        administrative_area_level_2: administrative_area_level_2,
       },
       original: {
         keeper: alpacaObject.keeper,
@@ -120,9 +133,6 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     console.error(error);
     throw new Error("🧨 getLatLngFromAddress: Response from Google Geocode API failed");
   }
-
-  // TODO store long_name for administrative_area_level_1, administrative_area_level_2 from address_components
-  // console.log(JSON.stringify(data, null, 2));
 
   const obj = transformWithGoogleAddress(alpacaObject, data);
 
