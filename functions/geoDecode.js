@@ -76,10 +76,11 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   const country = lookupCountryCode(alpacaObject?.country);
 
   try {
-    const response = await client.geocode(
+    let response = null;
+    response = await client.geocode(
       {
         params: {
-          address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`,
+          address: `${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`,
           key: process.env.GOOGLE_MAPS_API_KEY,
         },
         timeout: 1000, // milliseconds
@@ -88,7 +89,24 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     );
 
     if (response?.data?.status === "OK") {
-      data = response?.data || null;
+      data = response?.data?.results[0] || null; // Use first result only
+    }
+
+    if (data?.partial_match == true) {
+      response = await client.geocode(
+        {
+          params: {
+            address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`,
+            key: process.env.GOOGLE_MAPS_API_KEY,
+          },
+          timeout: 1000, // milliseconds
+        },
+        axios
+      );
+    }
+
+    if (response?.data?.status === "OK") {
+      data = response?.data?.results[0] || null; // Use first result only
     }
   } catch (error) {
     console.error(error);
@@ -96,9 +114,9 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   }
 
   // TODO store long_name for administrative_area_level_1, administrative_area_level_2 from address_components
-  // console.log(JSON.stringify(data?.results[0], null, 2));
+  // console.log(JSON.stringify(data, null, 2));
 
-  const obj = transformWithGoogleAddress(alpacaObject, data?.results[0]); // Use first result only
+  const obj = transformWithGoogleAddress(alpacaObject, data);
 
   return obj;
 };
