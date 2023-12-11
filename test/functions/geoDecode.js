@@ -17,8 +17,8 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
     const googleResult = {
       address_components: [
         {
-          long_name: "33",
-          short_name: "33",
+          long_name: "35",
+          short_name: "35",
           types: ["street_number"],
         },
         {
@@ -52,31 +52,36 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
           types: ["postal_code"],
         },
       ],
-      formatted_address: "Bingenveien 33, 1923 Sørum, Norway",
+      formatted_address: "Bingenveien 35, 1923 Sørum, Norway",
       geometry: {
+        bounds: {
+          northeast: {
+            lat: 60.0075655,
+            lng: 11.2230422,
+          },
+          southwest: {
+            lat: 60.0074434,
+            lng: 11.222848,
+          },
+        },
         location: {
-          lat: 60.00786649999999,
-          lng: 11.2232683,
+          lat: 60.0075085,
+          lng: 11.2229125,
         },
         location_type: "ROOFTOP",
         viewport: {
           northeast: {
-            lat: 60.0091541802915,
-            lng: 11.2245501802915,
+            lat: 60.00888318029151,
+            lng: 11.2244207302915,
           },
           southwest: {
-            lat: 60.0064562197085,
-            lng: 11.2218522197085,
+            lat: 60.00618521970849,
+            lng: 11.2217227697085,
           },
         },
       },
-      partial_match: true,
-      place_id: "ChIJrZVJkQHWQ0YRjmnqc_FgDpY",
-      plus_code: {
-        compound_code: "265F+48 Lillestrøm, Norway",
-        global_code: "9FGH265F+48",
-      },
-      types: ["establishment", "point_of_interest"],
+      place_id: "ChIJn_8GjgHWQ0YRZcYaf8f3180",
+      types: ["premise"],
     };
 
     // ACT
@@ -85,13 +90,13 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
     // ASSERT
     const expected = {
       location: {
-        coordinates: [11.2232683, 60.00786649999999],
+        coordinates: [11.2229125, 60.0075085],
         type: "Point",
         google: {
-          formatted_address: "Bingenveien 33, 1923 Sørum, Norway",
-          place_id: "ChIJrZVJkQHWQ0YRjmnqc_FgDpY",
+          formatted_address: "Bingenveien 35, 1923 Sørum, Norway",
+          place_id: "ChIJn_8GjgHWQ0YRZcYaf8f3180",
           directions_url_href:
-            "https://www.google.com/maps/dir/?api=1&origin=&destination=Bingenveien%2033,%201923%20S%C3%B8rum,%20Norway",
+            "https://www.google.com/maps/dir/?api=1&origin=&destination=Bingenveien%2035,%201923%20S%C3%B8rum,%20Norway",
         },
         original: {
           keeper: 61,
