@@ -90,10 +90,17 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     );
 
     if (response?.data?.status === "OK") {
+      // Example: "keeperName": "Alpakkahagen",
+      // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
+
       data = response?.data?.results[0] || null; // Use first result only
     }
 
     if (data?.partial_match == true) {
+      // Example: "keeperName": "Oddan Alpakka"
+      // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
+      // Adding keeperName -> finds farm street address "Lernesstranda"
+
       response = await client.geocode(
         {
           params: {
