@@ -77,10 +77,11 @@ export const getLatLngFromAddress = async (alpacaObject) => {
 
   try {
     let response = null;
+    let address = `${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`;
     response = await client.geocode(
       {
         params: {
-          address: `${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`,
+          address: address,
           key: process.env.GOOGLE_MAPS_API_KEY,
         },
         timeout: 1000, // milliseconds
@@ -96,7 +97,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       response = await client.geocode(
         {
           params: {
-            address: `${alpacaObject.keeperName}, ${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`,
+            address: `${alpacaObject.keeperName}, ${address}`,
             key: process.env.GOOGLE_MAPS_API_KEY,
           },
           timeout: 1000, // milliseconds
