@@ -89,6 +89,10 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   const country = lookupCountryCode(alpacaObject?.country);
   let address = `${street}${zip}${city}${country}`;
 
+  if (keeperName !== "" && street === "" && city === "" && zip === "") {
+    address = `${keeperName}${address}`;
+  }
+
   if (!alpacaObject || !alpacaObject.keeper) {
     return {};
   }
@@ -108,12 +112,12 @@ export const getLatLngFromAddress = async (alpacaObject) => {
 
   try {
     let response = null;
+
+    // Example: "keeperName": "Alpakkahagen",
+    // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
     response = await googleGeoCode(address);
 
     if (response?.data?.status === "OK") {
-      // Example: "keeperName": "Alpakkahagen",
-      // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
-
       data = response?.data?.results[0] || null; // Use first result only
     }
 
@@ -122,13 +126,13 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
-      response = await googleGeoCode(`${keeperName}${address}`);
-    }
+      const responseUsingKeeper = await googleGeoCode(`${keeperName}${address}`);
 
-    if (street === "" && city === "" && zip === "") {
-      // If cannot find keeper, this will avoid returning a false address in central Oslo
-      // Instead it will return only Norway in address component
-      response = await googleGeoCode(`${keeperName}${address}`);
+      if (responseUsingKeeper?.data?.results[0].formatted_address !== "Norway") {
+        // Only use if finds an address besides fallback of centre of Norway
+        // This avoids issue with "keeper": 218 which had partial match with valid address, then google found no match when adding keeper
+        response = responseUsingKeeper;
+      }
     }
 
     if (response?.data?.status === "OK") {
