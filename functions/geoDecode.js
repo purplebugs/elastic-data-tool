@@ -122,7 +122,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
-      response = await googleGeoCode(`${keeperName}, ${address}`);
+      response = await googleGeoCode(`${keeperName}${address}`);
     }
 
     if (street === "" && city === "" && zip === "") {
