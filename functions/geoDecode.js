@@ -16,6 +16,19 @@ const lookupCountryCode = (original_code) => {
   const code = overrideNullCountryCode(original_code);
   return lookup.byIso(code).country;
 };
+const googleGeoCode = async (address) => {
+  const client = new Client({});
+  return await client.geocode(
+    {
+      params: {
+        address: address,
+        key: process.env.GOOGLE_MAPS_API_KEY,
+      },
+      timeout: 1000, // milliseconds
+    },
+    axios
+  );
+};
 
 export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
   const latitude = googleResult?.geometry?.location?.lat || null;
@@ -49,11 +62,11 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
         administrative_area_level_2: administrative_area_level_2,
       },
       original: {
-        keeper: alpacaObject.keeper,
-        keeperName: alpacaObject.keeperName,
-        street: alpacaObject.street,
-        city: alpacaObject.city,
-        zip: alpacaObject.zip,
+        keeper: alpacaObject?.keeper,
+        keeperName: alpacaObject?.keeperName,
+        street: alpacaObject?.street,
+        city: alpacaObject?.city,
+        zip: alpacaObject?.zip,
         country_code_original: alpacaObject?.country,
         country_code: overrideNullCountryCode(alpacaObject?.country),
         country_name: lookupCountryCode(overrideNullCountryCode(alpacaObject?.country)),
@@ -68,6 +81,14 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
 };
 
 export const getLatLngFromAddress = async (alpacaObject) => {
+  const keeperName = alpacaObject?.keeperName || "";
+  const street = alpacaObject?.street || "";
+  const zip = alpacaObject?.zip || "";
+  const city = alpacaObject?.zip || "";
+  const country = lookupCountryCode(alpacaObject?.country);
+  let address = `${street}, ${zip} ${city}, ${country}`;
+  console.log("---- address ", address);
+
   if (!alpacaObject || !alpacaObject.keeper) {
     return {};
   }
@@ -83,30 +104,18 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
   // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
 
-  const client = new Client({});
   let data = null;
-
-  const country = lookupCountryCode(alpacaObject?.country);
 
   try {
     let response = null;
-    let address = `${alpacaObject.street}, ${alpacaObject.zip} ${alpacaObject.city}, ${country}`;
-    response = await client.geocode(
-      {
-        params: {
-          address: address,
-          key: process.env.GOOGLE_MAPS_API_KEY,
-        },
-        timeout: 1000, // milliseconds
-      },
-      axios
-    );
+    response = await googleGeoCode(address);
 
     if (response?.data?.status === "OK") {
       // Example: "keeperName": "Alpakkahagen",
       // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
 
       data = response?.data?.results[0] || null; // Use first result only
+      // console.log("---- 1- data ", JSON.stringify(data, null, 2));
     }
 
     if (data?.partial_match == true) {
@@ -114,20 +123,14 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
-      response = await client.geocode(
-        {
-          params: {
-            address: `${alpacaObject.keeperName}, ${address}`,
-            key: process.env.GOOGLE_MAPS_API_KEY,
-          },
-          timeout: 1000, // milliseconds
-        },
-        axios
-      );
+      console.log(" PARTIAL MATCH TRUE ---- 2 - address ", `${alpacaObject.keeperName}, ${address}`);
+
+      response = await googleGeoCode(`${keeperName}, ${address}`);
     }
 
     if (response?.data?.status === "OK") {
       data = response?.data?.results[0] || null; // Use first result only
+      // console.log("---- 2- data ", JSON.stringify(data, null, 2));
     }
   } catch (error) {
     console.error(error);
