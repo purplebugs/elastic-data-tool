@@ -87,7 +87,6 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   const city = alpacaObject?.city ? alpacaObject?.city + ", " : "";
   const country = lookupCountryCode(alpacaObject?.country);
   let address = `${street}${zip}${city}${country}`;
-  console.log("---- 1 - INITIAL address ", address);
 
   if (!alpacaObject || !alpacaObject.keeper) {
     return {};
@@ -115,7 +114,6 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
 
       data = response?.data?.results[0] || null; // Use first result only
-      // console.log("---- 1- data ", JSON.stringify(data, null, 2));
     }
 
     if (data?.partial_match === true) {
@@ -123,23 +121,17 @@ export const getLatLngFromAddress = async (alpacaObject) => {
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
-      console.log(" PARTIAL MATCH TRUE ---- 2 - address ", `${keeperName}${address}`);
-
       response = await googleGeoCode(`${keeperName}, ${address}`);
     }
 
     if (street === "" && city === "" && zip === "") {
-      console.log(" EMPTY STREET, CITY and ZIP ---- 3 - address ", `${keeperName}${address}`);
+      // If cannot find keeper, this will avoid returning a false address in central Oslo
+      // Instead it will return only Norway in address component
       response = await googleGeoCode(`${keeperName}${address}`);
-      console.log(
-        " EMPTY STREET, CITY and ZIP ---- 3 - RESPONSE ",
-        JSON.stringify(response?.data?.results[0], null, 2)
-      );
     }
 
     if (response?.data?.status === "OK") {
       data = response?.data?.results[0] || null; // Use first result only
-      // console.log("---- 2- data ", JSON.stringify(data, null, 2));
     }
   } catch (error) {
     console.error(error);
