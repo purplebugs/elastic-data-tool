@@ -89,6 +89,10 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   const country = lookupCountryCode(alpacaObject?.country);
   let address = `${street}${zip}${city}${country}`;
 
+  if (keeperName !== "" && street === "" && city === "" && zip === "") {
+    address = `${keeperName}${address}`;
+  }
+
   if (!alpacaObject || !alpacaObject.keeper) {
     return {};
   }
@@ -108,12 +112,12 @@ export const getLatLngFromAddress = async (alpacaObject) => {
 
   try {
     let response = null;
+
+    // Example: "keeperName": "Alpakkahagen",
+    // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
     response = await googleGeoCode(address);
 
     if (response?.data?.status === "OK") {
-      // Example: "keeperName": "Alpakkahagen",
-      // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
-
       data = response?.data?.results[0] || null; // Use first result only
     }
 
@@ -129,13 +133,6 @@ export const getLatLngFromAddress = async (alpacaObject) => {
         // This avoids issue with "keeper": 218 which had partial match with valid address, then google found no match when adding keeper
         response = responseUsingKeeper;
       }
-    }
-
-    if (street === "" && city === "" && zip === "") {
-      // If cannot find keeper, this will avoid returning a false address in central Oslo
-      // Instead it will return only Norway in address component
-
-      response = await googleGeoCode(`${keeperName}${address}`);
     }
 
     if (response?.data?.status === "OK") {
