@@ -32,6 +32,10 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
       colorSolid: item?.colorSolid,
     });
     if (colorTransformed !== null) {
+      delete itemTransformed.color1;
+      delete itemTransformed.color2;
+      delete itemTransformed.color3;
+      delete itemTransformed.colorSolid;
       itemTransformed = Object.assign(itemTransformed, colorTransformed);
     }
 

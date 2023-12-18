@@ -144,4 +144,38 @@ describe("Farm info transformer", async () => {
       type: "goat",
     });
   });
+
+  it("should transform color properties to object and remove original properties", async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Alpakkahagen",
+        color1: "COLOR_LIGHT_FAWN",
+        color2: "COLOR_WHITE",
+        color3: "COLOR_MEDIUM_FAWN",
+        colorSolid: "COLOR_BAY_BLACK",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray);
+
+    // ASSERT
+    const expected = {
+      alpacaId: 1234,
+      keeperName: "Alpakkahagen",
+      private: false,
+      public: true,
+      type: "alpaca",
+      color: {
+        color1: { pretty: "Light fawn", original: "COLOR_LIGHT_FAWN" },
+        color2: { pretty: "White", original: "COLOR_WHITE" },
+        color3: { pretty: "Medium fawn", original: "COLOR_MEDIUM_FAWN" },
+        colorSolid: { pretty: "Bay black", original: "COLOR_BAY_BLACK" },
+      },
+    };
+
+    assert.deepEqual(result[0], expected);
+  });
 });
