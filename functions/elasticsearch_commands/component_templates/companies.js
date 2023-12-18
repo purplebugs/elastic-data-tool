@@ -53,6 +53,98 @@ export default {
                     },
                   },
                 },
+                color: {
+                  properties: {
+                    color1: {
+                      properties: {
+                        color_pretty: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                        original: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                      },
+                    },
+                    color2: {
+                      properties: {
+                        color_pretty: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                        original: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                      },
+                    },
+                    color3: {
+                      properties: {
+                        color_pretty: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                        original: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                      },
+                    },
+                    colorSolid: {
+                      properties: {
+                        color_pretty: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                        original: {
+                          type: "text",
+                          fields: {
+                            keyword: {
+                              type: "keyword",
+                              ignore_above: 256,
+                            },
+                          },
+                        },
+                      },
+                    },
+                  },
+                },
                 companyId: {
                   type: "long",
                 },
