@@ -46,7 +46,7 @@ export default {
           properties: {
             color1: {
               properties: {
-                color_pretty: {
+                pretty: {
                   type: "text",
                   fields: {
                     keyword: {
@@ -68,7 +68,7 @@ export default {
             },
             color2: {
               properties: {
-                color_pretty: {
+                pretty: {
                   type: "text",
                   fields: {
                     keyword: {
@@ -90,7 +90,7 @@ export default {
             },
             color3: {
               properties: {
-                color_pretty: {
+                pretty: {
                   type: "text",
                   fields: {
                     keyword: {
@@ -112,7 +112,7 @@ export default {
             },
             colorSolid: {
               properties: {
-                color_pretty: {
+                pretty: {
                   type: "text",
                   fields: {
                     keyword: {
