@@ -34,10 +34,10 @@ describe("Color transformer", async () => {
     // ASSERT
     const expected = {
       color: {
-        color1: { color_pretty: "Light fawn", original: "COLOR_LIGHT_FAWN" },
-        color2: { color_pretty: null, original: null },
-        color3: { color_pretty: null, original: null },
-        colorSolid: { color_pretty: "Bay black", original: "COLOR_BAY_BLACK" },
+        color1: { pretty: "Light fawn", original: "COLOR_LIGHT_FAWN" },
+        color2: { pretty: null, original: null },
+        color3: { pretty: null, original: null },
+        colorSolid: { pretty: "Bay black", original: "COLOR_BAY_BLACK" },
       },
     };
 
@@ -59,10 +59,10 @@ describe("Color transformer", async () => {
     // ASSERT
     const expected = {
       color: {
-        color1: { color_pretty: "Light fawn", original: "COLOR_LIGHT_FAWN" },
-        color2: { color_pretty: "White", original: "COLOR_WHITE" },
-        color3: { color_pretty: "Medium fawn", original: "COLOR_MEDIUM_FAWN" },
-        colorSolid: { color_pretty: "Bay black", original: "COLOR_BAY_BLACK" },
+        color1: { pretty: "Light fawn", original: "COLOR_LIGHT_FAWN" },
+        color2: { pretty: "White", original: "COLOR_WHITE" },
+        color3: { pretty: "Medium fawn", original: "COLOR_MEDIUM_FAWN" },
+        colorSolid: { pretty: "Bay black", original: "COLOR_BAY_BLACK" },
       },
     };
 
