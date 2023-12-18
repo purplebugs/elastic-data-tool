@@ -1,5 +1,7 @@
-import { getLatLngFromAddress } from "./geoDecode.js";
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
+
+import { colorTransformer } from "./colorTransformer.js";
+import { getLatLngFromAddress } from "./geoDecode.js";
 import { urlTransformer } from "./urlTransformer.js";
 
 export default async function fileTransformer(file, { geoDecodeEnrich = true, animal = "alpaca" } = {}) {
@@ -21,6 +23,16 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
       // If farm is found in approved public list, it is no longer private
       itemTransformed = Object.assign({}, item, { public: true, private: false });
       console.log("[LOG] Farm is public: ", item.keeperName);
+    }
+
+    const colorTransformed = colorTransformer({
+      color1: item?.color1,
+      color2: item?.color2,
+      color3: item?.color3,
+      colorSolid: item?.colorSolid,
+    });
+    if (colorTransformed !== null) {
+      itemTransformed = Object.assign(itemTransformed, colorTransformed);
     }
 
     const urlTransformed = urlTransformer(item?.webpage);
