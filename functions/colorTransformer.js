@@ -53,8 +53,16 @@ const colorPretty = (color) => {
     case "COLOR_LIGHT_SILVER_GREY":
       color_pretty = "Light silver grey";
       break;
+    case "COLOR_ROAN":
+      color_pretty = "Roan";
+      break;
+    case "COLOR_NA":
+      color_pretty = "Not applicable";
+      break;
     default:
-      console.log(`[LOG] No color matched: ${color_pretty}`);
+      if (color !== null) {
+        console.log(`[LOG] No color matched: ${color}`);
+      }
   }
 
   return color_pretty;
