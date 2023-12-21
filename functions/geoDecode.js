@@ -43,7 +43,8 @@ const googleTextSearch = async (address) => {
     "textQuery" : "Alpakkahagen, Norway"
   }
 
-  */
+*/
+};
 
 const googleGeoCode = async (address) => {
   // https://developers.google.com/maps/documentation/geocoding/best-practices
