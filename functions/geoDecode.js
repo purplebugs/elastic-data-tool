@@ -17,7 +17,40 @@ const lookupCountryCode = (original_code) => {
   return lookup.byIso(code).country;
 };
 
+const googleTextSearch = async (address) => {
+  // https://developers.google.com/maps/documentation/geocoding/best-practices
+  // Use the Places API Place Autocomplete service when geocoding ambiguous (incomplete) addresses
+
+  // Ref: https://developers.google.com/maps/documentation/places/web-service/text-search
+  // eg: requests that include non-address components such as business names
+
+  const client = new Client({});
+
+  /*
+  TODO
+  
+  return
+   
+  POST https://places.googleapis.com/v1/places:searchText
+
+  client.textSearch()
+
+  X-Goog-Api-Key: process.env.GOOGLE_MAPS_API_KEY
+  X-Goog-FieldMask: places.id,places.formattedAddress,places.addressComponents,places.googleMapsUri,places.displayName
+  Content-Type: application/json
+
+  {
+    "textQuery" : "Alpakkahagen, Norway"
+  }
+
+  */
+
 const googleGeoCode = async (address) => {
+  // https://developers.google.com/maps/documentation/geocoding/best-practices
+  // Use the Geocoding API when geocoding complete addresses (for example, “48 Pirrama Rd, Pyrmont, NSW, Australia”)
+
+  // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
+
   const client = new Client({});
   return await client.geocode(
     {
@@ -103,10 +136,6 @@ export const getLatLngFromAddress = async (alpacaObject) => {
   }
 
   console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
-
-  // Use geocoding from https://github.com/googlemaps/google-maps-services-js
-  // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
-  // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
 
   let data = null;
 
