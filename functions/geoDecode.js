@@ -26,24 +26,25 @@ const googleTextSearch = async (address) => {
 
   const client = new Client({});
 
-  /*
-  TODO
-  
-  return
-   
-  POST https://places.googleapis.com/v1/places:searchText
-
-  client.textSearch()
-
-  X-Goog-Api-Key: process.env.GOOGLE_MAPS_API_KEY
-  X-Goog-FieldMask: places.id,places.formattedAddress,places.addressComponents,places.googleMapsUri,places.displayName
-  Content-Type: application/json
-
-  {
-    "textQuery" : "Alpakkahagen, Norway"
+  try {
+    return await axios.post(
+      "https://places.googleapis.com/v1/places:searchText",
+      {
+        textQuery: "Oddan Alpakka, Norway",
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY,
+          "X-Goog-FieldMask":
+            "places.id,places.formattedAddress,places.addressComponents,places.googleMapsUri,places.displayName",
+        },
+      }
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 googleTextSearch: Could not get results from Google API");
   }
-
-*/
 };
 
 const googleGeoCode = async (address) => {
@@ -53,16 +54,22 @@ const googleGeoCode = async (address) => {
   // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
 
   const client = new Client({});
-  return await client.geocode(
-    {
-      params: {
-        address: address,
-        key: process.env.GOOGLE_MAPS_API_KEY,
+
+  try {
+    return await client.geocode(
+      {
+        params: {
+          address: address,
+          key: process.env.GOOGLE_MAPS_API_KEY,
+        },
+        timeout: 1000, // milliseconds
       },
-      timeout: 1000, // milliseconds
-    },
-    axios
-  );
+      axios
+    );
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 googleGeoCode: Could not get results from Google API");
+  }
 };
 
 export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
