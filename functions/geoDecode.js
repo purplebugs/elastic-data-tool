@@ -24,13 +24,13 @@ const googleTextSearch = async (address) => {
   // Ref: https://developers.google.com/maps/documentation/places/web-service/text-search
   // eg: requests that include non-address components such as business names
 
-  const client = new Client({});
+  // Does not use a google client because of https://github.com/googlemaps/google-maps-services-js/issues/1105
 
   try {
     return await axios.post(
       "https://places.googleapis.com/v1/places:searchText",
       {
-        textQuery: "Oddan Alpakka, Norway",
+        textQuery: address,
       },
       {
         headers: {
