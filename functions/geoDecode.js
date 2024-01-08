@@ -48,28 +48,17 @@ const googleTextSearch = async (address) => {
 };
 
 const googleGeoCode = async (address) => {
-  // https://developers.google.com/maps/documentation/geocoding/best-practices
-  // Use the Geocoding API when geocoding complete addresses (for example, “48 Pirrama Rd, Pyrmont, NSW, Australia”)
-
-  // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
-
   const client = new Client({});
-
-  try {
-    return await client.geocode(
-      {
-        params: {
-          address: address,
-          key: process.env.GOOGLE_MAPS_API_KEY,
-        },
-        timeout: 1000, // milliseconds
+  return await client.geocode(
+    {
+      params: {
+        address: address,
+        key: process.env.GOOGLE_MAPS_API_KEY,
       },
-      axios
-    );
-  } catch (error) {
-    console.error(error);
-    throw new Error("🧨 googleGeoCode: Could not get results from Google API");
-  }
+      timeout: 1000, // milliseconds
+    },
+    axios
+  );
 };
 
 export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI = "GEOCODE") => {
