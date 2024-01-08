@@ -106,13 +106,13 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     const country = lookupCountryCode(alpacaObject?.country);
     let address = `${street}${zip}${city}${country}`;
 
+    if (!alpacaObject || !alpacaObject.keeper) {
+      return {};
+    }
+
     if (cache.has(alpacaObject.keeper)) {
       console.log(`[LOG] Using location ${alpacaObject.keeper} from cache`);
       return cache.get(alpacaObject.keeper);
-    }
-
-    if (!alpacaObject || !alpacaObject.keeper) {
-      return {};
     }
 
     console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
