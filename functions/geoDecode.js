@@ -31,7 +31,7 @@ const googleGeoCode = async (address) => {
   );
 };
 
-export const transformWithGoogleAddress = (alpacaObject, googleResult, { googleAPI = "GEOCODE" } = {}) => {
+export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI = "GEOCODE") => {
   try {
     let latitude = null;
     let longitude = null;
