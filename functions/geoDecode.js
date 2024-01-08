@@ -106,11 +106,8 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     const country = lookupCountryCode(alpacaObject?.country);
     let address = `${street}${zip}${city}${country}`;
 
-    if (keeperName !== "" && street === "" && city === "" && zip === "") {
-      address = `${keeperName}${address}`;
-    }
-
     if (!alpacaObject || !alpacaObject.keeper) {
+      console.log(`[LOG] No info - returning empty object`);
       return {};
     }
 
@@ -120,6 +117,10 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     }
 
     console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
+
+    if (keeperName !== "" && street === "" && city === "" && zip === "") {
+      address = `${keeperName}${address}`;
+    }
 
     // Use geocoding from https://github.com/googlemaps/google-maps-services-js
     // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
