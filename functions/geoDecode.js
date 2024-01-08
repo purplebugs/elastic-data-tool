@@ -107,6 +107,7 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     let address = `${street}${zip}${city}${country}`;
 
     if (!alpacaObject || !alpacaObject.keeper) {
+      console.log(`[LOG] No info - returning empty object`);
       return {};
     }
 
