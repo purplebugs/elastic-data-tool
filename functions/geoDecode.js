@@ -24,10 +24,13 @@ const googleTextSearch = async (address) => {
   // Ref: https://developers.google.com/maps/documentation/places/web-service/text-search
   // eg: requests that include non-address components such as business names
 
-  // Does not use a google client because of https://github.com/googlemaps/google-maps-services-js/issues/1105
-
   try {
-    return await axios.post(
+    let response = null;
+    let data = null;
+
+    // Does not use a google client because of https://github.com/googlemaps/google-maps-services-js/issues/1105
+
+    response = await axios.post(
       "https://places.googleapis.com/v1/places:searchText",
       {
         textQuery: address,
@@ -41,6 +44,12 @@ const googleTextSearch = async (address) => {
         },
       }
     );
+
+    if (response?.statusText === "OK") {
+      data = response?.data?.places[0] || null; // Use first result only
+    }
+
+    return data;
   } catch (error) {
     console.error(error);
     throw new Error("🧨 googleTextSearch: Could not get results from Google API");
