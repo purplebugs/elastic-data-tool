@@ -31,21 +31,32 @@ const googleGeoCode = async (address) => {
   );
 };
 
-export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
+export const transformWithGoogleAddress = (alpacaObject, googleResult, { googleAPI = "GEOCODE" } = {}) => {
   try {
-    const latitude = googleResult?.geometry?.location?.lat || null;
-    const longitude = googleResult?.geometry?.location?.lng || null;
-    const formatted_address = googleResult?.formatted_address || null;
-    const place_id = googleResult?.place_id || null;
-
+    let latitude = null;
+    let longitude = null;
+    let formatted_address = null;
+    let place_id = null;
     let administrative_area_level_1 = null;
     let administrative_area_level_2 = null;
+
+    if (googleAPI === "GEOCODE") {
+      latitude = googleResult?.geometry?.location?.lat || null;
+      longitude = googleResult?.geometry?.location?.lng || null;
+      formatted_address = googleResult?.formatted_address || null;
+      place_id = googleResult?.place_id || null;
+    }
+
     googleResult?.address_components?.forEach((component) => {
       if (component?.types?.find((type) => type === "administrative_area_level_1")) {
-        administrative_area_level_1 = component?.long_name;
+        if (googleAPI === "GEOCODE") {
+          administrative_area_level_1 = component?.long_name;
+        }
       }
       if (component?.types?.find((type) => type === "administrative_area_level_2")) {
-        administrative_area_level_2 = component?.long_name;
+        if (googleAPI === "GEOCODE") {
+          administrative_area_level_2 = component?.long_name;
+        }
       }
     });
 
@@ -148,7 +159,7 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     throw new Error("🧨 getLatLng_GoogleAddress_FromAddress: Response from Google Geocode API failed");
   }
 
-  const obj = transformWithGoogleAddress(alpacaObject, data);
+  const obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
 
   return obj;
 };
