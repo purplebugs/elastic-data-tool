@@ -98,35 +98,35 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
 };
 
 export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
-  const keeperName = alpacaObject?.keeperName ? alpacaObject?.keeperName + ", " : "";
-  const street = alpacaObject?.street ? alpacaObject?.street + ", " : "";
-  const zip = alpacaObject?.zip ? alpacaObject?.zip + " " : "";
-  const city = alpacaObject?.city ? alpacaObject?.city + ", " : "";
-  const country = lookupCountryCode(alpacaObject?.country);
-  let address = `${street}${zip}${city}${country}`;
-
-  if (keeperName !== "" && street === "" && city === "" && zip === "") {
-    address = `${keeperName}${address}`;
-  }
-
-  if (!alpacaObject || !alpacaObject.keeper) {
-    return {};
-  }
-
-  if (cache.has(alpacaObject.keeper)) {
-    console.log(`[LOG] Using location ${alpacaObject.keeper} from cache`);
-    return cache.get(alpacaObject.keeper);
-  }
-
-  console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
-
-  // Use geocoding from https://github.com/googlemaps/google-maps-services-js
-  // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
-  // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
-
-  let data = null;
-
   try {
+    const keeperName = alpacaObject?.keeperName ? alpacaObject?.keeperName + ", " : "";
+    const street = alpacaObject?.street ? alpacaObject?.street + ", " : "";
+    const zip = alpacaObject?.zip ? alpacaObject?.zip + " " : "";
+    const city = alpacaObject?.city ? alpacaObject?.city + ", " : "";
+    const country = lookupCountryCode(alpacaObject?.country);
+    let address = `${street}${zip}${city}${country}`;
+
+    if (keeperName !== "" && street === "" && city === "" && zip === "") {
+      address = `${keeperName}${address}`;
+    }
+
+    if (!alpacaObject || !alpacaObject.keeper) {
+      return {};
+    }
+
+    if (cache.has(alpacaObject.keeper)) {
+      console.log(`[LOG] Using location ${alpacaObject.keeper} from cache`);
+      return cache.get(alpacaObject.keeper);
+    }
+
+    console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
+
+    // Use geocoding from https://github.com/googlemaps/google-maps-services-js
+    // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
+    // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
+
+    let data = null;
+
     let response = null;
 
     // Example: "keeperName": "Alpakkahagen",
@@ -154,12 +154,12 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     if (response?.data?.status === "OK") {
       data = response?.data?.results[0] || null; // Use first result only
     }
+
+    const obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
+
+    return obj;
   } catch (error) {
     console.error(error);
-    throw new Error("🧨 getLatLng_GoogleAddress_FromAddress: Response from Google Geocode API failed");
+    throw new Error("🧨 getLatLng_GoogleAddress_FromAddress");
   }
-
-  const obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
-
-  return obj;
 };
