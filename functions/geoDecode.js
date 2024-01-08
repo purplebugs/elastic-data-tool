@@ -122,7 +122,7 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult) => {
   return obj;
 };
 
-export const getLatLngFromAddress = async (alpacaObject) => {
+export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
   const keeperName = alpacaObject?.keeperName ? alpacaObject?.keeperName + ", " : "";
   const street = alpacaObject?.street ? alpacaObject?.street + ", " : "";
   const zip = alpacaObject?.zip ? alpacaObject?.zip + " " : "";
@@ -177,7 +177,7 @@ export const getLatLngFromAddress = async (alpacaObject) => {
     }
   } catch (error) {
     console.error(error);
-    throw new Error("🧨 getLatLngFromAddress: Response from Google Geocode API failed");
+    throw new Error("🧨 getLatLng_GoogleAddress_FromAddress: Response from Google Geocode API failed");
   }
 
   const obj = transformWithGoogleAddress(alpacaObject, data);
