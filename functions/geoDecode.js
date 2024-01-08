@@ -48,17 +48,37 @@ const googleTextSearch = async (address) => {
 };
 
 const googleGeoCode = async (address) => {
-  const client = new Client({});
-  return await client.geocode(
-    {
-      params: {
-        address: address,
-        key: process.env.GOOGLE_MAPS_API_KEY,
+  // https://developers.google.com/maps/documentation/geocoding/best-practices
+  // Use the Geocoding API when geocoding complete addresses (for example, “48 Pirrama Rd, Pyrmont, NSW, Australia”)
+
+  // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
+
+  try {
+    const client = new Client({});
+
+    let response = null;
+    let data = null;
+
+    response = await client.geocode(
+      {
+        params: {
+          address: address,
+          key: process.env.GOOGLE_MAPS_API_KEY,
+        },
+        timeout: 1000, // milliseconds
       },
-      timeout: 1000, // milliseconds
-    },
-    axios
-  );
+      axios
+    );
+
+    if (response?.data?.status === "OK") {
+      data = response?.data?.results[0] || null; // Use first result only
+    }
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 googleGeoCode: Could not get results from Google API");
+  }
 };
 
 export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI = "GEOCODE") => {
@@ -153,32 +173,23 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     }
 
     let data = null;
-    let response = null;
 
     // Example: "keeperName": "Alpakkahagen",
     // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
-    response = await googleGeoCode(address);
-
-    if (response?.data?.status === "OK") {
-      data = response?.data?.results[0] || null; // Use first result only
-    }
+    data = await googleGeoCode(address);
 
     if (data?.partial_match === true) {
       // Example: "keeperName": "Oddan Alpakka"
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
-      const responseUsingKeeper = await googleGeoCode(`${keeperName}${address}`);
+      const dataUsingKeeperName = await googleGeoCode(`${keeperName}${address}`);
 
-      if (responseUsingKeeper?.data?.results[0].formatted_address !== "Norway") {
+      if (data.formatted_address !== "Norway") {
         // Only use if finds an address besides fallback of centre of Norway
         // This avoids issue with "keeper": 218 which had partial match with valid address, then google found no match when adding keeper
-        response = responseUsingKeeper;
+        data = dataUsingKeeperName;
       }
-    }
-
-    if (response?.data?.status === "OK") {
-      data = response?.data?.results[0] || null; // Use first result only
     }
 
     const obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
