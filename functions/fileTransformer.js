@@ -1,7 +1,7 @@
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
 import { colorTransformer } from "./colorTransformer.js";
-import { getLatLngFromAddress } from "./geoDecode.js";
+import { getLatLng_GoogleAddress_FromAddress } from "./geoDecode.js";
 import { urlTransformer } from "./urlTransformer.js";
 
 export default async function fileTransformer(file, { geoDecodeEnrich = true, animal = "alpaca" } = {}) {
@@ -45,7 +45,7 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
     }
 
     if (geoDecodeEnrich) {
-      const geoDecodeObj = await getLatLngFromAddress(item);
+      const geoDecodeObj = await getLatLng_GoogleAddress_FromAddress(item);
       itemTransformed = Object.assign(itemTransformed, geoDecodeObj);
     }
 
