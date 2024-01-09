@@ -17,13 +17,17 @@ const lookupCountryCode = (original_code) => {
   return lookup.byIso(code).country;
 };
 
+const isEmptyObject = (obj) => {
+  return JSON.stringify(obj) === "{}";
+};
+
 const googleTextSearch = async (address) => {
   // https://developers.google.com/maps/documentation/geocoding/best-practices
   // Use the Places API Place Autocomplete service when geocoding ambiguous (incomplete) addresses
 
   // Ref: https://developers.google.com/maps/documentation/places/web-service/text-search
   // eg: requests that include non-address components such as business names
-
+  console.log("---- address : ", address);
   try {
     let response = null;
     let data = null;
@@ -40,12 +44,22 @@ const googleTextSearch = async (address) => {
           "Content-Type": "application/json",
           "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY,
           "X-Goog-FieldMask":
-            "places.id,places.formattedAddress,places.addressComponents,places.googleMapsUri,places.displayName",
+            "places.id,places.formattedAddress,places.addressComponents,places.googleMapsUri,places.displayName,places.location",
         },
       }
     );
 
-    if (response?.statusText === "OK") {
+    if (response?.statusText !== "OK") {
+      return {};
+    }
+
+    if (isEmptyObject(response?.data)) {
+      console.log("No match found");
+      return {};
+    }
+
+    if (!isEmptyObject(response?.data)) {
+      console.log(response?.data);
       data = response?.data?.places[0] || null; // Use first result only
     }
 
@@ -106,18 +120,36 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
       place_id = googleResult?.place_id || null;
     }
 
-    googleResult?.address_components?.forEach((component) => {
-      if (component?.types?.find((type) => type === "administrative_area_level_1")) {
-        if (googleAPI === "GEOCODE") {
+    if (googleAPI === "TEXT_SEARCH") {
+      latitude = googleResult.location?.latitude || null;
+      longitude = googleResult.location?.longitude || null;
+      formatted_address = googleResult?.formattedAddress || null;
+      place_id = googleResult?.id || null;
+    }
+
+    if (googleAPI === "GEOCODE") {
+      googleResult?.address_components?.forEach((component) => {
+        if (component?.types?.find((type) => type === "administrative_area_level_1")) {
           administrative_area_level_1 = component?.long_name;
         }
-      }
-      if (component?.types?.find((type) => type === "administrative_area_level_2")) {
-        if (googleAPI === "GEOCODE") {
+
+        if (component?.types?.find((type) => type === "administrative_area_level_2")) {
           administrative_area_level_2 = component?.long_name;
         }
-      }
-    });
+      });
+    }
+
+    if (googleAPI === "TEXT_SEARCH") {
+      googleResult?.addressComponents?.forEach((component) => {
+        if (component?.types?.find((type) => type === "administrative_area_level_1")) {
+          administrative_area_level_1 = component?.longText;
+        }
+
+        if (component?.types?.find((type) => type === "administrative_area_level_2")) {
+          administrative_area_level_2 = component?.longText;
+        }
+      });
+    }
 
     // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
     // Geopoint as an object using GeoJSON format
@@ -165,6 +197,9 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     const country = lookupCountryCode(alpacaObject?.country);
     let address = `${street}${zip}${city}${country}`;
 
+    let obj = {};
+    let data = null;
+
     if (!alpacaObject || !alpacaObject.keeper) {
       console.log(`[LOG] No info - returning empty object`);
       return {};
@@ -177,17 +212,28 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
 
     console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
-    if (keeperName !== "" && street === "" && city === "" && zip === "") {
-      address = `${keeperName}${address}`;
+    //if (keeperName !== "" && street === "" && city === "" && zip === "") {
+    if (keeperName !== "") {
+      data = await googleTextSearch(`${keeperName}${country}`);
+      // console.log(JSON.stringify(data, null, 2));
+
+      if (!isEmptyObject(data)) {
+        obj = transformWithGoogleAddress(alpacaObject, data, "TEXT_SEARCH");
+        // console.log(JSON.stringify(obj, null, 2));
+        return obj;
+      }
+
+      if (isEmptyObject(data)) {
+        // if data = {} use street,zip,city as well - await googleGeoCode(`${keeperName}${address}`);
+        data = await googleGeoCode(`${keeperName}${address}`);
+        obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
+        return obj;
+      }
     }
 
-    let data = null;
-
-    // Example: "keeperName": "Alpakkahagen",
-    // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
     data = await googleGeoCode(address);
 
-    if (data?.partial_match === true) {
+    /*     if (data?.partial_match === true) {
       // Example: "keeperName": "Oddan Alpakka"
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
@@ -199,10 +245,9 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
         // This avoids issue with "keeper": 218 which had partial match with valid address, then google found no match when adding keeper
         data = dataUsingKeeperName;
       }
-    }
+    } */
 
-    const obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
-
+    obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
     return obj;
   } catch (error) {
     console.error(error);
