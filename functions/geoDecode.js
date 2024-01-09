@@ -50,16 +50,16 @@ const googleTextSearch = async (address) => {
     );
 
     if (response?.statusText !== "OK") {
+      console.log("😐 [LOG] googleTextSearch() : API status not OK");
       return {};
     }
 
     if (isEmptyObject(response?.data)) {
-      console.log("No match found");
+      console.log("😐 [LOG] googleTextSearch() : No match found");
       return {};
     }
 
     if (!isEmptyObject(response?.data)) {
-      console.log(response?.data);
       data = response?.data?.places[0] || null; // Use first result only
     }
 
@@ -93,7 +93,17 @@ const googleGeoCode = async (address) => {
       axios
     );
 
-    if (response?.data?.status === "OK") {
+    if (response?.data?.status !== "OK") {
+      console.log("😐 [LOG] googleGeoCode() : API status not OK");
+      return {};
+    }
+
+    if (isEmptyObject(response?.data)) {
+      console.log("😐 [LOG] googleGeoCode() : No match found");
+      return {};
+    }
+
+    if (!isEmptyObject(response?.data)) {
       data = response?.data?.results[0] || null; // Use first result only
     }
 
@@ -210,21 +220,19 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
       return cache.get(alpacaObject.keeper);
     }
 
+    console.log(`--- ID: ${alpacaObject.keeper}`);
+
     console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
-    //if (keeperName !== "" && street === "" && city === "" && zip === "") {
     if (keeperName !== "") {
       data = await googleTextSearch(`${keeperName}${country}`);
-      // console.log(JSON.stringify(data, null, 2));
 
       if (!isEmptyObject(data)) {
         obj = transformWithGoogleAddress(alpacaObject, data, "TEXT_SEARCH");
-        // console.log(JSON.stringify(obj, null, 2));
         return obj;
       }
 
       if (isEmptyObject(data)) {
-        // if data = {} use street,zip,city as well - await googleGeoCode(`${keeperName}${address}`);
         data = await googleGeoCode(`${keeperName}${address}`);
         obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
         return obj;
@@ -232,20 +240,6 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     }
 
     data = await googleGeoCode(address);
-
-    /*     if (data?.partial_match === true) {
-      // Example: "keeperName": "Oddan Alpakka"
-      // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
-      // Adding keeperName -> finds farm street address "Lernesstranda"
-
-      const dataUsingKeeperName = await googleGeoCode(`${keeperName}${address}`);
-
-      if (data.formatted_address !== "Norway") {
-        // Only use if finds an address besides fallback of centre of Norway
-        // This avoids issue with "keeper": 218 which had partial match with valid address, then google found no match when adding keeper
-        data = dataUsingKeeperName;
-      }
-    } */
 
     obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
     return obj;
