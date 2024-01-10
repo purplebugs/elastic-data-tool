@@ -4,17 +4,67 @@ import axios from "axios";
 import lookup from "country-code-lookup";
 
 // internal
+import { isEmptyObject } from "../functions/isEmptyObject.js";
 import { toGoogleDirectionsURL } from "../functions/urlTransformer.js";
 
 const cache = new Map();
 
-const overrideNullCountryCode = (original_code) => {
+export const overrideNullCountryCode = (original_code) => {
   return original_code ? original_code : "NO";
 };
 
 const lookupCountryCode = (original_code) => {
   const code = overrideNullCountryCode(original_code);
   return lookup.byIso(code).country;
+};
+
+const googleTextSearch = async (address) => {
+  // https://developers.google.com/maps/documentation/geocoding/best-practices
+  // Use the Places API Place Autocomplete service when geocoding ambiguous (incomplete) addresses
+
+  // Ref: https://developers.google.com/maps/documentation/places/web-service/text-search
+  // eg: requests that include non-address components such as business names
+
+  try {
+    let response = null;
+    let data = {};
+
+    // Does not use a google client because of https://github.com/googlemaps/google-maps-services-js/issues/1105
+
+    response = await axios.post(
+      "https://places.googleapis.com/v1/places:searchText",
+      {
+        textQuery: address,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          "X-Goog-Api-Key": process.env.GOOGLE_MAPS_API_KEY,
+          "X-Goog-FieldMask":
+            "places.id,places.formattedAddress,places.addressComponents,places.googleMapsUri,places.displayName,places.location",
+        },
+      }
+    );
+
+    if (response?.statusText !== "OK") {
+      console.log("😐 [LOG] googleTextSearch() : API status not OK");
+      return {};
+    }
+
+    if (isEmptyObject(response?.data)) {
+      console.log("😐 [LOG] googleTextSearch() : No match found");
+      return {};
+    }
+
+    if (!isEmptyObject(response?.data) && response?.data?.places?.length === 1) {
+      data = response?.data?.places[0]; // Only use if exactly one match.  This avoids some matches (id: 91, id: 254) for center of Oslo if not an exact business name match.
+    }
+
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("🧨 googleTextSearch: Could not get results from Google API");
+  }
 };
 
 const googleGeoCode = async (address) => {
@@ -40,7 +90,17 @@ const googleGeoCode = async (address) => {
       axios
     );
 
-    if (response?.data?.status === "OK") {
+    if (response?.data?.status !== "OK") {
+      console.log("😐 [LOG] googleGeoCode() : API status not OK");
+      return {};
+    }
+
+    if (isEmptyObject(response?.data)) {
+      console.log("😐 [LOG] googleGeoCode() : No match found");
+      return {};
+    }
+
+    if (!isEmptyObject(response?.data)) {
       data = response?.data?.results[0] || null; // Use first result only
     }
 
@@ -67,18 +127,36 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
       place_id = googleResult?.place_id || null;
     }
 
-    googleResult?.address_components?.forEach((component) => {
-      if (component?.types?.find((type) => type === "administrative_area_level_1")) {
-        if (googleAPI === "GEOCODE") {
+    if (googleAPI === "TEXT_SEARCH") {
+      latitude = googleResult.location?.latitude || null;
+      longitude = googleResult.location?.longitude || null;
+      formatted_address = googleResult?.formattedAddress || null;
+      place_id = googleResult?.id || null;
+    }
+
+    if (googleAPI === "GEOCODE") {
+      googleResult?.address_components?.forEach((component) => {
+        if (component?.types?.find((type) => type === "administrative_area_level_1")) {
           administrative_area_level_1 = component?.long_name;
         }
-      }
-      if (component?.types?.find((type) => type === "administrative_area_level_2")) {
-        if (googleAPI === "GEOCODE") {
+
+        if (component?.types?.find((type) => type === "administrative_area_level_2")) {
           administrative_area_level_2 = component?.long_name;
         }
-      }
-    });
+      });
+    }
+
+    if (googleAPI === "TEXT_SEARCH") {
+      googleResult?.addressComponents?.forEach((component) => {
+        if (component?.types?.find((type) => type === "administrative_area_level_1")) {
+          administrative_area_level_1 = component?.longText;
+        }
+
+        if (component?.types?.find((type) => type === "administrative_area_level_2")) {
+          administrative_area_level_2 = component?.longText;
+        }
+      });
+    }
 
     // https://www.elastic.co/guide/en/elasticsearch/reference/current/geo-point.html
     // Geopoint as an object using GeoJSON format
@@ -126,6 +204,9 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     const country = lookupCountryCode(alpacaObject?.country);
     let address = `${street}${zip}${city}${country}`;
 
+    let obj = {};
+    let data = null;
+
     if (!alpacaObject || !alpacaObject.keeper) {
       console.log(`[LOG] No info - returning empty object`);
       return {};
@@ -138,36 +219,28 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
 
     console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
-    if (keeperName !== "" && street === "" && city === "" && zip === "") {
-      address = `${keeperName}${address}`;
+    if (keeperName !== "" && street === "" && zip === "" && city === "") {
+      data = await googleTextSearch(`${keeperName}${country}`);
+
+      if (!isEmptyObject(data)) {
+        obj = transformWithGoogleAddress(alpacaObject, data, "TEXT_SEARCH");
+        return obj;
+      }
     }
 
-    // Use geocoding from https://github.com/googlemaps/google-maps-services-js
-    // Ref: https://developers.google.com/maps/documentation/geocoding/overview#how-the-geocoding-api-works
-    // Ref: https://developers.google.com/maps/documentation/geocoding/requests-geocoding
-
-    let data = null;
-
-    // Example: "keeperName": "Alpakkahagen",
-    // Bingenveien 35, 1923 Sørum, Norway -> finds exact match
     data = await googleGeoCode(address);
 
-    if (data?.partial_match === true) {
+    /*     if (data?.partial_match === true) {
+      // TODO if partial match include keeperName
+
       // Example: "keeperName": "Oddan Alpakka"
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
-      const dataUsingKeeperName = await googleGeoCode(`${keeperName}${address}`);
+      data = await googleGeoCode(`${keeperName}${address}`);
+    } */
 
-      if (data.formatted_address !== "Norway") {
-        // Only use if finds an address besides fallback of centre of Norway
-        // This avoids issue with "keeper": 218 which had partial match with valid address, then google found no match when adding keeper
-        data = dataUsingKeeperName;
-      }
-    }
-
-    const obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
-
+    obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
     return obj;
   } catch (error) {
     console.error(error);
