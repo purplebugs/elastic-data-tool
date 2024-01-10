@@ -224,22 +224,30 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
 
     console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
-    if (keeperName !== "") {
+    if (keeperName !== "" && street === "" && zip === "" && city === "") {
       data = await googleTextSearch(`${keeperName}${country}`);
 
       if (!isEmptyObject(data)) {
         obj = transformWithGoogleAddress(alpacaObject, data, "TEXT_SEARCH");
         return obj;
       }
-
-      if (isEmptyObject(data)) {
-        data = await googleGeoCode(`${keeperName}${address}`);
-        obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
-        return obj;
-      }
     }
 
     data = await googleGeoCode(address);
+    // console.log(JSON.stringify(data, null, 2));
+
+    /*     if (data?.partial_match === true) {
+      // TODO if partial match include keeperName
+
+      // Example: "keeperName": "Oddan Alpakka"
+      // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
+      // Adding keeperName -> finds farm street address "Lernesstranda"
+
+      data = await googleGeoCode(`${keeperName}${address}`);
+      // console.log(JSON.stringify(dataUsingKeeperName, null, 2));
+      // obj = transformWithGoogleAddress(alpacaObject, dataUsingKeeperName, "GEOCODE");
+      // return obj;
+    } */
 
     obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
     return obj;

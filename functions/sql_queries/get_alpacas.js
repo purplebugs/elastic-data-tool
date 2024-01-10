@@ -35,7 +35,7 @@ export const getAlpacaDetails = async (connection) => {
     "LEFT JOIN alp_Color color2 ON a.Color2 = color2.idColor " +
     "LEFT JOIN alp_Color color3 ON a.Color3 = color3.idColor " +
     "LEFT JOIN alp_Color colorSolid ON a.ColorSolid = colorSolid.idColor " +
-    "INNER JOIN alp_Company c on a.Keeper = c.idCompany WHERE a.Keeper IN (35) AND a.idAlpaca IN " + // " WHERE a.Keeper IN (61) AND a.idAlpaca IN" for troubleshooting
+    "INNER JOIN alp_Company c on a.Keeper = c.idCompany WHERE a.idAlpaca IN " + // " WHERE a.Keeper IN (61) AND a.idAlpaca IN" for troubleshooting
     "(SELECT r.Alpaca FROM alp_Register r INNER JOIN alp_Registry y ON r.Registry = y.idRegistry where r.Registry=1)"; // append "LIMIT 20" while troubleshooting
 
   const result = await connection.execute(query);
