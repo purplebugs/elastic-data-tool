@@ -27,7 +27,7 @@ const googleTextSearch = async (address) => {
 
   // Ref: https://developers.google.com/maps/documentation/places/web-service/text-search
   // eg: requests that include non-address components such as business names
-  console.log("---- address : ", address);
+
   try {
     let response = null;
     let data = null;
