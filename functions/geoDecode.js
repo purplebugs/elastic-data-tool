@@ -230,15 +230,13 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
 
     data = await googleGeoCode(address);
 
-    /*     if (data?.partial_match === true) {
-      // TODO if partial match include keeperName
-
+    if (data?.partial_match === true && keeperName !== "") {
       // Example: "keeperName": "Oddan Alpakka"
       // "Lernestranda 912, 7200 Kyrksæterøra, Norway" -> resolves to nearby town instead of street because street spelling "Lernestranda" does not match Google street "Lernesstranda"
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
       data = await googleGeoCode(`${keeperName}${address}`);
-    } */
+    }
 
     obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
     return obj;
