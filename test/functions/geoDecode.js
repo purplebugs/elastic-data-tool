@@ -1,6 +1,47 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { transformWithGoogleAddress } from "../../functions/geoDecode.js";
+import { overrideNullCountryCode, transformWithGoogleAddress } from "../../functions/geoDecode.js";
+
+describe("Override missing code", async () => {
+  it(`should override null country code with "NO"`, async () => {
+    // ARRANGE
+    const country = null;
+
+    // ACT
+    const actual = overrideNullCountryCode(country);
+
+    // ASSERT
+    const expected = "NO";
+
+    assert.equal(actual, expected);
+  });
+
+  it(`should override undefined country code with "NO"`, async () => {
+    // ARRANGE
+    const country = undefined;
+
+    // ACT
+    const actual = overrideNullCountryCode(country);
+
+    // ASSERT
+    const expected = "NO";
+
+    assert.equal(actual, expected);
+  });
+
+  it(`should override "" country code with "NO"`, async () => {
+    // ARRANGE
+    const country = "";
+
+    // ACT
+    const actual = overrideNullCountryCode(country);
+
+    // ASSERT
+    const expected = "NO";
+
+    assert.equal(actual, expected);
+  });
+});
 
 describe("Geo decoder - transform address string to Google place, lat, lng", async () => {
   it("should transform object with only keeper name field from google result - explicit TEXT_SEARCH google API format", async () => {

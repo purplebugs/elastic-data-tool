@@ -8,7 +8,7 @@ import { toGoogleDirectionsURL } from "../functions/urlTransformer.js";
 
 const cache = new Map();
 
-const overrideNullCountryCode = (original_code) => {
+export const overrideNullCountryCode = (original_code) => {
   return original_code ? original_code : "NO";
 };
 
@@ -17,7 +17,7 @@ const lookupCountryCode = (original_code) => {
   return lookup.byIso(code).country;
 };
 
-const isEmptyObject = (obj) => {
+export const isEmptyObject = (obj) => {
   return JSON.stringify(obj) === "{}";
 };
 
