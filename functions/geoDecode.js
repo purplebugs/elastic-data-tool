@@ -239,9 +239,6 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
       // Adding keeperName -> finds farm street address "Lernesstranda"
 
       data = await googleGeoCode(`${keeperName}${address}`);
-      // console.log(JSON.stringify(dataUsingKeeperName, null, 2));
-      // obj = transformWithGoogleAddress(alpacaObject, dataUsingKeeperName, "GEOCODE");
-      // return obj;
     } */
 
     obj = transformWithGoogleAddress(alpacaObject, data, "GEOCODE");
