@@ -4,6 +4,7 @@ import axios from "axios";
 import lookup from "country-code-lookup";
 
 // internal
+import { isEmptyObject } from "../functions/isEmptyObject.js";
 import { toGoogleDirectionsURL } from "../functions/urlTransformer.js";
 
 const cache = new Map();
@@ -15,10 +16,6 @@ export const overrideNullCountryCode = (original_code) => {
 const lookupCountryCode = (original_code) => {
   const code = overrideNullCountryCode(original_code);
   return lookup.byIso(code).country;
-};
-
-export const isEmptyObject = (obj) => {
-  return JSON.stringify(obj) === "{}";
 };
 
 const googleTextSearch = async (address) => {
