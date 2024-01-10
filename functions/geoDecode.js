@@ -27,7 +27,7 @@ const googleTextSearch = async (address) => {
 
   try {
     let response = null;
-    let data = null;
+    let data = {};
 
     // Does not use a google client because of https://github.com/googlemaps/google-maps-services-js/issues/1105
 
@@ -56,8 +56,8 @@ const googleTextSearch = async (address) => {
       return {};
     }
 
-    if (!isEmptyObject(response?.data)) {
-      data = response?.data?.places[0] || null; // Use first result only
+    if (!isEmptyObject(response?.data) && response?.data?.places?.length === 1) {
+      data = response?.data?.places[0]; // Only use if exactly one match.  This avoids some matches (id: 91, id: 254) for center of Oslo if not an exact business name match.
     }
 
     return data;
@@ -229,7 +229,6 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
     }
 
     data = await googleGeoCode(address);
-    // console.log(JSON.stringify(data, null, 2));
 
     /*     if (data?.partial_match === true) {
       // TODO if partial match include keeperName
