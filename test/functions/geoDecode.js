@@ -3,7 +3,95 @@ import { strict as assert } from "node:assert";
 import { transformWithGoogleAddress } from "../../functions/geoDecode.js";
 
 describe("Geo decoder - transform address string to Google place, lat, lng", async () => {
-  it("should transform object with address fields from google result", async () => {
+  it("should transform object with only keeper name field from google result - explicit TEXT_SEARCH google API format", async () => {
+    // ARRANGE
+    const object = {
+      keeper: 35,
+      keeperName: "Killingmo alpakka",
+      street: null,
+      city: null,
+      zip: null,
+    };
+
+    const googleResult = {
+      id: "ChIJm_xEk_zQQ0YRxXYynsAKgvA",
+      formattedAddress: "Killingmobakken 46, Killingmo Gård, 1930 Aurskog, Norway",
+      addressComponents: [
+        {
+          longText: "Aurskog",
+          shortText: "Aurskog",
+          types: ["postal_town"],
+          languageCode: "no",
+        },
+        {
+          longText: "Aurskog-Høland",
+          shortText: "Aurskog-Høland",
+          types: ["administrative_area_level_2", "political"],
+          languageCode: "no",
+        },
+        {
+          longText: "Viken",
+          shortText: "Viken",
+          types: ["administrative_area_level_1", "political"],
+          languageCode: "no",
+        },
+        {
+          longText: "Norway",
+          shortText: "NO",
+          types: ["country", "political"],
+          languageCode: "en",
+        },
+        {
+          longText: "1930",
+          shortText: "1930",
+          types: ["postal_code"],
+          languageCode: "en-US",
+        },
+      ],
+      location: {
+        latitude: 59.94536239999999,
+        longitude: 11.405358,
+      },
+      googleMapsUri: "https://maps.google.com/?cid=17330426138479195845",
+      displayName: {
+        text: "Killingmo Alpakka Gård",
+        languageCode: "no",
+      },
+    };
+
+    // ACT
+    const actual = transformWithGoogleAddress(object, googleResult, "TEXT_SEARCH");
+
+    // ASSERT
+    const expected = {
+      location: {
+        type: "Point",
+        coordinates: [11.405358, 59.94536239999999],
+        google: {
+          formatted_address: "Killingmobakken 46, Killingmo Gård, 1930 Aurskog, Norway",
+          place_id: "ChIJm_xEk_zQQ0YRxXYynsAKgvA",
+          directions_url_href:
+            "https://www.google.com/maps/dir/?api=1&origin=&destination=Killingmobakken%2046,%20Killingmo%20G%C3%A5rd,%201930%20Aurskog,%20Norway",
+          administrative_area_level_1: "Viken",
+          administrative_area_level_2: "Aurskog-Høland",
+        },
+        original: {
+          keeper: 35,
+          keeperName: "Killingmo alpakka",
+          street: null,
+          city: null,
+          zip: null,
+          country_code_original: undefined,
+          country_code: "NO",
+          country_name: "Norway",
+        },
+      },
+    };
+
+    assert.deepEqual(actual, expected);
+  });
+
+  it("should transform object with address fields - implicit GEOCODE google API format", async () => {
     // ARRANGE
     const object = {
       keeper: 61,
@@ -11,7 +99,7 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
       street: "Bingenveien 35",
       city: "Sørum",
       zip: "1923",
-      country_code: "",
+      country: "NO",
     };
 
     const googleResult = {
@@ -106,7 +194,7 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
           street: "Bingenveien 35",
           city: "Sørum",
           zip: "1923",
-          country_code_original: undefined,
+          country_code_original: "NO",
           country_code: "NO",
           country_name: "Norway",
         },

@@ -220,8 +220,6 @@ export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
       return cache.get(alpacaObject.keeper);
     }
 
-    console.log(`--- ID: ${alpacaObject.keeper}`);
-
     console.log(`[LOG] Retrieving location ${alpacaObject.keeper} from API`);
 
     if (keeperName !== "" && street === "" && zip === "" && city === "") {
