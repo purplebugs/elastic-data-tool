@@ -42,7 +42,6 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
     }
 
     const dateTransformed = dateTransformer(item?.DOB, "DOB");
-    console.log("---- dateTransformed", dateTransformed);
     if (dateTransformed !== null) {
       itemTransformed = Object.assign(itemTransformed, dateTransformed);
     }
