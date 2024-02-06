@@ -8,7 +8,7 @@ const datePretty = (date) => {
     const month = dateAsObject.getUTCMonth();
     const year = dateAsObject.getUTCFullYear();
 
-    return format(new Date(year, month, day), "dd LLL yyyy");
+    return format(new Date(year, month, day), "dd LLLL yyyy");
   } catch (error) {
     console.error(error);
     throw new Error("🧨 datePretty: Could not transform");

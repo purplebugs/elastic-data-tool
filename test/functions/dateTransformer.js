@@ -39,7 +39,7 @@ describe("Date transformer", async () => {
     const expected = {
       DOB: {
         original: "2013-06-20T22:00:00.000Z",
-        pretty: "20 Jun 2013",
+        pretty: "20 June 2013",
       },
     };
 
