@@ -2,7 +2,13 @@ import { format } from "date-fns";
 
 const datePretty = (date) => {
   try {
-    return format(date, "dd LLL yyyy");
+    // Ensure UTC date to avoid different dates depending on local timezone where code is run
+    const dateAsObject = new Date(date);
+    const day = dateAsObject.getUTCDate();
+    const month = dateAsObject.getUTCMonth();
+    const year = dateAsObject.getUTCFullYear();
+
+    return format(new Date(year, month, day), "dd LLL yyyy");
   } catch (error) {
     console.error(error);
     throw new Error("🧨 datePretty: Could not transform");
