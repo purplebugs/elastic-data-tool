@@ -128,8 +128,8 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
     }
 
     if (googleAPI === "TEXT_SEARCH") {
-      latitude = googleResult.location?.latitude || null;
-      longitude = googleResult.location?.longitude || null;
+      latitude = googleResult?.location?.latitude || null;
+      longitude = googleResult?.location?.longitude || null;
       formatted_address = googleResult?.formattedAddress || null;
       place_id = googleResult?.id || null;
     }
@@ -168,7 +168,7 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
         google: {
           formatted_address: formatted_address,
           place_id: place_id,
-          directions_url_href: toGoogleDirectionsURL(formatted_address).href,
+          directions_url_href: toGoogleDirectionsURL(formatted_address)?.href,
           administrative_area_level_1: administrative_area_level_1,
           administrative_area_level_2: administrative_area_level_2,
         },
