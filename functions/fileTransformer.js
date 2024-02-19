@@ -1,6 +1,7 @@
 import { PUBLIC_FARMS } from "./sql_queries/public_farms.js";
 
 import { colorTransformer } from "./colorTransformer.js";
+import { dateTransformer } from "./dateTransformer.js";
 import { getLatLng_GoogleAddress_FromAddress } from "./geoDecode.js";
 import { urlTransformer } from "./urlTransformer.js";
 
@@ -31,12 +32,23 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
       color3: item?.color3,
       colorSolid: item?.colorSolid,
     });
+
     if (colorTransformed !== null) {
       delete itemTransformed.color1;
       delete itemTransformed.color2;
       delete itemTransformed.color3;
       delete itemTransformed.colorSolid;
       itemTransformed = Object.assign(itemTransformed, colorTransformed);
+    }
+
+    const date_DOB_Transformed = dateTransformer(item?.DOB, "DOB");
+    if (date_DOB_Transformed !== null) {
+      itemTransformed = Object.assign(itemTransformed, date_DOB_Transformed);
+    }
+
+    const date_DOD_Transformed = dateTransformer(item?.DOD, "DOD");
+    if (date_DOD_Transformed !== null) {
+      itemTransformed = Object.assign(itemTransformed, date_DOD_Transformed);
     }
 
     const urlTransformed = urlTransformer(item?.webpage);

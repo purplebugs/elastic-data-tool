@@ -178,4 +178,32 @@ describe("Farm info transformer", async () => {
 
     assert.deepEqual(result[0], expected);
   });
+
+  it("should transform date of birth and date of death to contain original and pretty dates", async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 1234,
+        keeperName: "Alpakkahagen",
+        DOB: "2009-02-09T23:00:00.000Z",
+        DOD: "2018-06-10T22:00:00.000Z",
+      },
+    ];
+
+    // ACT
+    const result = await fileTransformer(alpacaDetailsArray);
+
+    // ASSERT
+    const expected = {
+      alpacaId: 1234,
+      keeperName: "Alpakkahagen",
+      private: false,
+      public: true,
+      type: "alpaca",
+      DOB: { pretty: "09 February 2009", original: "2009-02-09T23:00:00.000Z" },
+      DOD: { pretty: "10 June 2018", original: "2018-06-10T22:00:00.000Z" },
+    };
+
+    assert.deepEqual(result[0], expected);
+  });
 });

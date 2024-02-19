@@ -34,6 +34,7 @@
     "axios": "^1.6.2",
     "convict": "^6.2.4",
     "country-code-lookup": "^0.1.0",
+    "date-fns": "^3.2.0",
     "dotenv": "^16.3.1",
     "mysql2": "^3.6.5",
     "node-fetch": "^3.3.2"
