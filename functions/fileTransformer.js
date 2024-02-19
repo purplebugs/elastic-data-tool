@@ -41,9 +41,14 @@ export default async function fileTransformer(file, { geoDecodeEnrich = true, an
       itemTransformed = Object.assign(itemTransformed, colorTransformed);
     }
 
-    const dateTransformed = dateTransformer(item?.DOB, "DOB");
-    if (dateTransformed !== null) {
-      itemTransformed = Object.assign(itemTransformed, dateTransformed);
+    const date_DOB_Transformed = dateTransformer(item?.DOB, "DOB");
+    if (date_DOB_Transformed !== null) {
+      itemTransformed = Object.assign(itemTransformed, date_DOB_Transformed);
+    }
+
+    const date_DOD_Transformed = dateTransformer(item?.DOD, "DOD");
+    if (date_DOD_Transformed !== null) {
+      itemTransformed = Object.assign(itemTransformed, date_DOD_Transformed);
     }
 
     const urlTransformed = urlTransformer(item?.webpage);
