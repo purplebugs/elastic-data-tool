@@ -8,6 +8,12 @@ export default {
             all: {
               type: "nested",
               properties: {
+                DOB: {
+                  type: "date",
+                },
+                DOD: {
+                  type: "date",
+                },
                 alpacaId: {
                   type: "long",
                 },
@@ -260,6 +266,12 @@ export default {
                 active: {
                   type: "nested",
                   properties: {
+                    DOB: {
+                      type: "date",
+                    },
+                    DOD: {
+                      type: "date",
+                    },
                     alpacaId: {
                       type: "long",
                     },
@@ -445,6 +457,12 @@ export default {
                 dead: {
                   type: "nested",
                   properties: {
+                    DOB: {
+                      type: "date",
+                    },
+                    DOD: {
+                      type: "date",
+                    },
                     alpacaId: {
                       type: "long",
                     },
@@ -639,6 +657,9 @@ export default {
                 export: {
                   type: "nested",
                   properties: {
+                    DOB: {
+                      type: "date",
+                    },
                     alpacaId: {
                       type: "long",
                     },
