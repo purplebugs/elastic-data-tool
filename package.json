@@ -29,14 +29,14 @@
   "homepage": "https://github.com/purplebugs/elastic-data-tool#readme",
   "type": "module",
   "dependencies": {
-    "@elastic/elasticsearch": "^8.12.0",
-    "@googlemaps/google-maps-services-js": "^3.3.42",
-    "axios": "^1.6.7",
+    "@elastic/elasticsearch": "8.13.1",
+    "@googlemaps/google-maps-services-js": "3.4.0",
+    "axios": "1.7.2",
     "convict": "^6.2.4",
-    "country-code-lookup": "^0.1.1",
-    "date-fns": "^3.3.1",
-    "dotenv": "^16.4.4",
-    "mysql2": "^3.9.1",
+    "country-code-lookup": "0.1.3",
+    "date-fns": "3.6.0",
+    "dotenv": "16.4.5",
+    "mysql2": "3.10.0",
     "node-fetch": "^3.3.2"
   },
   "engines": {
