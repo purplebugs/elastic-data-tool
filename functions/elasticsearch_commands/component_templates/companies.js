@@ -1230,7 +1230,7 @@ export default {
         location: {
           properties: {
             coordinates: {
-              type: "float",
+              type: "geo_point",
             },
             google: {
               properties: {
