@@ -157,13 +157,13 @@ export default async function createIndexWithDocuments(indexName, items, compone
       body: items, // [{ create: {} }, alpacaDocument_1, { create: {} }, alpacaDocument_2],
     });
 
-    if (resultCreateIndex.errors) {
-      console.error(error);
-      throw new Error("🧨 resultCreateIndex:", resultCreateIndex);
+    if (resultCreateIndex?.errors === true) {
+      console.error(JSON.stringify(resultCreateIndex?.errors));
+      throw new Error("🧨 resultCreateIndex:", resultCreateIndex?.errors);
     }
 
     console.log(
-      `[LOG] ✅ Result of create index - Errors: ${resultCreateIndex.errors} - Total items: ${resultCreateIndex.items.length} 💚`
+      `[LOG] ✅ Result of create index - Errors: ${resultCreateIndex?.errors} - Total items: ${resultCreateIndex?.items?.length} 💚`
     );
 
     await switchAlias(indexNameWithTimestamp, indexName);
