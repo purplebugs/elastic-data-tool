@@ -1229,8 +1229,8 @@ export default {
         },
         location: {
           properties: {
-            coordinates: {
-              type: "float",
+            geo_json: {
+              type: "geo_point",
             },
             google: {
               properties: {
@@ -1348,15 +1348,6 @@ export default {
                       ignore_above: 256,
                     },
                   },
-                },
-              },
-            },
-            type: {
-              type: "text",
-              fields: {
-                keyword: {
-                  type: "keyword",
-                  ignore_above: 256,
                 },
               },
             },

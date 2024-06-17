@@ -62,6 +62,9 @@ export default {
             coordinates: {
               type: "geo_point",
             },
+            geo_json: {
+              type: "geo_point",
+            },
             google: {
               properties: {
                 formatted_address: {

@@ -163,8 +163,11 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
 
     const obj = {
       location: {
-        type: "Point",
-        coordinates: [longitude, latitude],
+        coordinates: [longitude, latitude], // TODO remove this field when alpaca app is updated to use location.geo_json
+        geo_json: {
+          type: "Point",
+          coordinates: [longitude, latitude],
+        },
         google: {
           formatted_address: formatted_address,
           place_id: place_id,

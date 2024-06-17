@@ -181,7 +181,7 @@ export default {
         },
         location: {
           properties: {
-            coordinates: {
+            geo_json: {
               type: "geo_point",
             },
             google: {

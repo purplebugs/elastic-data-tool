@@ -106,8 +106,11 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
     // ASSERT
     const expected = {
       location: {
-        type: "Point",
         coordinates: [11.405358, 59.94536239999999],
+        geo_json: {
+          type: "Point",
+          coordinates: [11.405358, 59.94536239999999],
+        },
         google: {
           formatted_address: "Killingmobakken 46, Killingmo Gård, 1930 Aurskog, Norway",
           place_id: "ChIJm_xEk_zQQ0YRxXYynsAKgvA",
@@ -220,7 +223,10 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
     const expected = {
       location: {
         coordinates: [11.2229125, 60.0075085],
-        type: "Point",
+        geo_json: {
+          type: "Point",
+          coordinates: [11.2229125, 60.0075085],
+        },
         google: {
           formatted_address: "Bingenveien 35, 1923 Sørum, Norway",
           place_id: "ChIJn_8GjgHWQ0YRZcYaf8f3180",
