@@ -14,8 +14,11 @@ describe("Farms from alpacas transformer", async () => {
         keeperName: "Farm one",
         descriptionCompany: undefined,
         location: {
-          type: "Point",
           coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
         },
         phone: undefined,
         public: false,
@@ -30,7 +33,13 @@ describe("Farms from alpacas transformer", async () => {
         email: undefined,
         descriptionCompany: undefined,
         keeperName: "Farm one",
-        location: { type: "Point", coordinates: [null, null] },
+        location: {
+          coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
+        },
         phone: undefined,
         public: false,
         private: true,
@@ -44,7 +53,13 @@ describe("Farms from alpacas transformer", async () => {
         email: undefined,
         descriptionCompany: undefined,
         keeperName: "Farm one",
-        location: { type: "Point", coordinates: [null, null] },
+        location: {
+          coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
+        },
         phone: undefined,
         public: false,
         private: true,
@@ -59,8 +74,11 @@ describe("Farms from alpacas transformer", async () => {
         email: "Email@farm.com",
         keeperName: "Farm two",
         location: {
-          type: "Point",
           coordinates: [10.97662911768462, 59.295708720373376],
+          geo_json: {
+            type: "Point",
+            coordinates: [10.97662911768462, 59.295708720373376],
+          },
           google: {
             formatted_address: "Anita street, 1234 Oslo, Norway",
             place_id: "some-random-id",
@@ -98,7 +116,10 @@ describe("Farms from alpacas transformer", async () => {
         lng: null,
         location: {
           coordinates: [null, null],
-          type: "Point",
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
         },
         name: "Farm one",
         phone: undefined,
@@ -126,7 +147,10 @@ describe("Farms from alpacas transformer", async () => {
         lng: 10.97662911768462,
         location: {
           coordinates: [10.97662911768462, 59.295708720373376],
-          type: "Point",
+          geo_json: {
+            type: "Point",
+            coordinates: [10.97662911768462, 59.295708720373376],
+          },
           google: {
             formatted_address: "Anita street, 1234 Oslo, Norway",
             place_id: "some-random-id",
@@ -152,7 +176,13 @@ describe("Farms from alpacas transformer", async () => {
         companyId: 111,
         email: undefined,
         keeperName: "Farm one",
-        location: { type: "Point", coordinates: [null, null] },
+        location: {
+          geo_json: {
+            type: "Point",
+            coordinates: [10.97662911768462, 59.295708720373376],
+          },
+          coordinates: [10.97662911768462, 59.295708720373376],
+        },
         phone: undefined,
         public: false,
         private: true,
@@ -178,7 +208,10 @@ describe("Farms from alpacas transformer", async () => {
         descriptionCompany: "More info about Farm two",
         keeperName: "Farm two",
         location: {
-          type: "Point",
+          geo_json: {
+            type: "Point",
+            coordinates: [10.97662911768462, 59.295708720373376],
+          },
           coordinates: [10.97662911768462, 59.295708720373376],
         },
         phone: undefined,
@@ -213,7 +246,10 @@ describe("Farms from alpacas transformer", async () => {
         lng: 10.97662911768462,
         location: {
           coordinates: [10.97662911768462, 59.295708720373376],
-          type: "Point",
+          geo_json: {
+            type: "Point",
+            coordinates: [10.97662911768462, 59.295708720373376],
+          },
         },
         name: "Farm two",
         phone: undefined,
@@ -237,8 +273,11 @@ describe("Farms from alpacas transformer", async () => {
         keeperName: "Farm one",
         descriptionCompany: undefined,
         location: {
-          type: "Point",
           coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
         },
         phone: undefined,
         public: false,
@@ -254,7 +293,13 @@ describe("Farms from alpacas transformer", async () => {
 
         keeperName: "Farm one",
         descriptionCompany: undefined,
-        location: { type: "Point", coordinates: [null, null] },
+        location: {
+          coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
+        },
         phone: undefined,
         public: false,
         private: true,
@@ -269,8 +314,11 @@ describe("Farms from alpacas transformer", async () => {
         email: "Email@farm.com",
         keeperName: "Farm two",
         location: {
-          type: "Point",
           coordinates: [10.97662911768462, 59.295708720373376],
+          geo_json: {
+            type: "Point",
+            coordinates: [10.97662911768462, 59.295708720373376],
+          },
           google: {
             formatted_address: "Anita street, 1234 Oslo, Norway",
             place_id: "some-random-id",
@@ -309,7 +357,10 @@ describe("Farms from alpacas transformer", async () => {
         lng: null,
         location: {
           coordinates: [null, null],
-          type: "Point",
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
         },
         name: "Farm one",
         phone: undefined,
@@ -375,7 +426,10 @@ describe("Farms from alpacas transformer", async () => {
         lng: 10.97662911768462,
         location: {
           coordinates: [10.97662911768462, 59.295708720373376],
-          type: "Point",
+          geo_json: {
+            type: "Point",
+            coordinates: [10.97662911768462, 59.295708720373376],
+          },
           google: {
             formatted_address: "Anita street, 1234 Oslo, Norway",
             place_id: "some-random-id",

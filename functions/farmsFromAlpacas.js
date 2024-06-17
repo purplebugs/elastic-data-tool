@@ -10,8 +10,8 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
   });
 
   for (const alpaca of alpacasByFarmType) {
-    const lat = alpaca?.location?.coordinates[1] ?? null;
-    const lng = alpaca?.location?.coordinates[0] ?? null;
+    const lat = alpaca?.location?.geo_json?.coordinates[1] ?? null;
+    const lng = alpaca?.location?.geo_json?.coordinates[0] ?? null;
     const location = alpaca?.location ?? null;
 
     if (!farms.has(alpaca.keeperName)) {
@@ -86,8 +86,8 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
         },
         descriptionCompany: alpaca.descriptionCompany,
         email: alpaca.email,
-        lat: lat, // TODO remove this field when alpaca app is updated to use location.coordinates
-        lng: lng, // TODO remove this field when alpaca app is updated to use location.coordinates
+        lat: lat, // TODO remove this field when alpaca app is updated to use location.geo_json
+        lng: lng, // TODO remove this field when alpaca app is updated to use location.geo_json
         location: location,
         name: alpaca.keeperName,
         phone: alpaca.phone,
