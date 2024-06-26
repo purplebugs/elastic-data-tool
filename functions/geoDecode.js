@@ -175,6 +175,7 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
           administrative_area_level_1: administrative_area_level_1,
           administrative_area_level_2: administrative_area_level_2,
         },
+        lat_lng: { lat: latitude, lng: longitude },
         original: {
           keeper: alpacaObject?.keeper,
           keeperName: alpacaObject?.keeperName,

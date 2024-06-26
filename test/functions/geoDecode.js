@@ -119,6 +119,7 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
           administrative_area_level_1: "Viken",
           administrative_area_level_2: "Aurskog-Høland",
         },
+        lat_lng: { lat: 59.94536239999999, lng: 11.405358 },
         original: {
           keeper: 35,
           keeperName: "Killingmo alpakka",
@@ -234,6 +235,10 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
             "https://www.google.com/maps/dir/?api=1&origin=&destination=Bingenveien%2035,%201923%20S%C3%B8rum,%20Norway",
           administrative_area_level_1: "Viken",
           administrative_area_level_2: "Lillestrøm",
+        },
+        lat_lng: {
+          lat: 60.0075085,
+          lng: 11.2229125,
         },
         original: {
           keeper: 61,
