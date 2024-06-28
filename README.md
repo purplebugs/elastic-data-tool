@@ -96,6 +96,11 @@ Generate NDJSON file to import manually to Elasticsearch
 
 - [Data setup in Elasticsearch](elasticsearch_data_setup.md)
 
+## 5. Override database with real world farm categories 🛍️
+
+1. Edit the file [farm_category.js](functions/sql_queries/farm_category.js) to contain actual categories for farms
+2. The values in the file overrides values in the database which are not up to date
+
 ## Credits 👏
 
 - Location data from [Google Maps](https://developers.google.com/maps/documentation/geocoding/)
