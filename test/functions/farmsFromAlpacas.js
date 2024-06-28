@@ -3,6 +3,158 @@ import { strict as assert } from "node:assert";
 import { farmsFromAlpacas } from "../../functions/farmsFromAlpacas.js";
 
 describe("Farms from alpacas transformer", async () => {
+  it("should transform farm with FARM_CATEGORY category object if companyId is in FARM_CATEGORY list", async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 123,
+        city: null,
+        companyId: 61,
+        email: undefined,
+        keeperName: "Farm one",
+        descriptionCompany: undefined,
+        location: {
+          coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
+        },
+        phone: undefined,
+        public: false,
+        status: "STATUS_ACTIVE",
+        private: true,
+        webpage: null,
+      },
+    ];
+
+    // ACT
+    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
+
+    // ASSERT
+
+    const expected = [
+      {
+        id: 61,
+        category: {
+          alpacaSales: true,
+          alpacaWalking: true,
+          bookable: true,
+          shop: true,
+          overnightStay: false,
+          private: false,
+          public: true,
+          studServices: true,
+        },
+        city: null,
+        count: {
+          alpacas: {
+            status: {
+              active: 1,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
+        descriptionCompany: undefined,
+        email: undefined,
+        lat: null,
+        lng: null,
+        location: {
+          coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
+        },
+        name: "Farm one",
+        phone: undefined,
+        public: false,
+        private: true,
+        url: null,
+        webpage: null,
+      },
+    ];
+    assert.deepEqual(result, expected);
+  });
+
+  it("should transform farm with DEFAULT category object if companyId is NOT in FARM_CATEGORY list", async () => {
+    // ARRANGE
+    const alpacaDetailsArray = [
+      {
+        alpacaId: 123,
+        city: null,
+        companyId: 1,
+        email: undefined,
+        keeperName: "Farm one",
+        descriptionCompany: undefined,
+        location: {
+          coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
+        },
+        phone: undefined,
+        public: false,
+        status: "STATUS_ACTIVE",
+        private: true,
+        webpage: null,
+      },
+    ];
+
+    // ACT
+    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
+
+    // ASSERT
+
+    const expected = [
+      {
+        id: 1,
+        category: {
+          alpacaSales: false,
+          alpacaWalking: false,
+          bookable: false,
+          shop: false,
+          overnightStay: false,
+          private: true,
+          public: false,
+          studServices: false,
+        },
+        city: null,
+        count: {
+          alpacas: {
+            status: {
+              active: 1,
+              dead: 0,
+              export: 0,
+            },
+            total: 1,
+          },
+        },
+        descriptionCompany: undefined,
+        email: undefined,
+        lat: null,
+        lng: null,
+        location: {
+          coordinates: [null, null],
+          geo_json: {
+            type: "Point",
+            coordinates: [null, null],
+          },
+        },
+        name: "Farm one",
+        phone: undefined,
+        public: false,
+        private: true,
+        url: null,
+        webpage: null,
+      },
+    ];
+    assert.deepEqual(result, expected);
+  });
+
   it("should transform list of alpacas to list of ALL farms with alpaca count if `{ publicFarmsOnly : false }`", async () => {
     // ARRANGE
     const alpacaDetailsArray = [
@@ -99,6 +251,16 @@ describe("Farms from alpacas transformer", async () => {
     const expected = [
       {
         id: 111,
+        category: {
+          alpacaSales: false,
+          alpacaWalking: false,
+          bookable: false,
+          shop: false,
+          overnightStay: false,
+          private: true,
+          public: false,
+          studServices: false,
+        },
         city: null,
         count: {
           alpacas: {
@@ -130,6 +292,16 @@ describe("Farms from alpacas transformer", async () => {
       },
       {
         id: 222,
+        category: {
+          alpacaSales: false,
+          alpacaWalking: false,
+          bookable: false,
+          shop: false,
+          overnightStay: false,
+          private: true,
+          public: false,
+          studServices: false,
+        },
         city: "Fredrikstad",
         count: {
           alpacas: {
@@ -229,6 +401,16 @@ describe("Farms from alpacas transformer", async () => {
     const expected = [
       {
         id: 222,
+        category: {
+          alpacaSales: false,
+          alpacaWalking: false,
+          bookable: false,
+          shop: false,
+          overnightStay: false,
+          private: true,
+          public: false,
+          studServices: false,
+        },
         city: "Fredrikstad",
         count: {
           alpacas: {
@@ -340,6 +522,16 @@ describe("Farms from alpacas transformer", async () => {
     const expected = [
       {
         id: 111,
+        category: {
+          alpacaSales: false,
+          alpacaWalking: false,
+          bookable: false,
+          shop: false,
+          overnightStay: false,
+          private: true,
+          public: false,
+          studServices: false,
+        },
         city: null,
         count: {
           alpacas: {
@@ -409,6 +601,16 @@ describe("Farms from alpacas transformer", async () => {
       },
       {
         id: 222,
+        category: {
+          alpacaSales: false,
+          alpacaWalking: false,
+          bookable: false,
+          shop: false,
+          overnightStay: false,
+          private: true,
+          public: false,
+          studServices: false,
+        },
         city: "Fredrikstad",
         count: {
           alpacas: {
