@@ -102,7 +102,9 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
         location: location,
         name: alpaca.keeperName,
         phone: alpaca.phone,
+        // TODO remove public field everywhere in this app when alpaca app is updated to use category.public
         public: alpaca.public ?? false,
+        // TODO remove private field everywhere in this app when alpaca app is updated to use category.private
         private: !alpaca.public ?? true,
         url: alpaca?.url ?? null,
         webpage: alpaca.webpage,
