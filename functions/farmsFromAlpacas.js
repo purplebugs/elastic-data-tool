@@ -1,4 +1,5 @@
 import { capitaliseFirstLetter } from "./capitaliseFirstLetter.js";
+import { FARM_CATEGORY } from "./sql_queries/farm_category.js";
 
 export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpacas = false } = {}) => {
   // Get farms with count of alpacas from list of alpacas
@@ -77,6 +78,16 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
 
       const farm = {
         id: alpaca.companyId,
+        category: FARM_CATEGORY.find((farm) => farm.companyId === alpaca.companyId)?.category ?? {
+          alpacaSales: false,
+          alpacaWalking: false,
+          bookable: false,
+          shop: false,
+          overnightStay: false,
+          private: true,
+          public: false,
+          studServices: false,
+        },
         city: alpaca.city ? capitaliseFirstLetter(alpaca?.city) : alpaca.city,
         count: {
           alpacas: {
@@ -91,7 +102,9 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
         location: location,
         name: alpaca.keeperName,
         phone: alpaca.phone,
+        // TODO remove public field everywhere in this app when alpaca app is updated to use category.public
         public: alpaca.public ?? false,
+        // TODO remove private field everywhere in this app when alpaca app is updated to use category.private
         private: !alpaca.public ?? true,
         url: alpaca?.url ?? null,
         webpage: alpaca.webpage,
