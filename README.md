@@ -107,4 +107,4 @@ Generate NDJSON file to import manually to Elasticsearch
 
 ## License 📝
 
-The work is under exclusive copyright by default.
+The work is under exclusive copyright by default
