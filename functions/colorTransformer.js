@@ -68,8 +68,18 @@ const colorPretty = (color) => {
   return pretty;
 };
 
-export const colorTransformer = ({ color1 = null, color2 = null, color3 = null, colorSolid = null } = {}) => {
-  if (color1 === null && color2 === null && color3 === null && colorSolid === null) {
+export const colorTransformer = ({
+  color1 = null,
+  color2 = null,
+  color3 = null,
+  colorSolid = null,
+} = {}) => {
+  if (
+    color1 === null &&
+    color2 === null &&
+    color3 === null &&
+    colorSolid === null
+  ) {
     return null;
   }
 

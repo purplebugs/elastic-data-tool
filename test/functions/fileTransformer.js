@@ -13,7 +13,9 @@ describe("Farm info transformer", async () => {
     ];
 
     // ACT
-    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false });
+    const result = await fileTransformer(alpacaDetailsArray, {
+      geoDecodeEnrich: false,
+    });
 
     // ASSERT
     assert.deepEqual(result[0], {
@@ -35,7 +37,9 @@ describe("Farm info transformer", async () => {
     ];
 
     // ACT
-    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false });
+    const result = await fileTransformer(alpacaDetailsArray, {
+      geoDecodeEnrich: false,
+    });
 
     // ASSERT
     assert.deepEqual(result[0], {
@@ -58,7 +62,9 @@ describe("Farm info transformer", async () => {
     ];
 
     // ACT
-    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false });
+    const result = await fileTransformer(alpacaDetailsArray, {
+      geoDecodeEnrich: false,
+    });
 
     // ASSERT
     assert.deepEqual(result[0], {
@@ -89,7 +95,9 @@ describe("Farm info transformer", async () => {
     ];
 
     // ACT
-    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false });
+    const result = await fileTransformer(alpacaDetailsArray, {
+      geoDecodeEnrich: false,
+    });
 
     // ASSERT
     assert.deepEqual(result[0], {
@@ -111,7 +119,10 @@ describe("Farm info transformer", async () => {
     ];
 
     // ACT
-    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false, animal: "alpaca" });
+    const result = await fileTransformer(alpacaDetailsArray, {
+      geoDecodeEnrich: false,
+      animal: "alpaca",
+    });
 
     // ASSERT
     assert.deepEqual(result[0], {
@@ -133,7 +144,10 @@ describe("Farm info transformer", async () => {
     ];
 
     // ACT
-    const result = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: false, animal: "goat" });
+    const result = await fileTransformer(alpacaDetailsArray, {
+      geoDecodeEnrich: false,
+      animal: "goat",
+    });
 
     // ASSERT
     assert.deepEqual(result[0], {

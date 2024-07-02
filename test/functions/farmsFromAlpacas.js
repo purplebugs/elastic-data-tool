@@ -29,7 +29,9 @@ describe("Farms from alpacas transformer", async () => {
     ];
 
     // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
+    const result = farmsFromAlpacas(alpacaDetailsArray, {
+      publicFarmsOnly: false,
+    });
 
     // ASSERT
 
@@ -105,7 +107,9 @@ describe("Farms from alpacas transformer", async () => {
     ];
 
     // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
+    const result = farmsFromAlpacas(alpacaDetailsArray, {
+      publicFarmsOnly: false,
+    });
 
     // ASSERT
 
@@ -244,7 +248,9 @@ describe("Farms from alpacas transformer", async () => {
     ];
 
     // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false });
+    const result = farmsFromAlpacas(alpacaDetailsArray, {
+      publicFarmsOnly: false,
+    });
 
     // ASSERT
 
@@ -394,7 +400,9 @@ describe("Farms from alpacas transformer", async () => {
     ];
 
     // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: true });
+    const result = farmsFromAlpacas(alpacaDetailsArray, {
+      publicFarmsOnly: true,
+    });
 
     // ASSERT
 
@@ -515,7 +523,10 @@ describe("Farms from alpacas transformer", async () => {
     ];
 
     // ACT
-    const result = farmsFromAlpacas(alpacaDetailsArray, { publicFarmsOnly: false, includeAlpacas: true });
+    const result = farmsFromAlpacas(alpacaDetailsArray, {
+      publicFarmsOnly: false,
+      includeAlpacas: true,
+    });
 
     // ASSERT
 

@@ -1,7 +1,10 @@
 import { capitaliseFirstLetter } from "./capitaliseFirstLetter.js";
 import { FARM_CATEGORY } from "./sql_queries/farm_category.js";
 
-export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpacas = false } = {}) => {
+export const farmsFromAlpacas = (
+  alpacas,
+  { publicFarmsOnly = true, includeAlpacas = false } = {}
+) => {
   // Get farms with count of alpacas from list of alpacas
 
   const farms = new Map();
@@ -19,7 +22,9 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
       // First time for farm
       farms.set(alpaca.keeperName, {
         name: alpaca.keeperName,
-        count: { alpacas: { status: { active: 0, export: 0, dead: 0 }, total: 0 } },
+        count: {
+          alpacas: { status: { active: 0, export: 0, dead: 0 }, total: 0 },
+        },
         alpacas: { status: { active: [], export: [], dead: [] }, all: [] },
       });
     }
@@ -27,10 +32,14 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
     if (farms.has(alpaca.keeperName)) {
       // Increment alpaca count for existing farm, and fill out rest of values
 
-      const count_total = farms.get(alpaca.keeperName)?.count?.alpacas?.total + 1;
-      let count_status_active = farms.get(alpaca.keeperName)?.count?.alpacas?.status.active;
-      let count_status_dead = farms.get(alpaca.keeperName)?.count?.alpacas?.status.dead;
-      let count_status_export = farms.get(alpaca.keeperName)?.count?.alpacas?.status.export;
+      const count_total =
+        farms.get(alpaca.keeperName)?.count?.alpacas?.total + 1;
+      let count_status_active = farms.get(alpaca.keeperName)?.count?.alpacas
+        ?.status.active;
+      let count_status_dead = farms.get(alpaca.keeperName)?.count?.alpacas
+        ?.status.dead;
+      let count_status_export = farms.get(alpaca.keeperName)?.count?.alpacas
+        ?.status.export;
 
       switch (alpaca?.status) {
         case "STATUS_ACTIVE":
@@ -63,13 +72,19 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
 
         switch (alpaca?.status) {
           case "STATUS_ACTIVE":
-            farms.get(alpaca.keeperName).alpacas.status.active.push(alpacaDetailsToKeep);
+            farms
+              .get(alpaca.keeperName)
+              .alpacas.status.active.push(alpacaDetailsToKeep);
             break;
           case "STATUS_DEAD":
-            farms.get(alpaca.keeperName).alpacas.status.dead.push(alpacaDetailsToKeep);
+            farms
+              .get(alpaca.keeperName)
+              .alpacas.status.dead.push(alpacaDetailsToKeep);
             break;
           case "STATUS_EXPORT":
-            farms.get(alpaca.keeperName).alpacas.status.export.push(alpacaDetailsToKeep);
+            farms
+              .get(alpaca.keeperName)
+              .alpacas.status.export.push(alpacaDetailsToKeep);
             break;
           default:
             console.log(`[LOG] No status matched alpacaId: ${alpaca.alpacaId}`);
@@ -78,7 +93,9 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
 
       const farm = {
         id: alpaca.companyId,
-        category: FARM_CATEGORY.find((farm) => farm.companyId === alpaca.companyId)?.category ?? {
+        category: FARM_CATEGORY.find(
+          (farm) => farm.companyId === alpaca.companyId
+        )?.category ?? {
           alpacaSales: false,
           alpacaWalking: false,
           bookable: false,
@@ -91,7 +108,11 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
         city: alpaca.city ? capitaliseFirstLetter(alpaca?.city) : alpaca.city,
         count: {
           alpacas: {
-            status: { active: count_status_active, dead: count_status_dead, export: count_status_export },
+            status: {
+              active: count_status_active,
+              dead: count_status_dead,
+              export: count_status_export,
+            },
             total: count_total,
           },
         },
@@ -112,7 +133,11 @@ export const farmsFromAlpacas = (alpacas, { publicFarmsOnly = true, includeAlpac
 
       farms.set(
         alpaca.keeperName,
-        includeAlpacas ? Object.assign(farm, { alpacas: farms.get(alpaca.keeperName).alpacas }) : farm
+        includeAlpacas
+          ? Object.assign(farm, {
+              alpacas: farms.get(alpaca.keeperName).alpacas,
+            })
+          : farm
       );
     }
   }

@@ -89,7 +89,9 @@ const env = config.get("env");
 // const envPath = url.fileURLToPath(new URL(`./../.${envFile}`, import.meta.url));
 // dotenv.config({ path: envPath });
 
-config.loadFile(url.fileURLToPath(new URL(`./config.${env}.json`, import.meta.url)));
+config.loadFile(
+  url.fileURLToPath(new URL(`./config.${env}.json`, import.meta.url))
+);
 
 // console.log("envPath", envPath);
 console.log("The environment (NODE_ENV) is:", env);

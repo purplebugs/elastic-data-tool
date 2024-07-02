@@ -10,6 +10,8 @@ export default function bulkSyntax(items) {
     return result;
   } catch (error) {
     console.error(error);
-    throw new Error("🧨 bulkSyntax: Could not create Elasticsearch _bulk syntax");
+    throw new Error(
+      "🧨 bulkSyntax: Could not create Elasticsearch _bulk syntax"
+    );
   }
 }

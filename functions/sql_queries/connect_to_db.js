@@ -9,7 +9,9 @@ const dbOptions = {
   user: config.get("db.user"),
   password: config.get("db.password"),
   port: config.get("db.port"),
-  ssl: config.get("db.ssl") ? { ca: readFileSync(config.get("db.ssl_ca")) } : false,
+  ssl: config.get("db.ssl")
+    ? { ca: readFileSync(config.get("db.ssl_ca")) }
+    : false,
   // socketPath: "/tmp/mysql.sock", // 2023-06 If connect with socket and need to know path use command: mysql -u root -p -h 127.0.0.1 -e "select @@socket"
 };
 

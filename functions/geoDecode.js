@@ -56,14 +56,19 @@ const googleTextSearch = async (address) => {
       return {};
     }
 
-    if (!isEmptyObject(response?.data) && response?.data?.places?.length === 1) {
+    if (
+      !isEmptyObject(response?.data) &&
+      response?.data?.places?.length === 1
+    ) {
       data = response?.data?.places[0]; // Only use if exactly one match.  This avoids some matches (id: 91, id: 254) for center of Oslo if not an exact business name match.
     }
 
     return data;
   } catch (error) {
     console.error(error);
-    throw new Error("🧨 googleTextSearch: Could not get results from Google API");
+    throw new Error(
+      "🧨 googleTextSearch: Could not get results from Google API"
+    );
   }
 };
 
@@ -111,7 +116,11 @@ const googleGeoCode = async (address) => {
   }
 };
 
-export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI = "GEOCODE") => {
+export const transformWithGoogleAddress = (
+  alpacaObject,
+  googleResult,
+  googleAPI = "GEOCODE"
+) => {
   try {
     let latitude = null;
     let longitude = null;
@@ -136,11 +145,19 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
 
     if (googleAPI === "GEOCODE") {
       googleResult?.address_components?.forEach((component) => {
-        if (component?.types?.find((type) => type === "administrative_area_level_1")) {
+        if (
+          component?.types?.find(
+            (type) => type === "administrative_area_level_1"
+          )
+        ) {
           administrative_area_level_1 = component?.long_name;
         }
 
-        if (component?.types?.find((type) => type === "administrative_area_level_2")) {
+        if (
+          component?.types?.find(
+            (type) => type === "administrative_area_level_2"
+          )
+        ) {
           administrative_area_level_2 = component?.long_name;
         }
       });
@@ -148,11 +165,19 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
 
     if (googleAPI === "TEXT_SEARCH") {
       googleResult?.addressComponents?.forEach((component) => {
-        if (component?.types?.find((type) => type === "administrative_area_level_1")) {
+        if (
+          component?.types?.find(
+            (type) => type === "administrative_area_level_1"
+          )
+        ) {
           administrative_area_level_1 = component?.longText;
         }
 
-        if (component?.types?.find((type) => type === "administrative_area_level_2")) {
+        if (
+          component?.types?.find(
+            (type) => type === "administrative_area_level_2"
+          )
+        ) {
           administrative_area_level_2 = component?.longText;
         }
       });
@@ -184,7 +209,9 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
           zip: alpacaObject?.zip,
           country_code_original: alpacaObject?.country,
           country_code: overrideNullCountryCode(alpacaObject?.country),
-          country_name: lookupCountryCode(overrideNullCountryCode(alpacaObject?.country)),
+          country_name: lookupCountryCode(
+            overrideNullCountryCode(alpacaObject?.country)
+          ),
         },
       },
     };
@@ -201,7 +228,9 @@ export const transformWithGoogleAddress = (alpacaObject, googleResult, googleAPI
 
 export const getLatLng_GoogleAddress_FromAddress = async (alpacaObject) => {
   try {
-    const keeperName = alpacaObject?.keeperName ? alpacaObject?.keeperName + ", " : "";
+    const keeperName = alpacaObject?.keeperName
+      ? alpacaObject?.keeperName + ", "
+      : "";
     const street = alpacaObject?.street ? alpacaObject?.street + ", " : "";
     const zip = alpacaObject?.zip ? alpacaObject?.zip + " " : "";
     const city = alpacaObject?.city ? alpacaObject?.city + ", " : "";

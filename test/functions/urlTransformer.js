@@ -1,6 +1,10 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { toNodeURL, urlTransformer, toElasticCommonSchemaURL } from "../../functions/urlTransformer.js";
+import {
+  toNodeURL,
+  urlTransformer,
+  toElasticCommonSchemaURL,
+} from "../../functions/urlTransformer.js";
 
 describe("urlTransformer()", async () => {
   it("should return null if webpage field is null or undefined", async () => {

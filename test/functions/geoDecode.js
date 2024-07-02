@@ -1,6 +1,9 @@
 import { describe, it } from "node:test";
 import { strict as assert } from "node:assert";
-import { overrideNullCountryCode, transformWithGoogleAddress } from "../../functions/geoDecode.js";
+import {
+  overrideNullCountryCode,
+  transformWithGoogleAddress,
+} from "../../functions/geoDecode.js";
 
 describe("Override missing code", async () => {
   it(`should override null country code with "NO"`, async () => {
@@ -56,7 +59,8 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
 
     const googleResult = {
       id: "ChIJm_xEk_zQQ0YRxXYynsAKgvA",
-      formattedAddress: "Killingmobakken 46, Killingmo Gård, 1930 Aurskog, Norway",
+      formattedAddress:
+        "Killingmobakken 46, Killingmo Gård, 1930 Aurskog, Norway",
       addressComponents: [
         {
           longText: "Aurskog",
@@ -101,7 +105,11 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
     };
 
     // ACT
-    const actual = transformWithGoogleAddress(object, googleResult, "TEXT_SEARCH");
+    const actual = transformWithGoogleAddress(
+      object,
+      googleResult,
+      "TEXT_SEARCH"
+    );
 
     // ASSERT
     const expected = {
@@ -112,7 +120,8 @@ describe("Geo decoder - transform address string to Google place, lat, lng", asy
           coordinates: [11.405358, 59.94536239999999],
         },
         google: {
-          formatted_address: "Killingmobakken 46, Killingmo Gård, 1930 Aurskog, Norway",
+          formatted_address:
+            "Killingmobakken 46, Killingmo Gård, 1930 Aurskog, Norway",
           place_id: "ChIJm_xEk_zQQ0YRxXYynsAKgvA",
           directions_url_href:
             "https://www.google.com/maps/dir/?api=1&origin=&destination=Killingmobakken%2046,%20Killingmo%20G%C3%A5rd,%201930%20Aurskog,%20Norway",
