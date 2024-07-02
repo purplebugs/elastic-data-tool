@@ -28,20 +28,29 @@ const createIndexName = (indexName) => {
   }
 };
 
-const createComponentTemplate = async (componentTemplateName, componentTemplate) => {
+const createComponentTemplate = async (
+  componentTemplateName,
+  componentTemplate
+) => {
   try {
-    console.log(`[LOG] 🤖 Start of create component template: ${componentTemplateName}`);
+    console.log(
+      `[LOG] 🤖 Start of create component template: ${componentTemplateName}`
+    );
 
-    const resultCreateComponentTemplate = await client.cluster.putComponentTemplate({
-      name: componentTemplateName,
-      template: componentTemplate.template,
-      create: componentTemplate.create,
-      _meta: componentTemplate._meta,
-    });
+    const resultCreateComponentTemplate =
+      await client.cluster.putComponentTemplate({
+        name: componentTemplateName,
+        template: componentTemplate.template,
+        create: componentTemplate.create,
+        _meta: componentTemplate._meta,
+      });
 
     if (!resultCreateComponentTemplate.acknowledged) {
       console.error(error);
-      throw new Error("🧨 createComponentTemplate:", resultCreateComponentTemplate);
+      throw new Error(
+        "🧨 createComponentTemplate:",
+        resultCreateComponentTemplate
+      );
     }
 
     console.log(
@@ -60,18 +69,26 @@ const createIndexTemplate = async (indexTemplateName, indexTemplate) => {
       name: indexTemplateName,
     });
 
-    console.log(`[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`);
+    console.log(
+      `[LOG] Index template: ${indexTemplateName} exists: ${indexTemplateExists}`
+    );
 
     if (!indexTemplateExists) {
-      console.log(`[LOG] Index template: ${indexTemplateName} does not exist, create`);
-      const resultCreateIndexTemplate = await client.indices.putIndexTemplate(indexTemplate);
+      console.log(
+        `[LOG] Index template: ${indexTemplateName} does not exist, create`
+      );
+      const resultCreateIndexTemplate =
+        await client.indices.putIndexTemplate(indexTemplate);
 
       if (!resultCreateIndexTemplate.acknowledged) {
         console.error(error);
         throw new Error("🧨 createIndexTemplate:", resultCreateIndexTemplate);
       }
 
-      console.log(`[LOG] ✅ Result of create index template:`, resultCreateIndexTemplate);
+      console.log(
+        `[LOG] ✅ Result of create index template:`,
+        resultCreateIndexTemplate
+      );
     }
   } catch (error) {
     console.error(error);
@@ -117,10 +134,16 @@ const switchAlias = async (newIndexName, indexName) => {
   }
 };
 
-export default async function createIndexWithDocuments(indexName, items, componentTemplate, componentTemplate2 = null) {
+export default async function createIndexWithDocuments(
+  indexName,
+  items,
+  componentTemplate,
+  componentTemplate2 = null
+) {
   try {
     const componentTemplateName = `${indexName}_component_template`;
-    const componentTemplateName2 = `${indexName}_component_template2` ?? componentTemplate2;
+    const componentTemplateName2 =
+      `${indexName}_component_template2` ?? componentTemplate2;
     const indexTemplateName = `${indexName}_index_template`;
     const indexPatterns = `${indexName}-*`;
 

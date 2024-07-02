@@ -15,15 +15,28 @@ console.log(`[LOG] START SQL -> JSON`);
 const connection = await connectToDb();
 
 const [alpacaDetailsArray] = await getAlpacaDetails(connection);
-console.log(`[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`);
+console.log(
+  `[LOG] Retrieving ${alpacaDetailsArray.length} alpaca details from database`
+);
 
 await connection.end();
 
-const enrichedAlpacaDetailsArray = await fileTransformer(alpacaDetailsArray, { geoDecodeEnrich: true });
+const enrichedAlpacaDetailsArray = await fileTransformer(alpacaDetailsArray, {
+  geoDecodeEnrich: true,
+});
 
-const farms_ALL_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: false });
-const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: true });
-const companies_all = farmsFromAlpacas(enrichedAlpacaDetailsArray, { publicFarmsOnly: false, includeAlpacas: true });
+const farms_ALL_WithAlpacaCountArray = farmsFromAlpacas(
+  enrichedAlpacaDetailsArray,
+  { publicFarmsOnly: false }
+);
+const farms_PUBLIC_WithAlpacaCountArray = farmsFromAlpacas(
+  enrichedAlpacaDetailsArray,
+  { publicFarmsOnly: true }
+);
+const companies_all = farmsFromAlpacas(enrichedAlpacaDetailsArray, {
+  publicFarmsOnly: false,
+  includeAlpacas: true,
+});
 
 console.log(`[LOG] END SQL -> JSON`);
 
@@ -31,20 +44,41 @@ console.log(`[LOG] END SQL -> JSON`);
 console.log(`[LOG] START JSON -> FILE`);
 
 // Write to file which will write as one long line
-writeFileSync(`./data/animals-ALL-from-alpacas-from-sql-${now}.json`, JSON.stringify(enrichedAlpacaDetailsArray));
-console.log("[LOG] See file: ", `./data/animals-ALL-from-alpacas-from-sql-${now}.json`);
+writeFileSync(
+  `./data/animals-ALL-from-alpacas-from-sql-${now}.json`,
+  JSON.stringify(enrichedAlpacaDetailsArray)
+);
+console.log(
+  "[LOG] See file: ",
+  `./data/animals-ALL-from-alpacas-from-sql-${now}.json`
+);
 
-writeFileSync(`./data/farms-ALL-from-alpacas-from-sql-${now}.json`, JSON.stringify(farms_ALL_WithAlpacaCountArray));
-console.log("[LOG] See file: ", `./data/farms-ALL-from-alpacas-from-sql-${now}.json`);
+writeFileSync(
+  `./data/farms-ALL-from-alpacas-from-sql-${now}.json`,
+  JSON.stringify(farms_ALL_WithAlpacaCountArray)
+);
+console.log(
+  "[LOG] See file: ",
+  `./data/farms-ALL-from-alpacas-from-sql-${now}.json`
+);
 
 writeFileSync(
   `./data/farms-PUBLIC-from-alpacas-from-sql-${now}.json`,
   JSON.stringify(farms_PUBLIC_WithAlpacaCountArray)
 );
-console.log("[LOG] See file: ", `./data/farms-PUBLIC-from-alpacas-from-sql-${now}.json`);
+console.log(
+  "[LOG] See file: ",
+  `./data/farms-PUBLIC-from-alpacas-from-sql-${now}.json`
+);
 
-writeFileSync(`./data/companies-from-alpacas-from-sql-${now}.json`, JSON.stringify(companies_all));
-console.log("[LOG] See file: ", `./data/companies-from-alpacas-from-sql-${now}.json`);
+writeFileSync(
+  `./data/companies-from-alpacas-from-sql-${now}.json`,
+  JSON.stringify(companies_all)
+);
+console.log(
+  "[LOG] See file: ",
+  `./data/companies-from-alpacas-from-sql-${now}.json`
+);
 
 console.log(`[LOG] END JSON -> FILE`);
 

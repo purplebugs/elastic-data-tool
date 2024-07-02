@@ -10,6 +10,8 @@ import alpacaComponentTemplate from "./functions/elasticsearch_commands/componen
 const jsonFile = "alpacas-address-camelCase-several-only.json"; // For full list: "alpacas-address-camelCase.json"  // or eg: "alpacas-from-sql-1674725939701.json"
 
 const myParsedFile = fileReader(jsonFile);
-const myOutput = bulkSyntax(await fileTransformer(myParsedFile, { geoDecodeEnrich: true }));
+const myOutput = bulkSyntax(
+  await fileTransformer(myParsedFile, { geoDecodeEnrich: true })
+);
 
 await createIndexWithDocuments("alpacas", myOutput, alpacaComponentTemplate);

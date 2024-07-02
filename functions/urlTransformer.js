@@ -30,12 +30,17 @@ export const toElasticCommonSchemaURL = (nodeURL, webpageRaw) => {
       return null;
     }
 
-    const full = nodeURL?.href.endsWith("/") ? nodeURL?.href.slice(0, -1) : nodeURL?.href; // Remove final "/"
+    const full = nodeURL?.href.endsWith("/")
+      ? nodeURL?.href.slice(0, -1)
+      : nodeURL?.href; // Remove final "/"
 
     const prettyPath =
-      nodeURL?.pathname !== "/" && nodeURL?.pathname.endsWith("/") ? nodeURL?.pathname.slice(0, -1) : nodeURL?.pathname; // Remove final "/"
+      nodeURL?.pathname !== "/" && nodeURL?.pathname.endsWith("/")
+        ? nodeURL?.pathname.slice(0, -1)
+        : nodeURL?.pathname; // Remove final "/"
 
-    const pretty = prettyPath !== "/" ? nodeURL?.host + prettyPath : nodeURL?.host; // Append path if not "/"
+    const pretty =
+      prettyPath !== "/" ? nodeURL?.host + prettyPath : nodeURL?.host; // Append path if not "/"
 
     return {
       url: {
@@ -77,7 +82,9 @@ export const toGoogleDirectionsURL = (formatted_address) => {
       return null;
     }
 
-    myURL = new URL(`https://www.google.com/maps/dir/?api=1&origin=&destination=${formatted_address}`);
+    myURL = new URL(
+      `https://www.google.com/maps/dir/?api=1&origin=&destination=${formatted_address}`
+    );
 
     return myURL;
   } catch (error) {
