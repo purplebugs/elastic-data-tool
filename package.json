@@ -9,7 +9,8 @@
     "sql_to_json": "node sql_to_json.js",
     "sql_to_json_test": "NODE_ENV=test node sql_to_json.js",
     "build": "echo \"Error: no build specified\" && exit 0",
-    "test": "node --test"
+    "test": "node --test",
+    "prettier": "prettier . --write"
   },
   "repository": {
     "type": "git",
