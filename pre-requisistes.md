@@ -1,10 +1,66 @@
 # Pre-requisites 🦙 💾
 
-## MySQL running locally
+1. Start local MySQL server
+2. Populate database from .sql file dump
+
+## MySQL running locally - Docker
+
+1. Docker is installed and running, eg Docker desktop for Mac
+2. Create local folder to persist data named `mysql_data`
+
+3. Install and run container. Download image if not exists.
+
+```
+docker run --name mysql_alapcas --net dev-network -v /Users/anita/Documents/dev/mysql_data:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=123 -e LANG=C.UTF-8 mysql:8.2.0 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+```
+
+4. Start another container to execute SQL commands to original container
+
+```
+docker run -it --network dev-network -e LANG=C.UTF-8 --rm mysql:8.2.0 mysql -hmysql_alapcas -uroot -p123
+```
+
+5. Check database that executes SQL commands has correct charset for Norwegian chars as this overrides all other language settings
+
+```
+mysql> show variables like 'char%';
++--------------------------+--------------------------------+
+| Variable_name | Value |
++--------------------------+--------------------------------+
+| character_set_client | utf8mb4 |
+| character_set_connection | utf8mb4 |
+| character_set_database | utf8mb4 |
+| character_set_filesystem | binary |
+| character_set_results | utf8mb4 |
+| character_set_server | utf8mb4 |
+| character_set_system | utf8mb3 |
+| character_sets_dir | /usr/share/mysql-8.2/charsets/ |
++--------------------------+--------------------------------+
+8 rows in set (0.00 sec)
+
+mysql> exit;
+```
+
+6. Populate database from SQL dump
+
+```
+docker exec -i mysql_alapcas sh -c 'exec mysql -p123' < /Users/anita/Documents/dev/elastic-data-tool/data/2024_07_01_alpacas.sql
+```
+
+7. To query database re-run command to execute SQL commands to original container
+
+Helpful docker commands
+
+- Show networks `docker network ls`
+- Remove non active networks `docker network prune`
+
+Ref: [https://hub.docker.com/\_/mysql](https://hub.docker.com/_/mysql)
+
+## MySQL running locally - without Docker
 
 ### 1. Create empty database
 
-1. MySQL is installed locally
+1. MySQL is installed locally, eg using homebrew for Mac
 2. Start MySQL server `mysql.server start`
 3. Connect to MySQL `mysql -u root -p` and enter password. MySQL prompt should now show.
 4. At MySQL prompt create empty database eg `CREATE DATABASE alpaca_database;` and verify created `SHOW DATABASES;`
@@ -19,11 +75,6 @@
 4. Change directory to folder `cd data`
 5. Populate database from MySQL dump `mysql -u root -p alpaca_database < alpaca.sql`
 6. Connect to MySQL `mysql -u root -p` and verify created `USE alpaca_database` and `SHOW TABLES`
-
-### 3. SQL -> JSON
-
-1. Go to root directory of app
-2. Run `node sql_to_json.js` and look for generated file in [./data](./data)
 
 ## MySQL on Azure portal
 
@@ -53,3 +104,7 @@ Pre-conditions
 `show tables;`
 
 `SHOW COLUMNS FROM <table name>;`
+
+```
+
+```

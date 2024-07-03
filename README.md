@@ -28,19 +28,7 @@ POST alpacas/_bulk
 
 - See [config.js](config/config.js) and override any non sensitive values in the corresponding environment files eg [config.test.json](config/config.test.json)
 
-MySQL
-
 - `.env` file in root project should contain keys for sensitive values, eg
-
-```
-MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
-```
-
-MySQL on Azure portal
-
-1. Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate
-2. Put it in the [./data](./data) folder which must be in `.gitignore`
-3. Update filename to match config `db.ssl_ca` value
 
 Elasticsearch
 
@@ -56,13 +44,26 @@ Google API
 GOOGLE_MAPS_API_KEY="UPDATE-ME"
 ```
 
+MySQL
+
+```
+MYSQL_PASSWORD="YOUR PASSWORD GOES HERE"
+```
+
+MySQL on Azure portal
+
+1. Get certificate from https://portal.azure.com/ MySQL flexible server > Settings > Networking > Download SSL Certificate
+2. Put it in the [./data](./data) folder which must be in `.gitignore`
+3. Update filename to match config `db.ssl_ca` value
+
 ## 2. Use the app 🎷
 
 Pre-conditions
 
-1. `.env` file contains correct overrides for sensitive values for corrent environment
-2. `mysql.server start` if need to run SQL commands locally
-3. If need JSON file locally, file is created from .sql file dump and stored in [./data](./data), if not follow the steps at [pre-requisistes.md](pre-requisistes.md)
+1. `.env` file contains correct overrides for sensitive values for current environment
+2. Create local folder [./data](./data) and store .sql file dump there
+3. Local MySQL is running and database is populated. If not follow the steps at [pre-requisistes.md](pre-requisistes.md)
+4. Select command to run from options below, then find generated files in [./data](./data) folder where appropriate
 
 ### SQL -> Elasticsearch index 🤖
 
