@@ -1,3 +1,4 @@
 # Ignore artifacts:
-build
-coverage
+# TODO when relevant, eg
+# build
+# coverage
