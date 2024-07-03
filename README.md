@@ -63,7 +63,6 @@ Pre-conditions
 1. `.env` file contains correct overrides for sensitive values for current environment
 2. Create local folder [./data](./data) and store .sql file dump there
 3. Local MySQL is running and database is populated. If not follow the steps at [pre-requisistes.md](pre-requisistes.md)
-4. Select command to run from options below, then find generated files in [./data](./data) folder where appropriate
 
 ### SQL -> Elasticsearch index 🤖
 
