@@ -14,19 +14,23 @@ USE `2024_07_03_alpaca_db`;
 2. Docker is installed and running, eg Docker desktop for Mac
 3. Create local folder to persist data named `mysql_data`
 
-4. Install and run container `mysql_alapcas`. Download image if not exists.
+4. Create local docker network
+
+`docker network create dev-network`
+
+5. Install and run container `mysql_alapcas`. Download image if not exists.
 
 ```
-docker run --name mysql_alapcas --net dev-network -v /Users/anita/Documents/dev/mysql_data:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=123 -e LANG=C.UTF-8 mysql:8.2.0 --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+docker run --name mysql_alapcas --net dev-network -v /Users/anita/Documents/dev/mysql_data:/var/lib/mysql -p 3306:3306 -d -e MYSQL_ROOT_PASSWORD=123 mysql:8.2.0
 ```
 
-5. Start another container `mysql` to execute SQL commands to original container
+6. Start another container `mysql` to execute SQL commands to original container
 
 ```
 docker run -it --network dev-network -e LANG=C.UTF-8 --rm mysql:8.2.0 mysql -hmysql_alapcas -uroot -p123
 ```
 
-6. Check database that executes SQL commands has correct charset for Norwegian chars as this overrides all other language settings
+7. Check database that executes SQL commands has correct charset for Norwegian chars as this overrides all other language settings
 
 ```
 mysql> show variables like 'char%';
@@ -47,13 +51,13 @@ mysql> show variables like 'char%';
 mysql> exit;
 ```
 
-7. Populate database from SQL dump
+8. Populate database from `.sql` file dump
 
 ```
 docker exec -i mysql_alapcas sh -c 'exec mysql -p123' < /Users/anita/Documents/dev/elastic-data-tool/data/2024_07_01_alpacas.sql
 ```
 
-8. To query database re-run command to execute SQL commands to original container
+9. To query database re-run command to start container `mysql` that executes SQL commands to original container
 
 Helpful docker commands
 
