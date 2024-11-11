@@ -26,4 +26,5 @@ export const PUBLIC_FARMS = [
   "Oddan Alpakka",
   "Øyslebø Alpakka",
   "Norvetia Alpakka",
+  "Norrängens Alpacka",
 ];

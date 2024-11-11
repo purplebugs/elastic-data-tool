@@ -42,6 +42,20 @@ export const FARM_CATEGORY = [
     },
   },
   {
+    companyId: 94,
+    name: "Alpakka Skåbu",
+    category: {
+      alpacaSales: true,
+      alpacaWalking: false,
+      bookable: true,
+      shop: true,
+      overnightStay: false,
+      private: false,
+      public: true,
+      studServices: false,
+    },
+  },
+  {
     companyId: 61,
     name: "Alpakkahagen",
     category: {
@@ -64,6 +78,20 @@ export const FARM_CATEGORY = [
       bookable: true,
       shop: true,
       overnightStay: false,
+      private: false,
+      public: true,
+      studServices: true,
+    },
+  },
+  {
+    companyId: 33,
+    name: "Norrängens Alpacka",
+    category: {
+      alpacaSales: true,
+      alpacaWalking: true,
+      bookable: true,
+      shop: true,
+      overnightStay: true,
       private: false,
       public: true,
       studServices: true,
