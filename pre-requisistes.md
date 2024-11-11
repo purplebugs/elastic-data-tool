@@ -54,7 +54,7 @@ mysql> exit;
 8. Populate database from `.sql` file dump
 
 ```
-docker exec -i mysql_alapcas sh -c 'exec mysql -p123' < /Users/anita/Documents/dev/elastic-data-tool/data/2024_07_01_alpacas.sql
+docker exec -i mysql_alapcas sh -c 'exec mysql -p123' < /Users/anita/Documents/dev/elastic-data-tool/data/2024_11_11_alpacas.sql
 ```
 
 9. To query database re-run command to start container `mysql` that executes SQL commands to original container

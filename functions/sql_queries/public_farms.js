@@ -8,7 +8,6 @@ export const PUBLIC_FARMS = [
   "Lundegård Alpakka",
   "Fjellgla Alpakka",
   "Alpakka Lista",
-  "Alpakka Enghaugen",
   "Lille Alpakka",
   "Tønsbergs Alpakka",
   "Alpakka Syltøy",
@@ -27,4 +26,5 @@ export const PUBLIC_FARMS = [
   "Oddan Alpakka",
   "Øyslebø Alpakka",
   "Norvetia Alpakka",
+  "Norrängens Alpacka",
 ];
