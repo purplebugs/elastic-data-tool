@@ -46,7 +46,7 @@ describe("Farms from alpacas transformer", async () => {
           overnightStay: false,
           private: false,
           public: true,
-          studServices: true,
+          studServices: false,
         },
         city: null,
         count: {
