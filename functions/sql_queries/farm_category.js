@@ -112,6 +112,20 @@ export const FARM_CATEGORY = [
     },
   },
   {
+    companyId: 112,
+    name: "The Funny Farm",
+    category: {
+      alpacaSales: false,
+      alpacaWalking: false,
+      bookable: true,
+      shop: true,
+      overnightStay: true,
+      private: false,
+      public: true,
+      studServices: false,
+    },
+  },
+  {
     companyId: 29,
     name: "Øyslebø Alpakka",
     category: {
